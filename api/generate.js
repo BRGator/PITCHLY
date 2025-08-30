@@ -1,3 +1,5 @@
+// pages/api/generate.js
+
 import { OpenAI } from 'openai';
 import { supabase } from '../../lib/supabase';
 
@@ -11,9 +13,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { brief, clientName, salutation, userName } = req.body;
+    const {
+      brief,
+      clientName,
+      salutation,
+      userName,
+      senderName,
+      title
+    } = req.body;
 
-    if (!brief || !clientName || !salutation || !userName) {
+    if (!brief || !clientName || !salutation || !userName || !senderName) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -53,7 +62,7 @@ ${brief}
       return res.status(500).json({ error: 'Failed to store proposal in Supabase' });
     }
 
-    // Step 3: Return to frontend
+    // Step 3: Return result to frontend
     return res.status(200).json({ result: output });
 
   } catch (err) {
