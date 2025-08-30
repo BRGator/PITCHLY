@@ -37,24 +37,27 @@ export default function ProposalDetail({ proposal }) {
     setDeleting(false);
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
-      <Link href="/proposals" className="text-blue-600 hover:underline">← Back to proposals</Link>
-      <h1 className="text-2xl font-bold mt-4 mb-2">{proposal.title || 'Untitled Proposal'}</h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        To <strong>{proposal.client_name}</strong> · Sent on {new Date(proposal.created_at).toLocaleString()}
-      </p>
-      <pre className="whitespace-pre-wrap bg-gray-100 dark:bg-gray-800 p-4 rounded border border-gray-300 dark:border-gray-700">
-        {proposal.content}
-      </pre>
+return (
+  <div className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+    <h1 className="text-2xl font-bold mb-4">{proposal.title || 'Untitled Proposal'}</h1>
 
-      <button
-        onClick={handleDelete}
-        disabled={deleting}
-        className="mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
-      >
-        {deleting ? 'Deleting...' : 'Delete Proposal'}
-      </button>
+    <p className="mb-2"><strong>To:</strong> {proposal.client_name}</p>
+    <p className="mb-2"><strong>Salutation:</strong> {proposal.salutation}</p>
+    <p className="mb-2"><strong>From:</strong> {proposal.sender_name}</p>
+
+    <hr className="my-4 border-gray-300 dark:border-gray-600" />
+
+    <pre className="whitespace-pre-wrap mb-6 text-sm bg-gray-100 dark:bg-gray-800 p-4 rounded border border-gray-300 dark:border-gray-700">
+      {proposal.content}
+    </pre>
+
+    <div className="flex justify-end">
+      <Link href={`/proposals/${proposal.id}/edit`}>
+        <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
+          ✏️ Edit Proposal
+        </a>
+      </Link>
     </div>
-  );
+  </div>
+);
 }
