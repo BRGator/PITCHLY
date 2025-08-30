@@ -37,6 +37,9 @@ ${brief}
 
     const output = completion.choices[0].message.content;
 
+console.log("📡 Supabase URL in handler:", process.env.SUPABASE_URL);
+console.log("📡 Supabase Key in handler:", process.env.SUPABASE_ANON_KEY?.slice(0, 10) + '...');
+    
     // Step 2: Store in Supabase
     const { error } = await supabase.from('proposals').insert([
       {
