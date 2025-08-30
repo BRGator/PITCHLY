@@ -1,5 +1,4 @@
 import { OpenAI } from 'openai';
-
 import { getSupabaseClient } from '../../lib/supabase';
 
 const openai = new OpenAI({
@@ -12,10 +11,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { brief, clientName, salutation, userName } = req.body;
+    const { brief, clientName, salutation, userName, senderName, title } = req.body;
 
-    if (!brief || !clientName || !salutation || !userName) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    console.log('📥 Incoming request body:', { brief, clientName, salutation, userName, senderName, title });
+
+    if (!brief || !clientName || !salutation || !userName || !senderName) {
+      console.error('🔴 Missing required fields:', {
+        brief, clientName, salutation, userName, senderName,
+      });
+      return res.status(400).json({
+        error: 'Missing required fields',
+        details: { brief, clientName, salutation, userName, senderName },
+      });
     }
 
     // Step 1: Generate proposal using OpenAI
@@ -37,14 +44,16 @@ ${brief}
     });
 
     const output = completion.choices[0].message.content;
-    
+
     // Step 2: Store in Supabase
+    const supabase = getSupabaseClient();
+
     const { error } = await supabase.from('proposals').insert([
       {
         client_name: clientName,
         salutation: salutation,
         sender_name: senderName,
-        title: title,
+        title: title || null,
         content: output,
       },
     ]);
@@ -58,7 +67,7 @@ ${brief}
     return res.status(200).json({ result: output });
 
   } catch (err) {
-    console.error('🔴 OpenAI error:', err);
+    console.error('🔴 OpenAI or Server Error:', err);
     return res.status(500).json({ error: 'Failed to generate proposal' });
   }
 }
