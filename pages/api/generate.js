@@ -1,38 +1,26 @@
 import { OpenAI } from 'openai';
 import { getSupabaseClient } from '../../lib/supabase';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const supabase = getSupabaseClient();
+
+  const { brief, clientName, salutation, senderName, title, user_id } = req.body;
+
+  // Validate input
+  if (!brief || !clientName || !salutation || !senderName || !title || !user_id) {
+    console.error('🔴 Missing required fields:', req.body);
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
   try {
-    const { brief, clientName, salutation, senderName, title } = req.body;
-
-    // Use senderName as fallback for userName
-    const userName = senderName;
-
-    console.log('📥 Incoming request body:', {
-      brief, clientName, salutation, senderName, title,
-    });
-
-    if (!brief || !clientName || !salutation || !senderName) {
-      console.error('🔴 Missing required fields:', {
-        brief, clientName, salutation, senderName,
-      });
-      return res.status(400).json({
-        error: 'Missing required fields',
-        details: { brief, clientName, salutation, senderName },
-      });
-    }
-
-    // Step 1: Generate proposal using OpenAI
     const prompt = `
-You are an expert freelance designer and marketer. Write a personalized proposal in response to the following brief. Include a proper greeting to "${clientName}" using this salutation style: "${salutation}". Sign off the message using the name: "${userName}". Make sure the message is persuasive and tailored to the project.
+You are an expert freelance designer and marketer. Write a personalized proposal in response to the following brief. Include a proper greeting to "${clientName}" using this salutation style: "${salutation}". Sign off the message using the name: "${senderName}". Make sure the message is persuasive and tailored to the project.
 
 Brief:
 ${brief}
@@ -50,16 +38,15 @@ ${brief}
 
     const output = completion.choices[0].message.content;
 
-    // Step 2: Store in Supabase
-    const supabase = getSupabaseClient();
-
+    // Store in Supabase
     const { error } = await supabase.from('proposals').insert([
       {
         client_name: clientName,
         salutation: salutation,
         sender_name: senderName,
-        title: title || null,
+        title: title,
         content: output,
+        user_id: user_id,
       },
     ]);
 
@@ -68,11 +55,9 @@ ${brief}
       return res.status(500).json({ error: 'Failed to store proposal in Supabase' });
     }
 
-    // Step 3: Return to frontend
     return res.status(200).json({ result: output });
-
   } catch (err) {
-    console.error('🔴 OpenAI or Server Error:', err);
+    console.error('🔴 OpenAI error:', err);
     return res.status(500).json({ error: 'Failed to generate proposal' });
   }
 }
