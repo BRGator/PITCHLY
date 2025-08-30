@@ -1,28 +1,49 @@
 // pages/auth/signin.js
 
-import { getProviders, signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { supabase } from '../../lib/supabase';
+import { useRouter } from 'next/router';
 
-export async function getServerSideProps() {
-  const providers = await getProviders();
-  return {
-    props: { providers },
+export default function SignIn() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('');
+  const router = useRouter();
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setStatus('Sending magic link...');
+
+    const { error } = await supabase.auth.signInWithOtp({ email });
+
+    if (error) {
+      setStatus('Error sending link. Try again.');
+    } else {
+      setStatus('Check your email for the magic sign-in link.');
+    }
   };
-}
 
-export default function SignIn({ providers }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-900">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Sign In</h1>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name} className="mb-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded shadow">
+        <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
+        <form onSubmit={handleSignIn} className="space-y-4">
+          <input
+            type="email"
+            required
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600"
+          />
           <button
-            onClick={() => signIn(provider.id)}
-            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
-            Sign in with {provider.name}
+            Send Magic Link
           </button>
-        </div>
-      ))}
+        </form>
+        {status && <p className="mt-4 text-sm text-center">{status}</p>}
+      </div>
     </div>
   );
 }
