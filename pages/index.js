@@ -1,20 +1,31 @@
+// pages/index.js (React with Tailwind + Dark Mode)
+
 import Head from 'next/head'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Home() {
   const [brief, setBrief] = useState('')
   const [role, setRole] = useState('Designer')
   const [tone, setTone] = useState('Professional')
   const [style, setStyle] = useState('Direct')
+  const [to, setTo] = useState('')
+  const [from, setFrom] = useState('')
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setDarkMode(true)
+    }
+  }, [])
 
   const generateProposal = async () => {
     setLoading(true)
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ brief, role, tone, style })
+      body: JSON.stringify({ brief, role, tone, style, to, from })
     })
     const data = await res.json()
     setResponse(data.proposal)
@@ -22,107 +33,83 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className={darkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-gray-100 text-gray-900 min-h-screen'}>
       <Head>
         <title>Pitchly | AI Proposal Generator</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
       </Head>
 
-      <style jsx global>{`
-        body {
-          margin: 0;
-          font-family: 'Inter', sans-serif;
-          background-color: #f9fafb;
-          color: #1f2937;
-        }
-        h1, h2 {
-          color: #111827;
-        }
-        button {
-          background-color: #4f46e5;
-          color: white;
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 0.5rem;
-          cursor: pointer;
-          font-size: 1rem;
-          margin-top: 1rem;
-        }
-        button:disabled {
-          opacity: 0.6;
-        }
-        .hero {
-          background: white;
-          padding: 4rem 2rem;
-          text-align: center;
-          border-bottom: 1px solid #e5e7eb;
-        }
-        .section {
-          padding: 3rem 2rem;
-          max-width: 800px;
-          margin: auto;
-        }
-      `}</style>
-
-      <header className="hero">
-        <img src="/logo.png" alt="Pitchly logo" style={{ height: '60px', marginBottom: '1rem' }} />
-        <h1>Win More Clients with AI-Generated Proposals</h1>
-        <p style={{ maxWidth: '600px', margin: '1rem auto' }}>
+      <header className="text-center p-10 border-b border-gray-300 dark:border-gray-700">
+        <img src="/logo.png" alt="Pitchly logo" className="mx-auto h-14 mb-4" />
+        <h1 className="text-3xl font-bold">Win More Clients with AI-Generated Proposals</h1>
+        <p className="text-sm mt-2 max-w-xl mx-auto">
           Pitchly helps freelancers and agencies create personalized, persuasive proposals in seconds — not hours.
         </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
-          <button onClick={() => document.getElementById('generator').scrollIntoView({ behavior: 'smooth' })}>
-            Try it Free
-          </button>
-          <button style={{ backgroundColor: '#6366f1' }}>See a Sample</button>
-        </div>
-        <img src="/hero.png" alt="Pitchly hero" style={{ width: '100%', maxWidth: '600px', marginTop: '2rem' }} />
       </header>
 
-      <main className="section" id="generator">
-        <h2>Generate Your Proposal</h2>
-        <textarea
-          rows={6}
-          placeholder="Paste job description here..."
-          value={brief}
-          onChange={e => setBrief(e.target.value)}
-          style={{ width: '100%', marginBottom: '1rem', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #d1d5db' }}
-        />
+      <main className="max-w-3xl mx-auto px-4 py-10">
+        <h2 className="text-xl font-semibold mb-4">Generate Your Proposal</h2>
 
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-          <select value={role} onChange={e => setRole(e.target.value)}>
-            <option>Designer</option>
-            <option>Developer</option>
-            <option>Marketer</option>
-            <option>Copywriter</option>
-          </select>
-          <select value={tone} onChange={e => setTone(e.target.value)}>
-            <option>Professional</option>
-            <option>Friendly</option>
-            <option>Bold</option>
-            <option>Humble</option>
-          </select>
-          <select value={style} onChange={e => setStyle(e.target.value)}>
-            <option>Direct</option>
-            <option>Detailed</option>
-            <option>Persuasive</option>
-            <option>Creative</option>
-          </select>
-        </div>
-
-        <button onClick={generateProposal} disabled={loading}>
-          {loading ? 'Generating...' : 'Generate Proposal'}
-        </button>
-
-        {response && (
-          <div style={{ marginTop: '2rem', backgroundColor: '#f3f4f6', padding: '1rem', borderRadius: '0.5rem' }}>
-            <h3>Your Proposal:</h3>
-            <pre>{response}</pre>
+        <div className="grid gap-4">
+          <input
+            className="p-3 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+            placeholder="To (Client Name)"
+            value={to}
+            onChange={e => setTo(e.target.value)}
+          />
+          <input
+            className="p-3 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+            placeholder="From (Your Name)"
+            value={from}
+            onChange={e => setFrom(e.target.value)}
+          />
+          <textarea
+            rows={6}
+            placeholder="Paste job description here..."
+            value={brief}
+            onChange={e => setBrief(e.target.value)}
+            className="p-3 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+          />
+          <div className="flex flex-wrap gap-4">
+            <select className="p-2 rounded bg-white dark:bg-gray-800 border dark:border-gray-600" value={role} onChange={e => setRole(e.target.value)}>
+              <option>Designer</option>
+              <option>Developer</option>
+              <option>Marketer</option>
+              <option>Copywriter</option>
+            </select>
+            <select className="p-2 rounded bg-white dark:bg-gray-800 border dark:border-gray-600" value={tone} onChange={e => setTone(e.target.value)}>
+              <option>Professional</option>
+              <option>Friendly</option>
+              <option>Bold</option>
+              <option>Humble</option>
+            </select>
+            <select className="p-2 rounded bg-white dark:bg-gray-800 border dark:border-gray-600" value={style} onChange={e => setStyle(e.target.value)}>
+              <option>Direct</option>
+              <option>Detailed</option>
+              <option>Persuasive</option>
+              <option>Creative</option>
+            </select>
           </div>
-        )}
+
+          <button
+            onClick={generateProposal}
+            disabled={loading}
+            className="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition disabled:opacity-60"
+          >
+            {loading ? 'Generating...' : 'Generate Proposal'}
+          </button>
+
+          {response && (
+            <div className="mt-6 p-5 rounded bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700">
+              <h3 className="text-lg font-semibold mb-2">Your Proposal:</h3>
+              <pre className="whitespace-pre-wrap text-sm overflow-x-auto">
+                {response}
+              </pre>
+            </div>
+          )}
+        </div>
       </main>
 
-      <footer className="section" style={{ textAlign: 'center', fontSize: '0.9rem', color: '#6b7280' }}>
+      <footer className="text-center py-4 text-sm border-t border-gray-300 dark:border-gray-700">
         &copy; {new Date().getFullYear()} Pitchly. All rights reserved.
       </footer>
     </div>
