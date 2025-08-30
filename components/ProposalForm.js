@@ -1,5 +1,3 @@
-// components/ProposalForm.js
-
 import { useState } from 'react';
 
 export default function ProposalForm() {
@@ -10,6 +8,9 @@ export default function ProposalForm() {
   const [brief, setBrief] = useState('');
   const [proposal, setProposal] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // 🔧 TEMP: Hardcoded user ID for now
+  const userId = 'abc-123'; // Replace with real value from Supabase Auth later
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -25,17 +26,24 @@ export default function ProposalForm() {
         senderName,
         title,
         brief,
+        user_id: userId, // ✅ Include user_id
       }),
     });
 
     const data = await res.json();
-    setProposal(data.proposal);
     setLoading(false);
+
+    if (res.ok) {
+      setProposal(data.result); // ✅ backend now returns { result }
+    } else {
+      alert(data.error || 'An error occurred');
+    }
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
       <form onSubmit={handleGenerate} className="space-y-6">
+        {/* ... all the fields remain unchanged ... */}
         <div>
           <label className="block font-medium">To (Client Name)</label>
           <input
