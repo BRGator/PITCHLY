@@ -16,6 +16,8 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log("🟡 Incoming prompt:", prompt);
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -39,11 +41,13 @@ Perspective: ${role || "general freelancer"}`
       max_tokens: 500
     });
 
-    const message = completion.choices[0]?.message?.content || "No response generated.";
-    res.status(200).json({ result: message });
+    const message = completion.choices?.[0]?.message?.content || "No response";
+    console.log("🟢 Generated message:", message);
+
+    return res.status(200).json({ result: message });
 
   } catch (error) {
-    console.error("OpenAI API Error:", error);
-    res.status(500).json({ error: "Failed to generate proposal." });
+    console.error("🔴 OpenAI API error:", error);
+    return res.status(500).json({ error: "Generation failed. Try again later." });
   }
 }
