@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -15,19 +15,27 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const prompt = `You are an experienced ${role}. Write a ${tone.toLowerCase()}, ${style.toLowerCase()} proposal for the following brief:\n\n${brief}`;
-
   try {
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert freelance proposal writer. You write concise, personalized, and persuasive proposals for freelance clients. Your tone is ${tone.toLowerCase()} and your writing style is ${style.toLowerCase()}.`,
+        },
+        {
+          role: 'user',
+          content: `Write a proposal for this project, as a ${role.toLowerCase()}:\n\n${brief}`,
+        },
+      ],
       temperature: 0.7,
+      max_tokens: 400,
     });
 
-    const result = completion.choices[0].message.content;
-    res.status(200).json({ proposal: result });
-  } catch (error) {
-    console.error("🔴 OpenAI error:", error);
+    const proposal = completion.choices[0].message.content;
+    res.status(200).json({ proposal });
+  } catch (err) {
+    console.error('🔴 OpenAI error:', err);
     res.status(500).json({ error: 'Failed to generate proposal' });
   }
 }
