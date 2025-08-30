@@ -1,9 +1,6 @@
 import { OpenAI } from 'openai';
 
-console.log("📡 Supabase URL in handler:", process.env.SUPABASE_URL);
-console.log("📡 Supabase Key in handler:", process.env.SUPABASE_ANON_KEY?.slice(0, 10) + '...');
-
-import { supabase } from '../../lib/supabase';
+import { getSupabaseClient } from '../../lib/supabase';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
