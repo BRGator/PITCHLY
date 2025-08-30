@@ -1,47 +1,49 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
 });
-const openai = new OpenAIApi(configuration);
-
-console.log("API Key Present:", !!process.env.OPENAI_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { brief, role, tone, style } = req.body;
+  const { prompt, role, tone, style } = req.body;
 
-  if (!brief || !role || !tone || !style) {
-    return res.status(400).json({ error: 'Missing required fields' });
+  if (!prompt || !process.env.OPENAI_API_KEY) {
+    return res.status(400).json({ error: "Missing prompt or API key" });
   }
 
   try {
-    const prompt = `You are an expert proposal writer. Write a concise, persuasive freelance proposal in under 300 words.
-
-Respond to this job brief:
-
-"${brief}"
-
-As a ${role}, using a ${tone} tone and ${style} style.
-Make the response personalized, confident, and professional. Do not include placeholders or incomplete thoughts.`;
-
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You generate high-converting freelance job proposals." },
-        { role: "user", content: prompt }
+        {
+          role: "system",
+          content: `You are an expert freelance proposal writer. Format proposals clearly with:
+- A short attention-grabbing intro
+- 2–4 bullet points of deliverables
+- A closing paragraph to inspire confidence
+
+Tone: ${tone || "professional"}  
+Style: ${style || "clear and concise"}  
+Perspective: ${role || "general freelancer"}`
+        },
+        {
+          role: "user",
+          content: prompt
+        }
       ],
       temperature: 0.7,
-      max_tokens: 600,
+      max_tokens: 500
     });
 
-    const proposal = completion.data.choices[0].message.content.trim();
-    res.status(200).json({ proposal });
+    const message = completion.choices[0]?.message?.content || "No response generated.";
+    res.status(200).json({ result: message });
+
   } catch (error) {
-    console.error("OpenAI API error:", error);
-    res.status(500).json({ error: 'Failed to generate proposal' });
+    console.error("OpenAI API Error:", error);
+    res.status(500).json({ error: "Failed to generate proposal." });
   }
 }
