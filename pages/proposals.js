@@ -6,8 +6,8 @@ import { supabase } from '../lib/supabase';
 export default function ProposalsPage() {
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProposal, setSelectedProposal] = useState(null);
 
-  // TEMP: Use hardcoded user_id (same as ProposalForm)
   const userId = 'abc-123';
 
   useEffect(() => {
@@ -43,7 +43,8 @@ export default function ProposalsPage() {
           {proposals.map((p) => (
             <div
               key={p.id}
-              className="p-4 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-sm"
+              onClick={() => setSelectedProposal(p)}
+              className="p-4 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 shadow-sm cursor-pointer hover:ring-2 hover:ring-blue-500"
             >
               <h2 className="text-xl font-semibold">{p.title || 'Untitled Proposal'}</h2>
               <p className="text-sm text-gray-500 mb-2">To: {p.client_name}</p>
@@ -54,6 +55,24 @@ export default function ProposalsPage() {
               </p>
             </div>
           ))}
+        </div>
+      )}
+
+      {selectedProposal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 max-w-2xl w-full p-6 rounded-lg relative shadow-xl">
+            <button
+              onClick={() => setSelectedProposal(null)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 dark:hover:text-white"
+            >
+              ✖
+            </button>
+            <h2 className="text-2xl font-bold mb-2">
+              {selectedProposal.title || 'Untitled Proposal'}
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">To: {selectedProposal.client_name}</p>
+            <pre className="whitespace-pre-wrap text-gray-800 dark:text-gray-200">{selectedProposal.content}</pre>
+          </div>
         </div>
       )}
     </div>
