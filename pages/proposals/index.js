@@ -1,58 +1,66 @@
-// pages/proposals/index.js
-
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getSupabaseClient } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
-export async function getServerSideProps() {
-  const supabase = getSupabaseClient();
-  const { data: proposals, error } = await supabase
-    .from('proposals')
-    .select('id, client_name, title, created_at')
-    .order('created_at', { ascending: false });
+export default function ProposalsList() {
+  const [proposals, setProposals] = useState([]);
 
-  if (error) {
-    console.error('🔴 Error fetching proposals:', error.message);
-    return { props: { proposals: [] } };
-  }
+  useEffect(() => {
+    fetchProposals();
+  }, []);
 
-  return { props: { proposals } };
-}
+  const fetchProposals = async () => {
+    const { data, error } = await supabase.from('proposals').select('*').order('created_at', { ascending: false });
+    if (!error) setProposals(data);
+  };
 
-export default function ProposalsList({ proposals }) {
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this proposal?')) return;
+
+    const res = await fetch('/api/delete', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+
+    if (res.ok) {
+      setProposals((prev) => prev.filter((p) => p.id !== id));
+    } else {
+      alert('Failed to delete proposal.');
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-        📁 Proposal History
-      </h1>
-
-      {proposals.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-300">No proposals found.</p>
-      ) : (
-        <ul className="space-y-4">
-          {proposals.map((proposal) => (
-            <li
-              key={proposal.id}
-              className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-            >
-              <Link href={`/proposals/${proposal.id}`}>
-                <div className="cursor-pointer">
-                  <h3 className="text-lg font-semibold text-blue-600 dark:text-blue-400">
-                    {proposal.title || 'Untitled Proposal'}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    To: {proposal.client_name} · {new Date(proposal.created_at).toLocaleString()}
-                  </p>
-                </div>
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Saved Proposals</h1>
+      <ul className="space-y-4">
+        {proposals.map((proposal) => (
+          <li key={proposal.id} className="border p-4 rounded-md bg-white dark:bg-gray-800">
+            <h2 className="text-xl font-semibold">{proposal.title || '(Untitled Proposal)'}</h2>
+            <p className="text-sm text-gray-500">To: {proposal.client_name}</p>
+            <div className="flex gap-4 mt-2">
+              <Link
+                href={`/proposals/${proposal.id}`}
+                className="text-blue-600 hover:underline"
+              >
+                View
               </Link>
-              <div className="mt-2 text-sm">
-                <Link href={`/proposals/${proposal.id}/edit`}>
-                  <span className="text-blue-500 hover:underline mr-4">✏️ Edit</span>
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+              <Link
+                href={`/proposals/${proposal.id}/edit`}
+                className="text-green-600 hover:underline"
+              >
+                Edit
+              </Link>
+              <button
+                onClick={() => handleDelete(proposal.id)}
+                className="text-red-600 hover:underline"
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
