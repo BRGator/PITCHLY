@@ -11,17 +11,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { brief, clientName, salutation, userName, senderName, title } = req.body;
+    const { brief, clientName, salutation, senderName, title } = req.body;
 
-    console.log('📥 Incoming request body:', { brief, clientName, salutation, userName, senderName, title });
+    // Use senderName as fallback for userName
+    const userName = senderName;
 
-    if (!brief || !clientName || !salutation || !userName || !senderName) {
+    console.log('📥 Incoming request body:', {
+      brief, clientName, salutation, senderName, title,
+    });
+
+    if (!brief || !clientName || !salutation || !senderName) {
       console.error('🔴 Missing required fields:', {
-        brief, clientName, salutation, userName, senderName,
+        brief, clientName, salutation, senderName,
       });
       return res.status(400).json({
         error: 'Missing required fields',
-        details: { brief, clientName, salutation, userName, senderName },
+        details: { brief, clientName, salutation, senderName },
       });
     }
 
