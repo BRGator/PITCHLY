@@ -2,62 +2,65 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { getSupabaseClient } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
-export async function getServerSideProps(context) {
-  const supabase = getSupabaseClient();
-  const { id } = context.params;
+export default function ProposalView() {
+  const router = useRouter();
+  const { id } = router.query;
 
-  const { data, error } = await supabase.from('proposals').select('*').eq('id', id).single();
+  const [proposal, setProposal] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (error || !data) {
-    return { notFound: true };
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchProposal = async () => {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.user) {
+        router.push('/auth/signin');
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('id', id)
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (error || !data) {
+        console.error('Proposal not found or access denied');
+        router.push('/dashboard');
+      } else {
+        setProposal(data);
+      }
+
+      setLoading(false);
+    };
+
+    fetchProposal();
+  }, [id]);
+
+  if (loading) {
+    return <div className="p-6 text-gray-900 dark:text-gray-100">Loading...</div>;
   }
 
-  return { props: { proposal: data } };
-}
+  if (!proposal) return null;
 
-export default function ProposalDetail({ proposal }) {
-  const [deleting, setDeleting] = useState(false);
-  const router = useRouter();
-
-  const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this proposal?')) return;
-    setDeleting(true);
-
-    const supabase = getSupabaseClient();
-    const { error } = await supabase.from('proposals').delete().eq('id', proposal.id);
-
-    if (!error) {
-      router.push('/proposals');
-    } else {
-      alert('Failed to delete proposal.');
-    }
-    setDeleting(false);
-  };
-
-return (
-  <div className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
-    <h1 className="text-2xl font-bold mb-4">{proposal.title || 'Untitled Proposal'}</h1>
-
-    <p className="mb-2"><strong>To:</strong> {proposal.client_name}</p>
-    <p className="mb-2"><strong>Salutation:</strong> {proposal.salutation}</p>
-    <p className="mb-2"><strong>From:</strong> {proposal.sender_name}</p>
-
-    <hr className="my-4 border-gray-300 dark:border-gray-600" />
-
-    <pre className="whitespace-pre-wrap mb-6 text-sm bg-gray-100 dark:bg-gray-800 p-4 rounded border border-gray-300 dark:border-gray-700">
-      {proposal.content}
-    </pre>
-
-    <div className="flex justify-end">
-      <Link href={`/proposals/${proposal.id}/edit`}>
-        <a className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
-          ✏️ Edit Proposal
-        </a>
-      </Link>
+  return (
+    <div className="max-w-3xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-2xl font-bold mb-4">{proposal.title || 'Untitled Proposal'}</h1>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        Sent to: <strong>{proposal.client_name}</strong> •{' '}
+        {new Date(proposal.created_at).toLocaleString()}
+      </p>
+      <div className="p-4 rounded bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 whitespace-pre-wrap">
+        {proposal.content}
+      </div>
     </div>
-  </div>
-);
+  );
 }
