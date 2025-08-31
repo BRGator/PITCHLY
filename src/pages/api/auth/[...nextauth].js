@@ -6,7 +6,7 @@ import { SupabaseAdapter } from '@next-auth/supabase-adapter';
 import { supabase } from '../../../lib/supabase';
 
 export const authOptions = {
-  // adapter: SupabaseAdapter(supabase), // Temporarily disabled - add back after Supabase setup
+  adapter: SupabaseAdapter(supabase),
   providers: [
     // Email Authentication
     EmailProvider({
