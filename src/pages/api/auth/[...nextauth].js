@@ -1,31 +1,33 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { supabase } from '../../../lib/supabase';
+import AppleProvider from 'next-auth/providers/apple';
+import EmailProvider from 'next-auth/providers/email';
 
 export const authOptions = {
   providers: [
+    // Google OAuth
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    
+    // Apple Sign-in
+    AppleProvider({
+      clientId: process.env.APPLE_ID,
+      clientSecret: process.env.APPLE_SECRET,
+    })
   ],
+  pages: {
+    signIn: '/auth/signin',
+    verifyRequest: '/auth/verify-request',
+    error: '/auth/error'
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   callbacks: {
     async signIn({ user }) {
-      // Store user in Supabase if not already present
-      const { data, error } = await supabase
-        .from('users')
-        .upsert({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-        });
-
-      if (error) {
-        console.error('🔴 Error inserting user into Supabase:', error.message);
-        return false;
-      }
-
       return true;
     },
     async session({ session, token }) {
