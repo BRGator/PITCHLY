@@ -2,17 +2,101 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import AppleProvider from 'next-auth/providers/apple';
 import EmailProvider from 'next-auth/providers/email';
-import { SupabaseAdapter } from '@next-auth/supabase-adapter';
-import { supabase } from '../../../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+// Create direct Supabase client for adapter
+const supabase = createClient(
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zthdmjgwuqwlgxmrdirw.supabase.co',
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aGRtamd3dXF3bGd4bXJkaXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzAzMTEsImV4cCI6MjA3MjEwNjMxMX0.apb12xES_fbqNAo30TZfxvqnhS6n78Ac5HKkmqrgWEA'
+);
 
 export const authOptions = {
-  adapter: SupabaseAdapter({
-    url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zthdmjgwuqwlgxmrdirw.supabase.co',
-    secret: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aGRtamd3dXF3bGd4bXJkaXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzAzMTEsImV4cCI6MjA3MjEwNjMxMX0.apb12xES_fbqNAo30TZfxvqnhS6n78Ac5HKkmqrgWEA',
-    db: {
-      schema: 'public'
+  adapter: {
+    async createUser(user) {
+      const { data, error } = await supabase
+        .from('users')
+        .insert({ name: user.name, email: user.email, image: user.image })
+        .select()
+        .single();
+      if (error) throw error;
+      return { id: data.id, ...data };
+    },
+    async getUser(id) {
+      const { data } = await supabase.from('users').select().eq('id', id).single();
+      return data;
+    },
+    async getUserByEmail(email) {
+      const { data } = await supabase.from('users').select().eq('email', email).single();
+      return data;
+    },
+    async getUserByAccount({ providerAccountId, provider }) {
+      const { data } = await supabase
+        .from('accounts')
+        .select('users(*)')
+        .eq('provider', provider)
+        .eq('provider_account_id', providerAccountId)
+        .single();
+      return data?.users;
+    },
+    async updateUser(user) {
+      const { data, error } = await supabase
+        .from('users')
+        .update(user)
+        .eq('id', user.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    async createSession({ sessionToken, userId, expires }) {
+      const { data, error } = await supabase
+        .from('sessions')
+        .insert({ session_token: sessionToken, user_id: userId, expires })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    async getSessionAndUser(sessionToken) {
+      const { data } = await supabase
+        .from('sessions')
+        .select('*, users(*)')
+        .eq('session_token', sessionToken)
+        .single();
+      return data ? { session: data, user: data.users } : null;
+    },
+    async updateSession({ sessionToken, ...session }) {
+      const { data } = await supabase
+        .from('sessions')
+        .update(session)
+        .eq('session_token', sessionToken)
+        .select()
+        .single();
+      return data;
+    },
+    async deleteSession(sessionToken) {
+      await supabase.from('sessions').delete().eq('session_token', sessionToken);
+    },
+    async createVerificationToken({ identifier, expires, token }) {
+      const { data, error } = await supabase
+        .from('verification_tokens')
+        .insert({ identifier, expires, token })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    async useVerificationToken({ identifier, token }) {
+      const { data } = await supabase
+        .from('verification_tokens')
+        .delete()
+        .eq('identifier', identifier)
+        .eq('token', token)
+        .select()
+        .single();
+      return data;
     }
-  }),
+  },
   providers: [
     // Email Authentication
     EmailProvider({
