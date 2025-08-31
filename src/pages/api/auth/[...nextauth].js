@@ -2,20 +2,36 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import AppleProvider from 'next-auth/providers/apple';
 import EmailProvider from 'next-auth/providers/email';
+import { SupabaseAdapter } from '@next-auth/supabase-adapter';
+import { supabase } from '../../../lib/supabase';
 
 export const authOptions = {
+  adapter: SupabaseAdapter(supabase),
   providers: [
-    // Google OAuth
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // Email Authentication
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD
+        }
+      },
+      from: process.env.EMAIL_FROM
     }),
     
-    // Apple Sign-in
-    AppleProvider({
-      clientId: process.env.APPLE_ID,
-      clientSecret: process.env.APPLE_SECRET,
-    })
+    // Google OAuth (temporarily disabled - add credentials later)
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // }),
+    
+    // Apple Sign-in (temporarily disabled - add credentials later)
+    // AppleProvider({
+    //   clientId: process.env.APPLE_ID,
+    //   clientSecret: process.env.APPLE_SECRET,
+    // })
   ],
   pages: {
     signIn: '/auth/signin',
@@ -28,6 +44,7 @@ export const authOptions = {
   },
   callbacks: {
     async signIn({ user }) {
+      // User creation handled by adapter
       return true;
     },
     async session({ session, token }) {
