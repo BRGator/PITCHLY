@@ -6,7 +6,10 @@ import { SupabaseAdapter } from '@next-auth/supabase-adapter';
 import { supabase } from '../../../lib/supabase';
 
 export const authOptions = {
-  adapter: SupabaseAdapter(supabase),
+  adapter: SupabaseAdapter({
+    url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zthdmjgwuqwlgxmrdirw.supabase.co',
+    secret: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aGRtamd3dXF3bGd4bXJkaXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzAzMTEsImV4cCI6MjA3MjEwNjMxMX0.apb12xES_fbqNAo30TZfxvqnhS6n78Ac5HKkmqrgWEA'
+  }),
   providers: [
     // Email Authentication
     EmailProvider({
