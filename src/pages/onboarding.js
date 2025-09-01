@@ -85,18 +85,28 @@ export default function Onboarding() {
       if (error) throw error;
 
       // Update user name if provided
+      console.log('Form name:', formData.name);
+      console.log('Session name:', session?.user?.name);
+      
       if (formData.name !== session?.user?.name) {
+        console.log('Updating user name from', session?.user?.name, 'to', formData.name);
+        
         const response = await fetch('/api/user/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: formData.name })
         });
 
+        console.log('Update response status:', response.status);
+        const responseData = await response.json();
+        console.log('Update response data:', responseData);
+
         if (!response.ok) {
-          throw new Error('Failed to update user name');
+          throw new Error('Failed to update user name: ' + responseData.message);
         }
 
         // Force session refresh to get updated user name
+        console.log('Forcing page refresh to update session');
         window.location.href = '/dashboard';
         return;
       }
