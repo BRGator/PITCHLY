@@ -158,11 +158,14 @@ export const authOptions = {
       return token;
     },
     async redirect({ url, baseUrl }) {
+      console.log('REDIRECT CALLBACK:', url, baseUrl);
+      
       // After successful sign-in, redirect appropriately
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       
       // Always redirect to dashboard - it will handle onboarding check
+      console.log('REDIRECTING TO DASHBOARD');
       return `${baseUrl}/dashboard`;
     }
   },
