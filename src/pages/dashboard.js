@@ -16,21 +16,29 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchProposals = async () => {
+      console.log('Status:', status, 'Session:', !!session, 'User:', !!session?.user);
+      
       if (status === 'loading') return;
       
       if (status === 'unauthenticated') {
+        console.log('Redirecting to signin - unauthenticated');
         router.push('/auth/signin');
         return;
       }
       
       if (!session?.user) return;
 
+      console.log('User name:', session.user.name);
+      
       // Temporarily skip user_settings check - will fix Supabase issue later
       // For now, redirect to onboarding if user has no name
       if (!session.user.name || session.user.name.trim() === '') {
+        console.log('Redirecting to onboarding - no name');
         router.push('/onboarding');
         return;
       }
+      
+      console.log('Loading dashboard normally');
 
       const { data, error } = await supabase
         .from('proposals')
