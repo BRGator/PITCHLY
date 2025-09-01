@@ -138,9 +138,12 @@ export default function Dashboard() {
 }
 
 export async function getServerSideProps(context) {
+  console.log('Dashboard getServerSideProps - Getting session...');
   const session = await getSession(context);
+  console.log('Dashboard getServerSideProps - Session:', session);
   
   if (!session) {
+    console.log('Dashboard getServerSideProps - No session, redirecting to signin');
     return {
       redirect: {
         destination: '/auth/signin',
@@ -149,6 +152,7 @@ export async function getServerSideProps(context) {
     };
   }
 
+  console.log('Dashboard getServerSideProps - Session found, proceeding to dashboard');
   return {
     props: {
       session,
