@@ -41,3 +41,8 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+# Database setup files
+*.sql
+create_proposals_table.sql
+add_missing_columns.sql
