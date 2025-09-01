@@ -103,7 +103,7 @@ export default function Dashboard() {
                 href="/proposals/new" 
                 className="btn-primary inline-block"
               >
-                Create Your First Proposal
+                ✨ Create Your First Proposal
               </Link>
             </div>
           ) : (
@@ -113,10 +113,31 @@ export default function Dashboard() {
               key={proposal.id}
               className="p-4 bg-white dark:bg-gray-800 rounded shadow border border-gray-300 dark:border-gray-700"
             >
-              <h2 className="text-lg font-semibold">{proposal.title || 'Untitled Proposal'}</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {new Date(proposal.created_at).toLocaleString()}
-              </p>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <h2 className="text-lg font-semibold">{proposal.title || 'Untitled Proposal'}</h2>
+                  {proposal.client_name && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                      Client: {proposal.client_name}
+                    </p>
+                  )}
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {new Date(proposal.created_at).toLocaleString()}
+                  </p>
+                </div>
+                <div className="flex flex-col items-end space-y-2">
+                  {proposal.status === 'revision' && (
+                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">
+                      Revision
+                    </span>
+                  )}
+                  {proposal.status === 'draft' && (
+                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs">
+                      Draft
+                    </span>
+                  )}
+                </div>
+              </div>
               <Link
                 href={`/proposals/${proposal.id}`}
                 className="text-blue-600 hover:underline block mt-2"

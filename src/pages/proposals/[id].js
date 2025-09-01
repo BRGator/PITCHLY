@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import { supabase } from '../../lib/supabase';
+import jsPDF from 'jspdf';
 
 export default function ProposalView() {
   const { data: session, status } = useSession();
@@ -68,6 +69,43 @@ export default function ProposalView() {
     alert('Proposal copied to clipboard!');
   };
 
+  const downloadPDF = () => {
+    try {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const proposalTitle = proposal?.title || 'Proposal';
+      const clientName = proposal?.client_name || 'Client';
+      const content = proposal?.content || '';
+      
+      // Set up the document
+      pdf.setFontSize(20);
+      pdf.text(proposalTitle, 20, 20);
+      
+      pdf.setFontSize(12);
+      pdf.text(`Client: ${clientName}`, 20, 35);
+      pdf.text(`Date: ${formatDate(proposal?.created_at)}`, 20, 45);
+      
+      // Add a line separator
+      pdf.line(20, 55, 190, 55);
+      
+      // Add content
+      pdf.setFontSize(10);
+      const splitContent = pdf.splitTextToSize(content, 170);
+      pdf.text(splitContent, 20, 70);
+      
+      // Generate filename
+      const filename = `${proposalTitle.replace(/[^a-z0-9]/gi, '_')}_${clientName.replace(/[^a-z0-9]/gi, '_')}.pdf`;
+      
+      // Save the PDF
+      pdf.save(filename);
+      
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      // Fallback to print dialog
+      alert('PDF generation failed. Using print dialog instead.');
+      window.print();
+    }
+  };
+
   if (status === 'loading' || loading) {
     return (
       <>
@@ -109,6 +147,34 @@ export default function ProposalView() {
       <Head>
         <title>{proposal?.title} - PITCHLY</title>
         <meta name="description" content={`Proposal for ${proposal?.client_name}`} />
+        <style jsx global>{`
+          @media print {
+            /* Hide everything except proposal content */
+            .print\:hidden { display: none !important; }
+            nav, .navbar, header { display: none !important; }
+            
+            /* Only show proposal content */
+            .proposal-content {
+              margin: 0 !important;
+              padding: 20px !important;
+              box-shadow: none !important;
+              border-radius: 0 !important;
+              background: white !important;
+              color: black !important;
+            }
+            
+            body { 
+              background: white !important; 
+              font-size: 12pt !important;
+              line-height: 1.5 !important;
+            }
+            
+            h1, h2, h3 { 
+              color: black !important; 
+              page-break-after: avoid;
+            }
+          }
+        `}</style>
       </Head>
 
       <Navbar />
@@ -116,7 +182,7 @@ export default function ProposalView() {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 p-6">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="flex justify-between items-start mb-6">
+          <div className="flex justify-between items-start mb-6 print:hidden">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 {proposal?.title}
@@ -158,12 +224,6 @@ export default function ProposalView() {
             </div>
             
             <div className="flex space-x-3">
-              <button
-                onClick={copyToClipboard}
-                className="btn-ghost text-sm"
-              >
-                📋 Copy Text
-              </button>
               <Link href="/dashboard" className="btn-ghost text-sm">
                 ← Back to Dashboard
               </Link>
@@ -171,7 +231,7 @@ export default function ProposalView() {
           </div>
 
           {/* Proposal Content */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 proposal-content">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <div className="whitespace-pre-wrap font-serif leading-relaxed text-gray-900 dark:text-gray-100">
                 {proposal?.content}
@@ -180,16 +240,46 @@ export default function ProposalView() {
           </div>
 
           {/* Actions */}
-          <div className="mt-8 text-center">
-            <Link href="/proposals/new" className="btn-primary mr-4">
-              Create Another Proposal
-            </Link>
-            <button
-              onClick={() => window.print()}
-              className="btn-ghost"
-            >
-              🖨️ Print Proposal
-            </button>
+          <div className="mt-8 print:hidden">
+            {/* Main Actions */}
+            <div className="text-center mb-6">
+              <Link href="/proposals/new" className="btn-primary mr-4">
+                ✨ Create Another Proposal
+              </Link>
+              <Link 
+                href={`/proposals/${proposal?.id}/revise`}
+                className="btn-secondary"
+              >
+                ✏️ Request Modifications
+              </Link>
+            </div>
+            
+            {/* Export Options */}
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                Export & Share Options
+              </h3>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={copyToClipboard}
+                  className="btn-ghost"
+                >
+                  📋 Copy Text
+                </button>
+                <button
+                  onClick={() => downloadPDF()}
+                  className="btn-ghost"
+                >
+                  📄 Save as PDF
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="btn-ghost"
+                >
+                  🖨️ Print Proposal
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
