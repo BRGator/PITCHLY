@@ -5,11 +5,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
 
-// Create Supabase client with service role for file uploads
-const supabase = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
-);
+// Supabase client will be created in the handler after env check
 
 export const config = {
   api: {
@@ -22,11 +18,23 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
+  // Check if Supabase is configured
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Supabase configuration missing:', { url: !!supabaseUrl, key: !!supabaseKey });
+    return res.status(500).json({ message: 'Server configuration error' });
+  }
+
   const session = await getServerSession(req, res, authOptions);
   
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
+
+  // Create Supabase client with verified environment variables
+  const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
   try {
     const form = formidable({
@@ -58,7 +66,7 @@ export default async function handler(req, res) {
     console.log('Uploading file:', fileName, 'Size:', fileBuffer.length, 'Type:', file.mimetype);
 
     // Upload to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { data: uploadData, error: uploadError } = await supabaseClient.storage
       .from('avatars')
       .upload(fileName, fileBuffer, {
         contentType: file.mimetype,
@@ -76,12 +84,12 @@ export default async function handler(req, res) {
     }
 
     // Get public URL
-    const { data: { publicUrl } } = supabase.storage
+    const { data: { publicUrl } } = supabaseClient.storage
       .from('avatars')
       .getPublicUrl(fileName);
 
     // Update user's image in database
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseClient
       .from('users')
       .update({ image: publicUrl })
       .eq('id', session.user.id);
