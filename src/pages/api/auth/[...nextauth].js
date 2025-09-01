@@ -94,6 +94,7 @@ export const authOptions = {
       return data;
     },
     async useVerificationToken({ identifier, token }) {
+      console.log('useVerificationToken called with:', { identifier, token });
       const { data, error } = await supabase
         .from('verification_tokens')
         .delete()
@@ -102,8 +103,11 @@ export const authOptions = {
         .select()
         .single();
       
+      console.log('useVerificationToken result:', data, 'error:', error);
+      
       // If token not found or already used, return null (NextAuth expects this)
       if (error && error.code === 'PGRST116') {
+        console.log('Token not found (already used or expired)');
         return null;
       }
       
@@ -113,6 +117,7 @@ export const authOptions = {
         return null;
       }
       
+      console.log('Token verification successful');
       return data;
     }
   },
@@ -176,11 +181,20 @@ export const authOptions = {
       return token;
     },
     async redirect({ url, baseUrl, token }) {
+      console.log('Redirect callback - url:', url, 'baseUrl:', baseUrl);
+      
       // After successful sign-in, redirect appropriately
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       
-      // Always redirect to dashboard - it will handle onboarding check
+      // For magic link verification, redirect to dashboard
+      if (url.includes('/api/auth/callback/email')) {
+        console.log('Magic link callback - redirecting to dashboard');
+        return `${baseUrl}/dashboard`;
+      }
+      
+      // Default redirect to dashboard - it will handle onboarding check
+      console.log('Default redirect to dashboard');
       return `${baseUrl}/dashboard`;
     }
   },
