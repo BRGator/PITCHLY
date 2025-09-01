@@ -34,13 +34,28 @@ export default function NewProposal() {
     setLoading(true);
 
     try {
-      // TODO: Integrate with AI proposal generation
-      console.log('Proposal data:', formData);
+      console.log('Form submitted with data:', formData);
       
-      // For now, just redirect back to dashboard
-      router.push('/dashboard');
+      // TODO: Implement actual AI proposal generation
+      // For now, simulate processing and show success
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+      
+      console.log('Simulated proposal generation complete');
+      alert('Proposal generated! (This is a placeholder - AI integration coming soon)');
+      
+      // Reset form
+      setFormData({
+        clientName: '',
+        clientEmail: '',
+        projectTitle: '',
+        projectDescription: '',
+        budget: '',
+        timeline: ''
+      });
+      
     } catch (error) {
       console.error('Error creating proposal:', error);
+      alert('Error generating proposal: ' + error.message);
     } finally {
       setLoading(false);
     }
