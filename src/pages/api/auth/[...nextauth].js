@@ -26,7 +26,9 @@ export const authOptions = {
       return data;
     },
     async getUserByEmail(email) {
-      const { data } = await supabase.from('users').select().eq('email', email).single();
+      console.log('getUserByEmail called with:', email);
+      const { data, error } = await supabase.from('users').select().eq('email', email).single();
+      console.log('getUserByEmail result:', data, 'error:', error);
       return data;
     },
     async getUserByAccount({ providerAccountId, provider }) {
@@ -151,14 +153,26 @@ export const authOptions = {
       return true;
     },
     async session({ session, token }) {
+      console.log('Session Callback - Token:', token);
+      console.log('Session Callback - Session before:', session);
+      
       // Attach user ID to session
       session.user.id = token.sub;
+      
+      console.log('Session Callback - Session after:', session);
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      console.log('JWT Callback - Token:', token);
+      console.log('JWT Callback - User:', user);
+      console.log('JWT Callback - Account:', account);
+      
       if (user) {
         token.sub = user.id;
+        console.log('JWT Callback - Setting token.sub to:', user.id);
       }
+      
+      console.log('JWT Callback - Final token:', token);
       return token;
     },
     async redirect({ url, baseUrl, token }) {
@@ -173,6 +187,17 @@ export const authOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    }
   },
 };
 
