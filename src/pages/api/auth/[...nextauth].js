@@ -145,12 +145,11 @@ export const authOptions = {
       return token;
     },
     async redirect({ url, baseUrl, token }) {
-      // After successful sign-in, check if user is new
+      // After successful sign-in, redirect appropriately
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       
-      // For now, always redirect to dashboard
-      // TODO: Check if user needs onboarding and redirect to /onboarding
+      // Always redirect to dashboard - it will handle onboarding check
       return `${baseUrl}/dashboard`;
     }
   },
