@@ -95,17 +95,17 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
   };
 
   return (
-    <div className=\"flex flex-col items-center space-y-4\">
+    <div className="flex flex-col items-center space-y-4">
       {/* Avatar Display */}
-      <div className=\"relative group\">
+      <div className="relative group">
         {currentImage ? (
           <img
             src={currentImage}
-            alt=\"Avatar\"
-            className=\"w-24 h-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-600\"
+            alt="Avatar"
+            className="w-24 h-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-600"
           />
         ) : (
-          <div className=\"w-24 h-24 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-2xl border-4 border-gray-200 dark:border-gray-600\">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-2xl border-4 border-gray-200 dark:border-gray-600">
             {getUserInitials()}
           </div>
         )}
@@ -122,37 +122,37 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
             onDragOver={handleDrag}
             onDrop={handleDrop}
           >
-            <svg className=\"w-8 h-8 text-white\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">
-              <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M12 4v16m8-8H4\" />
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           </div>
         )}
 
         {/* Loading overlay */}
         {uploading && (
-          <div className=\"absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center\">
-            <div className=\"animate-spin rounded-full h-8 w-8 border-b-2 border-white\"></div>
+          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
           </div>
         )}
       </div>
 
       {/* Upload Button/Area */}
-      <div className=\"text-center\">
+      <div className="text-center">
         <button
-          type=\"button\"
+          type="button"
           onClick={handleClick}
           disabled={uploading}
-          className=\"text-sm text-primary-600 dark:text-primary-400 hover:underline disabled:opacity-50 disabled:cursor-not-allowed\"
+          className="text-sm text-primary-600 dark:text-primary-400 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {uploading ? 'Uploading...' : currentImage ? 'Change Avatar' : 'Upload Avatar'}
         </button>
         
-        <p className=\"text-xs text-gray-500 dark:text-gray-400 mt-2\">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
           JPG, PNG, GIF or WebP. Max 5MB.
         </p>
         
         {/* Drag and drop hint */}
-        <p className=\"text-xs text-gray-400 dark:text-gray-500 mt-1\">
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
           Click to upload or drag and drop
         </p>
       </div>
@@ -160,10 +160,10 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
       {/* Hidden file input */}
       <input
         ref={fileInputRef}
-        type=\"file\"
-        accept=\"image/*\"
+        type="file"
+        accept="image/*"
         onChange={(e) => handleFileSelect(e.target.files?.[0])}
-        className=\"hidden\"
+        className="hidden"
       />
     </div>
   );
