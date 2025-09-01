@@ -208,6 +208,7 @@ export const authOptions = {
     },
     async redirect({ url, baseUrl, token }) {
       console.log('Redirect callback - url:', url, 'baseUrl:', baseUrl);
+      console.log('Redirect callback - token:', token);
       
       // After successful sign-in, redirect appropriately
       if (url.startsWith('/')) return `${baseUrl}${url}`;
