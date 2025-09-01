@@ -3,12 +3,10 @@ import { authOptions } from '../auth/[...nextauth]';
 import { createClient } from '@supabase/supabase-js';
 import formidable from 'formidable';
 import fs from 'fs';
-import path from 'path';
 
-// Create Supabase client with service role for file uploads
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 export const config = {
@@ -30,9 +28,8 @@ export default async function handler(req, res) {
 
   try {
     const form = formidable({
-      maxFileSize: 5 * 1024 * 1024, // 5MB limit
+      maxFileSize: 2 * 1024 * 1024, // 2MB limit for base64
       filter: ({ mimetype }) => {
-        // Only allow image files
         return mimetype && mimetype.includes('image');
       }
     });
@@ -50,40 +47,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.' });
     }
 
-    // Read file
+    // Read file and convert to base64
     const fileBuffer = fs.readFileSync(file.filepath);
-    const fileExtension = path.extname(file.originalFilename || '').toLowerCase() || '.jpg';
-    const fileName = `avatar-${session.user.id}-${Date.now()}${fileExtension}`;
+    const base64Image = `data:${file.mimetype};base64,${fileBuffer.toString('base64')}`;
 
-    console.log('Uploading file:', fileName, 'Size:', fileBuffer.length, 'Type:', file.mimetype);
-
-    // Upload to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(fileName, fileBuffer, {
-        contentType: file.mimetype,
-        upsert: true
-      });
-
-    console.log('Upload result:', { uploadData, uploadError });
-
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
-      return res.status(500).json({ 
-        message: 'Failed to upload file: ' + (uploadError.message || 'Unknown error'),
-        details: uploadError
-      });
-    }
-
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(fileName);
-
-    // Update user's image in database
+    // Update user's image in database with base64 data
     const { error: updateError } = await supabase
       .from('users')
-      .update({ image: publicUrl })
+      .update({ image: base64Image })
       .eq('id', session.user.id);
 
     if (updateError) {
@@ -96,7 +67,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       success: true,
-      imageUrl: publicUrl,
+      imageUrl: base64Image,
       message: 'Avatar uploaded successfully'
     });
 
