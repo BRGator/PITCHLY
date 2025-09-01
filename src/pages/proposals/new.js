@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 
 export default function NewProposal() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  // Handle authentication client-side
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -202,21 +210,5 @@ export default function NewProposal() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+// Removed getServerSideProps to avoid timing issues with magic link authentication
+// NewProposal will handle authentication client-side like dashboard and onboarding
