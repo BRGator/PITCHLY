@@ -82,6 +82,14 @@ export const authOptions = {
     async createVerificationToken({ identifier, expires, token }) {
       console.log('Creating verification token for:', identifier);
       console.log('Token data:', { identifier, expires, token: token.substring(0, 10) + '...' });
+      console.log('Supabase URL being used:', supabase.supabaseUrl);
+      
+      // Try a simple select first to test database connection
+      const { data: testQuery, error: testError } = await supabase
+        .from('verification_tokens')
+        .select('count(*)')
+        .limit(1);
+      console.log('Database connection test:', testQuery, testError);
       
       const { data, error } = await supabase
         .from('verification_tokens')
@@ -89,10 +97,18 @@ export const authOptions = {
         .select()
         .single();
         
+      console.log('Insert response - data:', data);
+      console.log('Insert response - error:', error);
+        
       if (error) {
         console.error('Error creating verification token:', error);
         console.error('Error details:', JSON.stringify(error, null, 2));
         throw error;
+      }
+      
+      if (!data) {
+        console.error('No data returned from insert operation');
+        throw new Error('Token creation failed - no data returned');
       }
       
       console.log('Verification token created successfully:', data);

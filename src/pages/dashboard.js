@@ -19,11 +19,19 @@ export default function Dashboard() {
       console.log('Dashboard - Session status:', status);
       console.log('Dashboard - Session data:', session);
       
-      if (status === 'loading') return;
+      if (status === 'loading') {
+        console.log('Dashboard - Session still loading, waiting...');
+        return;
+      }
+      
+      if (status === 'unauthenticated') {
+        console.log('Dashboard - Unauthenticated, redirecting to signin');
+        router.push('/auth/signin');
+        return;
+      }
       
       if (!session?.user) {
-        console.log('Dashboard - No session user, redirecting to signin');
-        router.push('/auth/signin');
+        console.log('Dashboard - No session user but not unauthenticated, waiting...');
         return;
       }
 
