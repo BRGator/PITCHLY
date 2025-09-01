@@ -1,7 +1,7 @@
 // pages/dashboard.js
 
 import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
@@ -16,12 +16,18 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchProposals = async () => {
+      console.log('Dashboard - Session status:', status);
+      console.log('Dashboard - Session data:', session);
+      
       if (status === 'loading') return;
       
       if (!session?.user) {
+        console.log('Dashboard - No session user, redirecting to signin');
         router.push('/auth/signin');
         return;
       }
+
+      console.log('Dashboard - User ID:', session.user.id);
 
       // Check if user needs onboarding (new users or incomplete profiles)
       const { data: userSettings, error: settingsError } = await supabase
@@ -129,4 +135,23 @@ export default function Dashboard() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/signin',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 }
