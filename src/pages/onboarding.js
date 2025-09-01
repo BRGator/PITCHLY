@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { supabase } from '../lib/supabase';
+import Navbar from '../components/Navbar';
 
 export default function Onboarding() {
   const { data: session, status } = useSession();
@@ -94,6 +95,8 @@ export default function Onboarding() {
       console.error('Error saving onboarding data:', error);
       // Continue to dashboard even if save fails
       router.push('/dashboard');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,7 +117,9 @@ export default function Onboarding() {
         <meta name="description" content="Let's get your account set up" />
       </Head>
 
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+      <Navbar />
+      
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 py-12 px-4">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
