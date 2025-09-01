@@ -1,29 +1,25 @@
 // pages/dashboard.js
 
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 
 export default function Dashboard() {
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchProposals = async () => {
-      const {
-        data: { session },
-        error: sessionError
-      } = await supabase.auth.getSession();
-
-      if (sessionError || !session?.user) {
+      if (status === 'loading') return;
+      
+      if (!session?.user) {
         router.push('/auth/signin');
         return;
       }
-
-      setUser(session.user);
 
       const { data, error } = await supabase
         .from('proposals')
@@ -41,19 +37,50 @@ export default function Dashboard() {
     };
 
     fetchProposals();
-  }, []);
+  }, [session, status]);
 
-  if (loading) {
+  if (status === 'loading' || loading) {
     return <div className="p-6 text-gray-900 dark:text-gray-100">Loading...</div>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 text-gray-900 dark:text-gray-100">
-      <h1 className="text-2xl font-bold mb-6">Your Proposals</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-4xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+        {/* Welcome Header */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-xl">
+              {session.user.name ? 
+                session.user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 
+                session.user.email[0].toUpperCase()
+              }
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">
+                Welcome back{session.user.name ? `, ${session.user.name}` : ''}!
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">{session.user.email}</p>
+            </div>
+          </div>
+        </div>
 
-      {proposals.length === 0 ? (
-        <p>You haven't generated any proposals yet.</p>
-      ) : (
+        {/* Proposals Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-6">Your Proposals</h2>
+
+          {proposals.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                You haven't generated any proposals yet.
+              </p>
+              <Link 
+                href="/proposals/new" 
+                className="btn-primary inline-block"
+              >
+                Create Your First Proposal
+              </Link>
+            </div>
+          ) : (
         <ul className="space-y-4">
           {proposals.map((proposal) => (
             <li
@@ -72,8 +99,10 @@ export default function Dashboard() {
               </Link>
             </li>
           ))}
-        </ul>
-      )}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

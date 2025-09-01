@@ -8,6 +8,17 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Helper function to get user initials
+  const getUserInitials = (name, email) => {
+    if (name) {
+      return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
+    if (email) {
+      return email[0].toUpperCase();
+    }
+    return '?';
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -62,13 +73,11 @@ export default function Navbar() {
               <div className="w-8 h-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent"></div>
             ) : session ? (
               <div className="flex items-center space-x-3">
-                <img
-                  src={session.user.image || '/assets/default-avatar.png'}
-                  alt={session.user.name}
-                  className="w-8 h-8 rounded-full border-2 border-gray-200 dark:border-gray-700"
-                />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-sm border-2 border-gray-200 dark:border-gray-700">
+                  {getUserInitials(session.user.name, session.user.email)}
+                </div>
                 <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-300">
-                  {session.user.name}
+                  {session.user.name || session.user.email}
                 </span>
                 <button
                   onClick={() => signOut()}

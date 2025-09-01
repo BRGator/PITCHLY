@@ -128,10 +128,6 @@ export const authOptions = {
     verifyRequest: '/auth/verify-request',
     error: '/auth/error'
   },
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
   callbacks: {
     async signIn({ user }) {
       // User creation handled by adapter
@@ -148,6 +144,16 @@ export const authOptions = {
       }
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      // After successful sign-in, redirect to dashboard
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    }
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 };
 
