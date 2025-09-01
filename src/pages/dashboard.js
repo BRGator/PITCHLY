@@ -137,25 +137,5 @@ export default function Dashboard() {
   );
 }
 
-export async function getServerSideProps(context) {
-  console.log('Dashboard getServerSideProps - Getting session...');
-  const session = await getSession(context);
-  console.log('Dashboard getServerSideProps - Session:', session);
-  
-  if (!session) {
-    console.log('Dashboard getServerSideProps - No session, redirecting to signin');
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  console.log('Dashboard getServerSideProps - Session found, proceeding to dashboard');
-  return {
-    props: {
-      session,
-    },
-  };
-}
+// Removed getServerSideProps to avoid timing issues with magic link authentication
+// Dashboard will handle authentication client-side like the homepage does
