@@ -73,12 +73,22 @@ export default function Navbar() {
               <div className="w-8 h-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent"></div>
             ) : session ? (
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-sm border-2 border-gray-200 dark:border-gray-700">
-                  {getUserInitials(session.user.name, session.user.email)}
-                </div>
-                <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-300">
-                  {session.user.name || session.user.email}
-                </span>
+                <Link href="/profile" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+                  {session.user.image ? (
+                    <img
+                      src={session.user.image}
+                      alt="Avatar"
+                      className="w-8 h-8 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-sm border-2 border-gray-200 dark:border-gray-700">
+                      {getUserInitials(session.user.name, session.user.email)}
+                    </div>
+                  )}
+                  <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
+                    {session.user.name || session.user.email}
+                  </span>
+                </Link>
                 <button
                   onClick={() => signOut()}
                   className="btn-ghost text-sm"

@@ -100,12 +100,20 @@ export default function Dashboard() {
         {/* Welcome Header */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-xl">
-              {session.user.name ? 
-                session.user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 
-                session.user.email[0].toUpperCase()
-              }
-            </div>
+            {session.user.image ? (
+              <img
+                src={session.user.image}
+                alt="Avatar"
+                className="w-16 h-16 rounded-full object-cover border-4 border-gray-200 dark:border-gray-600"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-600 to-blue-600 flex items-center justify-center text-white font-bold text-xl">
+                {session.user.name ? 
+                  session.user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 
+                  session.user.email[0].toUpperCase()
+                }
+              </div>
+            )}
             <div>
               <h1 className="text-2xl font-bold">
                 Welcome back{session.user.name ? `, ${session.user.name}` : ''}!
