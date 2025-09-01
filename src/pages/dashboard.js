@@ -28,15 +28,24 @@ export default function Dashboard() {
       
       if (!session?.user) return;
 
-      console.log('User name:', session.user.name);
-      
-      // Temporarily skip user_settings check - will fix Supabase issue later
-      // For now, redirect to onboarding if user has no name
-      if (!session.user.name || session.user.name.trim() === '') {
-        console.log('Redirecting to onboarding - no name');
+      // Check user name directly from database (in case session is stale)
+      const { data: userData } = await supabase
+        .from('users')
+        .select('name')
+        .eq('id', session.user.id)
+        .single();
+
+      console.log('Database user name:', userData?.name);
+      console.log('Session user name:', session.user.name);
+
+      // Redirect to onboarding if user has no name (check both session and database)
+      if ((!session.user.name || session.user.name.trim() === '') && (!userData?.name || userData.name.trim() === '')) {
+        console.log('No name in session or database - redirecting to onboarding');
         router.push('/onboarding');
         return;
       }
+
+      console.log('User has name - proceeding to dashboard');
       
       console.log('Loading dashboard normally');
 
