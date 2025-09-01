@@ -25,15 +25,9 @@ export default function Dashboard() {
       
       if (!session?.user) return;
 
-      // Check if user needs onboarding (new users or incomplete profiles)
-      const { data: userSettings, error: settingsError } = await supabase
-        .from('user_settings')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .single();
-
-      // If no user settings exist and user has minimal profile info, redirect to onboarding
-      if (settingsError?.code === 'PGRST116' || (!userSettings && (!session.user.name || session.user.name.trim() === ''))) {
+      // Temporarily skip user_settings check - will fix Supabase issue later
+      // For now, redirect to onboarding if user has no name
+      if (!session.user.name || session.user.name.trim() === '') {
         router.push('/onboarding');
         return;
       }
