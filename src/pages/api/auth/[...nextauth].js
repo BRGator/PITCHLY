@@ -78,22 +78,39 @@ export const authOptions = {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
     async createVerificationToken({ identifier, expires, token }) {
+      console.log('Creating verification token for:', identifier);
       const { data, error } = await supabase
         .from('verification_tokens')
         .insert({ identifier, expires, token })
         .select()
         .single();
-      if (error) throw error;
+      if (error) {
+        console.error('Error creating verification token:', error);
+        throw error;
+      }
+      console.log('Verification token created successfully');
       return data;
     },
     async useVerificationToken({ identifier, token }) {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('verification_tokens')
         .delete()
         .eq('identifier', identifier)
         .eq('token', token)
         .select()
         .single();
+      
+      // If token not found or already used, return null (NextAuth expects this)
+      if (error && error.code === 'PGRST116') {
+        return null;
+      }
+      
+      // For other errors, log and return null to prevent crashes
+      if (error) {
+        console.error('Token verification error:', error);
+        return null;
+      }
+      
       return data;
     }
   },
