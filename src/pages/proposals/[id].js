@@ -123,6 +123,12 @@ export default function ProposalView() {
               </h1>
               <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
                 <span>Client: {proposal?.client_name}</span>
+                {proposal?.client_email && (
+                  <>
+                    <span>•</span>
+                    <span>{proposal.client_email}</span>
+                  </>
+                )}
                 <span>•</span>
                 <span>Created: {formatDate(proposal?.created_at)}</span>
                 <span>•</span>
@@ -130,6 +136,25 @@ export default function ProposalView() {
                   {proposal?.status || 'Draft'}
                 </span>
               </div>
+              
+              {/* Additional project details */}
+              {(proposal?.project_description || proposal?.budget_range || proposal?.timeline) && (
+                <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                  {proposal?.project_description && (
+                    <div className="mb-2">
+                      <span className="font-medium">Project:</span> {proposal.project_description}
+                    </div>
+                  )}
+                  <div className="flex space-x-6">
+                    {proposal?.budget_range && (
+                      <span><span className="font-medium">Budget:</span> {proposal.budget_range}</span>
+                    )}
+                    {proposal?.timeline && (
+                      <span><span className="font-medium">Timeline:</span> {proposal.timeline}</span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="flex space-x-3">

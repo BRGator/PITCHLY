@@ -112,15 +112,23 @@ Generate a complete, ready-to-send proposal:`;
     // Save the proposal to database
     console.log('Attempting to save proposal for user:', session.user.id);
     
-    // Start with minimal required fields
+    const proposalData = {
+      user_id: session.user.id,
+      title: projectTitle,
+      client_name: clientName,
+      content: generatedProposal,
+      status: 'draft'
+    };
+    
+    // Add optional fields if provided
+    if (clientEmail) proposalData.client_email = clientEmail;
+    if (projectDescription) proposalData.project_description = projectDescription;
+    if (budget) proposalData.budget_range = budget;
+    if (timeline) proposalData.timeline = timeline;
+    
     const { data: savedProposal, error: saveError } = await supabase
       .from('proposals')
-      .insert({
-        user_id: session.user.id,
-        title: projectTitle,
-        client_name: clientName,
-        content: generatedProposal
-      })
+      .insert(proposalData)
       .select()
       .single();
 
