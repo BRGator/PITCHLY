@@ -17,11 +17,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
+  console.log('OpenAI API key present:', !!process.env.OPENAI_API_KEY);
+
   const session = await getServerSession(req, res, authOptions);
   
   if (!session) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
+
+  console.log('User session:', session.user.id);
 
   const { clientName, clientEmail, projectTitle, projectDescription, budget, timeline } = req.body;
 
@@ -106,6 +110,7 @@ Generate a complete, ready-to-send proposal:`;
     const generatedProposal = completion.choices[0].message.content;
 
     // Save the proposal to database
+    console.log('Attempting to save proposal for user:', session.user.id);
     const { data: savedProposal, error: saveError } = await supabase
       .from('proposals')
       .insert({
@@ -124,8 +129,14 @@ Generate a complete, ready-to-send proposal:`;
       .single();
 
     if (saveError) {
-      // Continue even if save fails - could log to external service
+      console.error('Database save error:', saveError);
+      return res.status(500).json({
+        message: 'Failed to save proposal to database',
+        error: process.env.NODE_ENV === 'development' ? saveError.message : 'Database error'
+      });
     }
+
+    console.log('Proposal saved successfully:', savedProposal?.id);
 
     res.status(200).json({
       success: true,
@@ -139,6 +150,7 @@ Generate a complete, ready-to-send proposal:`;
     });
 
   } catch (error) {
+    console.error('API error:', error);
     
     if (error.code === 'insufficient_quota') {
       return res.status(402).json({ 
