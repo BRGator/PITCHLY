@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -6,8 +6,16 @@ import Link from 'next/link';
 import { supabase } from '../lib/supabase';
 
 export default function Onboarding() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  // Handle authentication client-side
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -318,21 +326,5 @@ export default function Onboarding() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+// Removed getServerSideProps to avoid timing issues with magic link authentication
+// Onboarding will handle authentication client-side like dashboard
