@@ -52,13 +52,24 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
         throw new Error(data.message || 'Upload failed');
       }
 
-      // Update session with new image
-      await updateSession();
-      
-      // Call success callback
+      // Call success callback first to update local state
       if (onUploadSuccess) {
         onUploadSuccess(data.imageUrl);
       }
+
+      // Force session refresh to get updated user data
+      await updateSession({ 
+        trigger: 'update',
+        user: {
+          ...session?.user,
+          image: data.imageUrl
+        }
+      });
+
+      // Trigger a second update after a brief delay to ensure it sticks
+      setTimeout(async () => {
+        await updateSession();
+      }, 1000);
 
       alert('Avatar updated successfully!');
 
