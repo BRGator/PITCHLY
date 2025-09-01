@@ -67,6 +67,7 @@ ${revisionRequest}
 
 **CLIENT:** ${clientName}
 **YOUR BUSINESS:** ${userSettings?.company_name || '[Your Company]'}
+**ORIGINAL TITLE:** ${originalTitle}
 
 **INSTRUCTIONS:**
 1. Take the original proposal as your starting point
@@ -75,14 +76,18 @@ ${revisionRequest}
 4. Keep all the good elements from the original
 5. Ensure the revised proposal flows naturally
 6. If the request is unclear, make reasonable improvements in that direction
+7. **CRITICAL: Keep the exact same title as the original proposal**
 
 **IMPORTANT:** 
 - Generate a COMPLETE revised proposal, not just the changes
+- DO NOT change the title unless specifically requested
+- DO NOT add "Revised" or "Updated" to the title
 - Maintain professional formatting with clear headers
 - Keep the proposal comprehensive and ready to send
 - Focus on the specific improvements requested
+- The title should remain client-facing professional
 
-Generate the complete revised proposal:`;
+Generate the complete revised proposal with the SAME TITLE:`;
 
     console.log('Generating proposal revision with OpenAI...');
     

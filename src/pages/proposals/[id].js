@@ -44,6 +44,15 @@ export default function ProposalView() {
           }
         } else {
           setProposal(data);
+          
+          // Mark proposal as viewed if it's still in draft status
+          if (data.status === 'draft') {
+            fetch('/api/proposals/mark-viewed', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ proposalId: id })
+            }).catch(err => console.error('Failed to mark as viewed:', err));
+          }
         }
       } catch (err) {
         console.error('Error fetching proposal:', err);
@@ -76,31 +85,54 @@ export default function ProposalView() {
       const clientName = proposal?.client_name || 'Client';
       const content = proposal?.content || '';
       
-      // Set up the document
-      pdf.setFontSize(20);
-      pdf.text(proposalTitle, 20, 20);
+      // Page dimensions
+      const pageHeight = pdf.internal.pageSize.height;
+      const pageWidth = pdf.internal.pageSize.width;
+      const margin = 20;
+      const maxWidth = pageWidth - (margin * 2);
+      const lineHeight = 6;
+      let yPosition = 30;
       
-      pdf.setFontSize(12);
-      pdf.text(`Client: ${clientName}`, 20, 35);
-      pdf.text(`Date: ${formatDate(proposal?.created_at)}`, 20, 45);
+      // Header
+      pdf.setFontSize(16);
+      pdf.setFont(undefined, 'bold');
+      pdf.text(proposalTitle, margin, yPosition);
+      yPosition += 15;
       
-      // Add a line separator
-      pdf.line(20, 55, 190, 55);
-      
-      // Add content
       pdf.setFontSize(10);
-      const splitContent = pdf.splitTextToSize(content, 170);
-      pdf.text(splitContent, 20, 70);
+      pdf.setFont(undefined, 'normal');
+      pdf.text(`Client: ${clientName}`, margin, yPosition);
+      yPosition += 7;
+      pdf.text(`Date: ${formatDate(proposal?.created_at)}`, margin, yPosition);
+      yPosition += 10;
       
-      // Generate filename
-      const filename = `${proposalTitle.replace(/[^a-z0-9]/gi, '_')}_${clientName.replace(/[^a-z0-9]/gi, '_')}.pdf`;
+      // Separator line
+      pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+      yPosition += 10;
+      
+      // Content with proper pagination
+      pdf.setFontSize(10);
+      const lines = pdf.splitTextToSize(content, maxWidth);
+      
+      for (let i = 0; i < lines.length; i++) {
+        // Check if we need a new page
+        if (yPosition + lineHeight > pageHeight - margin) {
+          pdf.addPage();
+          yPosition = margin;
+        }
+        
+        pdf.text(lines[i], margin, yPosition);
+        yPosition += lineHeight;
+      }
+      
+      // Generate clean filename
+      const filename = `${proposalTitle.replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '_')}_${clientName.replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '_')}.pdf`;
       
       // Save the PDF
       pdf.save(filename);
       
     } catch (error) {
       console.error('PDF generation failed:', error);
-      // Fallback to print dialog
       alert('PDF generation failed. Using print dialog instead.');
       window.print();
     }
@@ -149,29 +181,72 @@ export default function ProposalView() {
         <meta name="description" content={`Proposal for ${proposal?.client_name}`} />
         <style jsx global>{`
           @media print {
-            /* Hide everything except proposal content */
-            .print\:hidden { display: none !important; }
-            nav, .navbar, header { display: none !important; }
-            
-            /* Only show proposal content */
-            .proposal-content {
-              margin: 0 !important;
-              padding: 20px !important;
+            /* Reset everything for clean print */
+            * {
               box-shadow: none !important;
-              border-radius: 0 !important;
-              background: white !important;
+              text-shadow: none !important;
+              filter: none !important;
+              -webkit-filter: none !important;
+              background: transparent !important;
               color: black !important;
             }
             
-            body { 
-              background: white !important; 
-              font-size: 12pt !important;
-              line-height: 1.5 !important;
+            /* Hide all UI elements */
+            .print\:hidden,
+            nav, .navbar, header, .bg-gray-50, .dark\:bg-gray-900 {
+              display: none !important;
             }
             
-            h1, h2, h3 { 
-              color: black !important; 
+            /* Clean body styling */
+            body {
+              background: white !important;
+              color: black !important;
+              font-family: 'Times New Roman', Times, serif !important;
+              font-size: 12pt !important;
+              line-height: 1.4 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            
+            /* Clean page container */
+            .proposal-page {
+              background: white !important;
+              color: black !important;
+              margin: 0 !important;
+              padding: 20px !important;
+              max-width: none !important;
+            }
+            
+            /* Proposal content styling */
+            .proposal-content {
+              background: white !important;
+              color: black !important;
+              border: none !important;
+              border-radius: 0 !important;
+              box-shadow: none !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            
+            /* Typography for print */
+            h1, h2, h3, h4, h5, h6 {
+              color: black !important;
+              font-weight: bold !important;
               page-break-after: avoid;
+            }
+            
+            p {
+              color: black !important;
+              margin: 0 0 12px 0 !important;
+              orphans: 3;
+              widows: 3;
+            }
+            
+            /* Hide any remaining UI elements */
+            .container, .max-w-4xl, .mx-auto {
+              max-width: none !important;
+              margin: 0 !important;
+              padding: 0 !important;
             }
           }
         `}</style>
@@ -179,7 +254,7 @@ export default function ProposalView() {
 
       <Navbar />
       
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 p-6">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 p-6 proposal-page">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-start mb-6 print:hidden">
@@ -255,8 +330,8 @@ export default function ProposalView() {
             </div>
             
             {/* Export Options */}
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 text-center">
                 Export & Share Options
               </h3>
               <div className="flex justify-center space-x-4">

@@ -13,6 +13,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [originalProposalIds, setOriginalProposalIds] = useState(new Set());
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -49,6 +50,15 @@ export default function Dashboard() {
         console.error('Error fetching proposals:', error.message);
       } else {
         setProposals(data);
+        
+        // Find which proposals have revisions (to mark them as "original")
+        const originalIds = new Set();
+        data.forEach(proposal => {
+          if (proposal.original_proposal_id) {
+            originalIds.add(proposal.original_proposal_id);
+          }
+        });
+        setOriginalProposalIds(originalIds);
       }
 
       setLoading(false);
@@ -72,6 +82,21 @@ export default function Dashboard() {
       
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16">
         <div className="max-w-4xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+        {/* Dashboard Actions Header */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6 sticky top-20 z-40">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              Your Proposals
+            </h2>
+            <Link 
+              href="/proposals/new" 
+              className="btn-primary"
+            >
+              ✨ Create New Proposal
+            </Link>
+          </div>
+        </div>
+        
         {/* Welcome Header */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
           <div className="flex items-center space-x-4">
@@ -92,7 +117,6 @@ export default function Dashboard() {
 
         {/* Proposals Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-bold mb-6">Your Proposals</h2>
 
           {proposals.length === 0 ? (
             <div className="text-center py-8">
@@ -131,9 +155,19 @@ export default function Dashboard() {
                       Revision
                     </span>
                   )}
-                  {proposal.status === 'draft' && (
+                  {originalProposalIds.has(proposal.id) && (
+                    <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
+                      Original
+                    </span>
+                  )}
+                  {proposal.status === 'draft' && !originalProposalIds.has(proposal.id) && (
                     <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs">
                       Draft
+                    </span>
+                  )}
+                  {proposal.status === 'viewed' && !originalProposalIds.has(proposal.id) && proposal.status !== 'revision' && (
+                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs">
+                      Viewed
                     </span>
                   )}
                 </div>

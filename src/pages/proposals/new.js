@@ -49,10 +49,46 @@ export default function NewProposal() {
       }
 
       // Show success message and redirect to view the proposal
-      alert(`🎉 Proposal "${data.proposal.title}" generated successfully!\n\nRedirecting to your dashboard to view it.`);
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Dark theme
+        const popup = document.createElement('div');
+        popup.innerHTML = `
+          <div style="
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #1f2937; color: #f9fafb; border: 1px solid #374151;
+            padding: 20px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 10000; font-family: system-ui; max-width: 400px; text-align: center;
+          ">
+            <div style="font-size: 24px; margin-bottom: 10px;">🎉</div>
+            <div style="font-weight: bold; margin-bottom: 10px;">Proposal Generated Successfully!</div>
+            <div style="margin-bottom: 15px;">"${data.proposal.title}"</div>
+            <div style="font-size: 14px; color: #d1d5db;">Redirecting to your dashboard...</div>
+          </div>
+        `;
+        document.body.appendChild(popup);
+        setTimeout(() => document.body.removeChild(popup), 2000);
+      } else {
+        // Light theme  
+        const popup = document.createElement('div');
+        popup.innerHTML = `
+          <div style="
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; color: #1f2937; border: 1px solid #d1d5db;
+            padding: 20px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 10000; font-family: system-ui; max-width: 400px; text-align: center;
+          ">
+            <div style="font-size: 24px; margin-bottom: 10px;">🎉</div>
+            <div style="font-weight: bold; margin-bottom: 10px;">Proposal Generated Successfully!</div>
+            <div style="margin-bottom: 15px;">"${data.proposal.title}"</div>
+            <div style="font-size: 14px; color: #6b7280;">Redirecting to your dashboard...</div>
+          </div>
+        `;
+        document.body.appendChild(popup);
+        setTimeout(() => document.body.removeChild(popup), 2000);
+      }
       
-      // Redirect to dashboard to see the new proposal
-      router.push('/dashboard');
+      // Redirect to dashboard after a short delay
+      setTimeout(() => router.push('/dashboard'), 2000);
       
     } catch (error) {
       alert('❌ Error generating proposal: ' + error.message + '\n\nPlease check your details and try again.');
