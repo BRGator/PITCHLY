@@ -16,26 +16,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchProposals = async () => {
-      console.log('Dashboard - Session status:', status);
-      console.log('Dashboard - Session data:', session);
-      
-      if (status === 'loading') {
-        console.log('Dashboard - Session still loading, waiting...');
-        return;
-      }
+      if (status === 'loading') return;
       
       if (status === 'unauthenticated') {
-        console.log('Dashboard - Unauthenticated, redirecting to signin');
         router.push('/auth/signin');
         return;
       }
       
-      if (!session?.user) {
-        console.log('Dashboard - No session user but not unauthenticated, waiting...');
-        return;
-      }
-
-      console.log('Dashboard - User ID:', session.user.id);
+      if (!session?.user) return;
 
       // Check if user needs onboarding (new users or incomplete profiles)
       const { data: userSettings, error: settingsError } = await supabase

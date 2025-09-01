@@ -26,9 +26,7 @@ export const authOptions = {
       return data;
     },
     async getUserByEmail(email) {
-      console.log('getUserByEmail called with:', email);
       const { data, error } = await supabase.from('users').select().eq('email', email).single();
-      console.log('getUserByEmail result:', data, 'error:', error);
       return data;
     },
     async getUserByAccount({ providerAccountId, provider }) {
@@ -80,42 +78,16 @@ export const authOptions = {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
     async createVerificationToken({ identifier, expires, token }) {
-      console.log('Creating verification token for:', identifier);
-      console.log('Token data:', { identifier, expires, token: token.substring(0, 10) + '...' });
-      console.log('Supabase URL being used:', supabase.supabaseUrl);
-      
-      // Try a simple select first to test database connection
-      const { data: testQuery, error: testError } = await supabase
-        .from('verification_tokens')
-        .select('count(*)')
-        .limit(1);
-      console.log('Database connection test:', testQuery, testError);
-      
       const { data, error } = await supabase
         .from('verification_tokens')
         .insert({ identifier, expires, token })
         .select()
         .single();
         
-      console.log('Insert response - data:', data);
-      console.log('Insert response - error:', error);
-        
-      if (error) {
-        console.error('Error creating verification token:', error);
-        console.error('Error details:', JSON.stringify(error, null, 2));
-        throw error;
-      }
-      
-      if (!data) {
-        console.error('No data returned from insert operation');
-        throw new Error('Token creation failed - no data returned');
-      }
-      
-      console.log('Verification token created successfully:', data);
+      if (error) throw error;
       return data;
     },
     async useVerificationToken({ identifier, token }) {
-      console.log('useVerificationToken called with:', { identifier, token });
       const { data, error } = await supabase
         .from('verification_tokens')
         .delete()
@@ -124,11 +96,8 @@ export const authOptions = {
         .select()
         .single();
       
-      console.log('useVerificationToken result:', data, 'error:', error);
-      
       // If token not found or already used, return null (NextAuth expects this)
       if (error && error.code === 'PGRST116') {
-        console.log('Token not found (already used or expired)');
         return null;
       }
       
@@ -138,7 +107,6 @@ export const authOptions = {
         return null;
       }
       
-      console.log('Token verification successful');
       return data;
     }
   },
@@ -175,53 +143,27 @@ export const authOptions = {
     error: '/auth/error'
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log('SignIn callback - User:', user);
-      console.log('SignIn callback - Account:', account);
-      console.log('SignIn callback - Email:', email);
-      
+    async signIn({ user }) {
       // User creation handled by adapter
       return true;
     },
     async session({ session, token }) {
-      console.log('Session Callback - Token:', token);
-      console.log('Session Callback - Session before:', session);
-      
       // Attach user ID to session
       session.user.id = token.sub;
-      
-      console.log('Session Callback - Session after:', session);
       return session;
     },
-    async jwt({ token, user, account }) {
-      console.log('JWT Callback - Token:', token);
-      console.log('JWT Callback - User:', user);
-      console.log('JWT Callback - Account:', account);
-      
+    async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
-        console.log('JWT Callback - Setting token.sub to:', user.id);
       }
-      
-      console.log('JWT Callback - Final token:', token);
       return token;
     },
-    async redirect({ url, baseUrl, token }) {
-      console.log('Redirect callback - url:', url, 'baseUrl:', baseUrl);
-      console.log('Redirect callback - token:', token);
-      
+    async redirect({ url, baseUrl }) {
       // After successful sign-in, redirect appropriately
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       
-      // For magic link verification, redirect to dashboard
-      if (url.includes('/api/auth/callback/email')) {
-        console.log('Magic link callback - redirecting to dashboard');
-        return `${baseUrl}/dashboard`;
-      }
-      
-      // Default redirect to dashboard - it will handle onboarding check
-      console.log('Default redirect to dashboard');
+      // Always redirect to dashboard - it will handle onboarding check
       return `${baseUrl}/dashboard`;
     }
   },
