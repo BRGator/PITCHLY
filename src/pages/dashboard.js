@@ -16,12 +16,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchProposals = async () => {
-      console.log('Status:', status, 'Session:', !!session, 'User:', !!session?.user);
-      
       if (status === 'loading') return;
       
       if (status === 'unauthenticated') {
-        console.log('Redirecting to signin - unauthenticated');
         router.push('/auth/signin');
         return;
       }
@@ -35,19 +32,12 @@ export default function Dashboard() {
         .eq('id', session.user.id)
         .single();
 
-      console.log('Database user name:', userData?.name);
-      console.log('Session user name:', session.user.name);
-
       // Redirect to onboarding if user has no name (check both session and database)
       if ((!session.user.name || session.user.name.trim() === '') && (!userData?.name || userData.name.trim() === '')) {
-        console.log('No name in session or database - redirecting to onboarding');
         router.push('/onboarding');
         return;
       }
 
-      console.log('User has name - proceeding to dashboard');
-      
-      console.log('Loading dashboard normally');
 
       const { data, error } = await supabase
         .from('proposals')

@@ -34,28 +34,28 @@ export default function NewProposal() {
     setLoading(true);
 
     try {
-      console.log('Form submitted with data:', formData);
-      
-      // TODO: Implement actual AI proposal generation
-      // For now, simulate processing and show success
-      await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
-      
-      console.log('Simulated proposal generation complete');
-      alert('Proposal generated! (This is a placeholder - AI integration coming soon)');
-      
-      // Reset form
-      setFormData({
-        clientName: '',
-        clientEmail: '',
-        projectTitle: '',
-        projectDescription: '',
-        budget: '',
-        timeline: ''
+      const response = await fetch('/api/proposals/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to generate proposal');
+      }
+
+      // Show success message and redirect to view the proposal
+      alert(`🎉 Proposal "${data.proposal.title}" generated successfully!\n\nRedirecting to your dashboard to view it.`);
+      
+      // Redirect to dashboard to see the new proposal
+      router.push('/dashboard');
       
     } catch (error) {
-      console.error('Error creating proposal:', error);
-      alert('Error generating proposal: ' + error.message);
+      alert('❌ Error generating proposal: ' + error.message + '\n\nPlease check your details and try again.');
     } finally {
       setLoading(false);
     }
