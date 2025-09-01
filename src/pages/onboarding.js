@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSession, getSession } from 'next-auth/react';
+import { useSession, getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -76,6 +76,9 @@ export default function Onboarding() {
         .upsert({
           user_id: session.user.id,
           company_name: formData.company,
+          business_type: formData.businessType,
+          goals: formData.goals,
+          theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
           created_at: new Date().toISOString()
         });
 
@@ -83,11 +86,19 @@ export default function Onboarding() {
 
       // Update user name if provided
       if (formData.name !== session?.user?.name) {
-        await fetch('/api/user/update', {
+        const response = await fetch('/api/user/update', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: formData.name })
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to update user name');
+        }
+
+        // Force session refresh to get updated user name
+        window.location.href = '/dashboard';
+        return;
       }
 
       router.push('/dashboard');

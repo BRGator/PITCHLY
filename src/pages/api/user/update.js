@@ -25,6 +25,8 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('Updating user name:', name, 'for user ID:', session.user.id);
+    
     const { data, error } = await supabase
       .from('users')
       .update({ name })
@@ -32,11 +34,13 @@ export default async function handler(req, res) {
       .select()
       .single();
 
+    console.log('Update result:', data, 'error:', error);
+
     if (error) throw error;
 
     res.status(200).json({ success: true, user: data });
   } catch (error) {
     console.error('Error updating user name:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 }
