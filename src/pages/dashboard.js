@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
+import Head from 'next/head';
+import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -44,8 +46,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto p-6 text-gray-900 dark:text-gray-100">
+    <>
+      <Head>
+        <title>Dashboard - PITCHLY</title>
+        <meta name="description" content="Manage your AI-powered proposals and grow your business" />
+      </Head>
+
+      <Navbar />
+      
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16">
+        <div className="max-w-4xl mx-auto p-6 text-gray-900 dark:text-gray-100">
         {/* Welcome Header */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
           <div className="flex items-center space-x-4">
@@ -102,7 +112,8 @@ export default function Dashboard() {
             </ul>
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
