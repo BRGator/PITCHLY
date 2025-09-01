@@ -145,7 +145,7 @@ export default function NewProposal() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Budget Range
+                    Budget Range (Optional)
                   </label>
                   <select
                     value={formData.budget}
@@ -163,7 +163,7 @@ export default function NewProposal() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Timeline
+                    Timeline (Optional)
                   </label>
                   <select
                     value={formData.timeline}
