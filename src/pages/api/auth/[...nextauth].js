@@ -81,16 +81,21 @@ export const authOptions = {
     },
     async createVerificationToken({ identifier, expires, token }) {
       console.log('Creating verification token for:', identifier);
+      console.log('Token data:', { identifier, expires, token: token.substring(0, 10) + '...' });
+      
       const { data, error } = await supabase
         .from('verification_tokens')
         .insert({ identifier, expires, token })
         .select()
         .single();
+        
       if (error) {
         console.error('Error creating verification token:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
         throw error;
       }
-      console.log('Verification token created successfully');
+      
+      console.log('Verification token created successfully:', data);
       return data;
     },
     async useVerificationToken({ identifier, token }) {
@@ -132,7 +137,8 @@ export const authOptions = {
           pass: process.env.EMAIL_SERVER_PASSWORD
         }
       },
-      from: process.env.EMAIL_FROM
+      from: process.env.EMAIL_FROM,
+      maxAge: 24 * 60 * 60, // 24 hours
     }),
     
     // Google OAuth (temporarily disabled - add credentials later)
@@ -153,7 +159,11 @@ export const authOptions = {
     error: '/auth/error'
   },
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log('SignIn callback - User:', user);
+      console.log('SignIn callback - Account:', account);
+      console.log('SignIn callback - Email:', email);
+      
       // User creation handled by adapter
       return true;
     },
