@@ -34,7 +34,10 @@ export const authOptions = {
     async getUserByAccount({ providerAccountId, provider }) {
       const { data } = await supabase
         .from('accounts')
-        .select('users(*)')
+        .select(`
+          user_id,
+          users (*)
+        `)
         .eq('provider', provider)
         .eq('provider_account_id', providerAccountId)
         .single();
@@ -62,7 +65,10 @@ export const authOptions = {
     async getSessionAndUser(sessionToken) {
       const { data } = await supabase
         .from('sessions')
-        .select('*, users(*)')
+        .select(`
+          *,
+          users (*)
+        `)
         .eq('session_token', sessionToken)
         .single();
       return data ? { session: data, user: data.users } : null;
@@ -173,9 +179,20 @@ export const authOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Allow account linking - this handles the case where a user
-      // signs up with email and later tries to sign in with Google
-      return true;
+      try {
+        // For OAuth providers, ensure the account gets linked properly
+        if (account?.provider && account.provider !== 'email') {
+          console.log('OAuth sign in attempt:', { 
+            provider: account.provider, 
+            email: user.email,
+            userId: user.id 
+          });
+        }
+        return true;
+      } catch (error) {
+        console.error('SignIn callback error:', error);
+        return false;
+      }
     },
     async session({ session, token }) {
       // Attach user ID to session
