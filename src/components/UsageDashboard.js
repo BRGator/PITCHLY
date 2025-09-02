@@ -136,8 +136,8 @@ export default function UsageDashboard() {
         </div>
       )}
 
-      {/* Upgrade CTA */}
-      {subscription?.tier === 'free' && (
+      {/* Upgrade CTA or Billing Management */}
+      {subscription?.tier === 'free' ? (
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
           <div className="text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
@@ -149,6 +149,36 @@ export default function UsageDashboard() {
             >
               ⭐ Upgrade to Professional
             </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Manage your subscription and billing
+            </div>
+            <button 
+              onClick={async () => {
+                try {
+                  const response = await fetch('/api/stripe/billing-portal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                  const data = await response.json();
+                  if (data.url) {
+                    window.location.href = data.url;
+                  } else {
+                    alert(data.message || 'Unable to access billing portal');
+                  }
+                } catch (error) {
+                  console.error('Billing portal error:', error);
+                  alert('Unable to access billing portal. Please try again.');
+                }
+              }}
+              className="btn-ghost text-sm"
+            >
+              💳 Manage Billing
+            </button>
           </div>
         </div>
       )}

@@ -1,0 +1,263 @@
+# Stripe Integration Setup Guide for PITCHLY
+
+This guide walks you through setting up Stripe for subscription billing in your PITCHLY application.
+
+## 🚀 Current Status
+- ✅ Stripe SDK integrated with Next.js
+- ✅ Checkout session API created
+- ✅ Webhook handler for subscription events
+- ✅ Customer billing portal
+- ✅ Database integration with Supabase
+- ⏳ Need real Stripe credentials and configuration
+
+---
+
+## 📋 Stripe Account Setup
+
+### Step 1: Create Stripe Account
+1. Go to [Stripe Dashboard](https://dashboard.stripe.com/)
+2. Sign up or log into your Stripe account
+3. Complete business verification (required for live payments)
+
+### Step 2: Get API Keys
+1. Go to **Developers** → **API keys**
+2. Copy your keys:
+   - **Publishable key** (`pk_test_...` for test, `pk_live_...` for production)
+   - **Secret key** (`sk_test_...` for test, `sk_live_...` for production)
+
+### Step 3: Create Products and Prices
+1. Go to **Products** → **+ Add product**
+
+#### Professional Plan
+- **Name**: Professional Plan
+- **Description**: 100 proposals per month, custom templates, analytics
+- **Pricing**: $29.00 USD / month
+- **Billing period**: Monthly
+- **Copy the Price ID** (price_1S2tRA9w3NfwexW187bZLPBF)
+
+#### Agency Plan  
+- **Name**: Agency Plan
+- **Description**: Unlimited proposals, white-label features, priority support
+- **Pricing**: $99.00 USD / month
+- **Billing period**: Monthly
+- **Copy the Price ID** (price_1S2tS79w3NfwexW1vaehGvPc)
+
+### Step 4: Configure Webhooks
+1. Go to **Developers** → **Webhooks**
+2. Click **+ Add endpoint**
+3. Configure:
+   - **Endpoint URL**: `https://www.usepitchly.com/api/stripe/webhook`
+   - **Events to send**: Select these events:
+     - `checkout.session.completed`
+     - `customer.subscription.created`
+     - `customer.subscription.updated`
+     - `customer.subscription.deleted`
+     - `invoice.payment_succeeded`
+     - `invoice.payment_failed`
+4. **Copy the Webhook Secret** (starts with `whsec_...`)
+
+---
+
+## ⚙️ Environment Variables
+
+Update your `.env.local` file with real Stripe credentials:
+
+```bash
+# Stripe Payment Processing
+STRIPE_SECRET_KEY = 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
+STRIPE_PUBLISHABLE_KEY = pk_live_51S2t459w3NfwexW1StvRZJFp1Sgwua4X4bDsVHM7aGX4kmnVucBVcI0y9uXUC83HIfKhq2EOr62ItZGk7LhPiBrk00llpo1cyw
+STRIPE_WEBHOOK_SECRET = whsec_LnsdVnNYJYNhHYlEOjx0moVLAYtElMb8
+STRIPE_PROFESSIONAL_PRICE_ID = price_1S2tRA9w3NfwexW187bZLPBF
+STRIPE_AGENCY_PRICE_ID = price_1S2tS79w3NfwexW1vaehGvPc
+
+
+STRIPE_PUBLISHABLE_KEY = pk_test_51S2t4D7FcNrXQcRhLedLjw20H4twOPsFaDMUGopHWKmAHaaUBHUCS7b0VghdAE4a104l5BHc4snjqIZjPwpNcQbF00qGDMeGab
+STRIPE_SECRET_KEY = sk_test_51S2t4D7FcNrXQcRhxjPBzTB66og8B1tYSq2fdIZOuc5Yoh2cofddY5YW3fHfkAUWdNnUE57D7xxl70echRDWkCKW00AXDOVUjY
+
+
+```
+
+**Important**: 
+- Use `sk_test_` keys for testing
+- Switch to `sk_live_` keys for production
+- Never commit real keys to version control
+
+---
+
+## 🧪 Testing the Integration
+
+### Local Testing Setup
+1. **Install Stripe CLI** for webhook testing:
+   ```bash
+   # macOS
+   brew install stripe/stripe-cli/stripe
+   
+   # Or download from https://github.com/stripe/stripe-cli/releases
+   ```
+
+2. **Login to Stripe CLI**:
+   ```bash
+   stripe login
+   ```
+
+3. **Forward webhooks to local development**:
+   ```bash
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
+   ```
+   This will give you a webhook secret starting with `whsec_` - use this for testing.
+
+4. **Test the flow**:
+   - Start your development server: `npm run dev`
+   - Go to `/upgrade` page
+   - Click upgrade buttons
+   - Use Stripe test card: `4242 4242 4242 4242`
+   - Check webhook events in Stripe CLI
+
+### Test Credit Cards
+Use these test cards in Stripe Checkout:
+- **Success**: `4242 4242 4242 4242`
+- **Declined**: `4000 0000 0000 0002`
+- **Requires authentication**: `4000 0025 0000 3155`
+
+---
+
+## 🔄 How the Flow Works
+
+### Subscription Creation
+1. User clicks "Upgrade" → `/api/create-checkout-session`
+2. Creates/finds Stripe customer
+3. Redirects to Stripe Checkout
+4. User enters payment info
+5. Stripe processes payment
+6. Webhook `checkout.session.completed` fired
+7. Database updated with subscription details
+8. User redirected to dashboard with success
+
+### Billing Management
+1. User clicks "Manage Billing" → `/api/stripe/billing-portal`
+2. Creates Stripe billing portal session
+3. User can update payment methods, view invoices, cancel subscription
+4. Changes trigger webhooks to update database
+
+### Subscription Updates
+- Webhooks automatically handle:
+  - Plan changes (upgrade/downgrade)
+  - Cancellations
+  - Failed payments
+  - Billing period renewals
+  - Usage limit resets
+
+---
+
+## 📊 Monitoring & Analytics
+
+### Stripe Dashboard
+Monitor these metrics in Stripe:
+- **Revenue**: Track monthly recurring revenue
+- **Customer churn**: Monitor cancellation rates  
+- **Failed payments**: Address payment issues
+- **Growth**: Track new subscriptions
+
+### Database Queries
+Check subscription health:
+```sql
+-- Active subscriptions by tier
+SELECT tier, COUNT(*) as count 
+FROM user_subscriptions 
+WHERE status = 'active' 
+GROUP BY tier;
+
+-- Monthly recurring revenue estimate
+SELECT 
+  tier,
+  COUNT(*) as subscribers,
+  CASE 
+    WHEN tier = 'professional' THEN COUNT(*) * 29
+    WHEN tier = 'agency' THEN COUNT(*) * 99
+    ELSE 0
+  END as monthly_revenue
+FROM user_subscriptions 
+WHERE status = 'active' 
+GROUP BY tier;
+```
+
+---
+
+## 🚨 Production Checklist
+
+### Security
+- [ ] Use HTTPS for all webhook endpoints
+- [ ] Verify webhook signatures (implemented)
+- [ ] Use live Stripe keys in production
+- [ ] Enable Stripe Radar for fraud protection
+- [ ] Set up proper error logging
+
+### Business Setup
+- [ ] Complete Stripe business verification
+- [ ] Set up bank account for payouts
+- [ ] Configure tax collection (if required)
+- [ ] Set up subscription billing thresholds
+- [ ] Enable dunning management for failed payments
+
+### Testing
+- [ ] Test complete signup and billing flow
+- [ ] Test subscription changes and cancellations
+- [ ] Test webhook reliability
+- [ ] Test billing portal functionality
+- [ ] Verify database updates match Stripe
+
+### Monitoring
+- [ ] Set up Stripe webhook monitoring
+- [ ] Monitor failed webhook deliveries
+- [ ] Set up alerts for payment failures
+- [ ] Track key subscription metrics
+
+---
+
+## 🎯 Revenue Optimization Tips
+
+1. **Free Trial**: Consider offering 14-day free trial for Professional tier
+2. **Annual Plans**: Add annual billing with discount (e.g., 2 months free)
+3. **Usage Alerts**: Notify free users when approaching limits
+4. **Dunning Management**: Set up email sequences for failed payments
+5. **Plan Recommendations**: Suggest upgrades based on usage patterns
+
+---
+
+## 🆘 Troubleshooting
+
+### Common Issues
+
+**❌ "No such price"**
+- Verify STRIPE_PROFESSIONAL_PRICE_ID and STRIPE_AGENCY_PRICE_ID
+- Make sure you're using the right test/live environment
+
+**❌ Webhook signature verification failed**
+- Check STRIPE_WEBHOOK_SECRET matches your endpoint
+- For local testing, use Stripe CLI webhook secret
+
+**❌ "No such customer"**
+- Customer creation might have failed
+- Check database for stripe_customer_id
+
+**❌ Subscription not updating in database**
+- Check webhook delivery in Stripe dashboard
+- Verify webhook endpoint is accessible
+- Check server logs for webhook processing errors
+
+### Debug Steps
+1. Check Stripe webhook delivery logs
+2. Look at browser network tab for failed requests
+3. Check server logs for webhook processing
+4. Verify database records match Stripe dashboard
+5. Test with Stripe CLI webhook forwarding
+
+---
+
+## 📞 Support
+
+- **Stripe Documentation**: https://stripe.com/docs
+- **Stripe Support**: Available in your dashboard
+- **Test your webhooks**: https://stripe.com/docs/webhooks/test
+
+Remember: Start with test mode, verify everything works, then switch to live mode for production! 🚀

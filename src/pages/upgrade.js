@@ -13,7 +13,7 @@ export default function UpgradePage() {
 
   const handleUpgrade = async (tier) => {
     if (!session) {
-      router.push('/auth/signin');
+      router.push('/auth/signin?from=upgrade');
       return;
     }
 
@@ -25,22 +25,22 @@ export default function UpgradePage() {
         body: JSON.stringify({ tier })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create checkout session');
+      }
+
       const data = await response.json();
       
       if (data.url) {
-        if (data.url.startsWith('/')) {
-          // Internal redirect
-          router.push(data.url);
-        } else {
-          // External redirect (Stripe)
-          window.location.href = data.url;
-        }
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
       } else {
-        alert(data.message || 'Upgrade feature coming soon! This is a demo.');
+        throw new Error('No checkout URL received');
       }
     } catch (error) {
       console.error('Error starting checkout:', error);
-      alert('Something went wrong. Please try again.');
+      alert(`Error: ${error.message}\n\nPlease ensure your Stripe credentials are configured correctly.`);
     } finally {
       setLoading(false);
     }

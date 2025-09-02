@@ -77,6 +77,34 @@ export const authOptions = {
     async deleteSession(sessionToken) {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
+    async linkAccount(account) {
+      const { data, error } = await supabase
+        .from('accounts')
+        .insert({
+          user_id: account.userId,
+          type: account.type,
+          provider: account.provider,
+          provider_account_id: account.providerAccountId,
+          refresh_token: account.refresh_token,
+          access_token: account.access_token,
+          expires_at: account.expires_at,
+          token_type: account.token_type,
+          scope: account.scope,
+          id_token: account.id_token,
+          session_state: account.session_state
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    async unlinkAccount({ providerAccountId, provider }) {
+      await supabase
+        .from('accounts')
+        .delete()
+        .eq('provider', provider)
+        .eq('provider_account_id', providerAccountId);
+    },
     async createVerificationToken({ identifier, expires, token }) {
       const { data, error } = await supabase
         .from('verification_tokens')
@@ -125,13 +153,13 @@ export const authOptions = {
       maxAge: 24 * 60 * 60, // 24 hours
     }),
     
-    // Google OAuth (temporarily disabled - add credentials later)
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
+    // Google OAuth
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     
-    // Apple Sign-in (temporarily disabled - add credentials later)
+    // Apple Sign-in (disabled until revenue generation)
     // AppleProvider({
     //   clientId: process.env.APPLE_ID,
     //   clientSecret: process.env.APPLE_SECRET,
