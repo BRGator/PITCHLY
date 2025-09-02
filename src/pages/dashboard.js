@@ -208,24 +208,35 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end space-y-2">
-                  {proposal.status === 'revision' && (
-                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">
-                      Revision
-                    </span>
-                  )}
+                  {/* Enhanced status display */}
+                  {(() => {
+                    const status = proposal.status || 'draft';
+                    const statusConfig = {
+                      draft: { label: 'Draft', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      sent: { label: 'Sent', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' },
+                      viewed: { label: 'Viewed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300' },
+                      under_review: { label: 'Under Review', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' },
+                      accepted: { label: 'Accepted', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' },
+                      won: { label: 'Won', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300' },
+                      rejected: { label: 'Rejected', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' },
+                      expired: { label: 'Expired', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      withdrawn: { label: 'Withdrawn', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      revision: { label: 'Revision', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' }
+                    };
+                    const config = statusConfig[status] || statusConfig.draft;
+                    
+                    return (
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${config.color}`}>
+                        {config.label}
+                        {status === 'won' && ' 🎉'}
+                        {status === 'accepted' && ' ✅'}
+                      </span>
+                    );
+                  })()}
+                  
                   {originalProposalIds.has(proposal.id) && (
-                    <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
-                      Original
-                    </span>
-                  )}
-                  {proposal.status === 'draft' && !originalProposalIds.has(proposal.id) && (
-                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs">
-                      Draft
-                    </span>
-                  )}
-                  {proposal.status === 'viewed' && !originalProposalIds.has(proposal.id) && proposal.status !== 'revision' && (
-                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full text-xs">
-                      Viewed
+                    <span className="px-2 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs">
+                      Has Revisions
                     </span>
                   )}
                 </div>

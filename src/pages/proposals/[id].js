@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
+import ProposalStatusManager from '../../components/ProposalStatusManager';
 import { supabase } from '../../lib/supabase';
 import jsPDF from 'jspdf';
 
@@ -76,6 +77,10 @@ export default function ProposalView() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(proposal.content);
     alert('Proposal copied to clipboard!');
+  };
+
+  const handleStatusUpdate = (updatedProposal) => {
+    setProposal(updatedProposal);
   };
 
   const downloadPDF = () => {
@@ -272,10 +277,17 @@ export default function ProposalView() {
                 )}
                 <span>•</span>
                 <span>Created: {formatDate(proposal?.created_at)}</span>
-                <span>•</span>
-                <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
-                  {proposal?.status || 'Draft'}
-                </span>
+              </div>
+              
+              {/* Status Manager */}
+              <div className="mt-3">
+                <ProposalStatusManager 
+                  proposal={proposal} 
+                  onStatusUpdate={handleStatusUpdate}
+                />
+              </div>
+              
+              <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
               </div>
               
               {/* Additional project details */}

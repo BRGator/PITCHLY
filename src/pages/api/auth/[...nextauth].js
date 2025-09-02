@@ -15,20 +15,13 @@ export const authOptions = {
   allowDangerousEmailAccountLinking: true,
   adapter: {
     async createUser(user) {
-      console.log('Creating user:', { name: user.name, email: user.email });
-      
       const { data, error } = await supabase
         .from('users')
         .insert({ name: user.name, email: user.email, image: user.image })
         .select()
         .single();
         
-      if (error) {
-        console.error('Error creating user:', error);
-        throw error;
-      }
-      
-      console.log('User created successfully:', { id: data.id, email: data.email });
+      if (error) throw error;
       return { id: data.id, ...data };
     },
     async getUser(id) {
@@ -36,12 +29,7 @@ export const authOptions = {
       return data;
     },
     async getUserByEmail(email) {
-      console.log('=== GET USER BY EMAIL ===');
-      console.log('Looking for email:', email);
-      
       const { data, error } = await supabase.from('users').select().eq('email', email).single();
-      
-      console.log('getUserByEmail result:', { data, error: error?.message });
       return data;
     },
     async getUserByAccount({ providerAccountId, provider }) {
@@ -99,11 +87,9 @@ export const authOptions = {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
     async linkAccount(account) {
-      try {
-        console.log('=== LINK ACCOUNT START ===');
-        console.log('Full account object:', JSON.stringify(account, null, 2));
-        
-        const accountData = {
+      const { data, error } = await supabase
+        .from('accounts')
+        .insert({
           user_id: account.userId,
           type: account.type,
           provider: account.provider,
@@ -115,31 +101,12 @@ export const authOptions = {
           scope: account.scope,
           id_token: account.id_token,
           session_state: account.session_state
-        };
+        })
+        .select()
+        .single();
         
-        console.log('Inserting account data:', JSON.stringify(accountData, null, 2));
-        
-        const { data, error } = await supabase
-          .from('accounts')
-          .insert(accountData)
-          .select()
-          .single();
-          
-        if (error) {
-          console.error('=== LINK ACCOUNT ERROR ===');
-          console.error('Supabase error:', JSON.stringify(error, null, 2));
-          throw error;
-        }
-        
-        console.log('=== LINK ACCOUNT SUCCESS ===');
-        console.log('Account linked successfully:', JSON.stringify(data, null, 2));
-        return data;
-        
-      } catch (error) {
-        console.error('=== LINK ACCOUNT CATCH ===');
-        console.error('Caught error:', error);
-        throw error;
-      }
+      if (error) throw error;
+      return data;
     },
     async unlinkAccount({ providerAccountId, provider }) {
       await supabase
@@ -215,14 +182,8 @@ export const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        console.log('=== SIGNIN CALLBACK START ===');
-        console.log('User:', JSON.stringify(user, null, 2));
-        console.log('Account:', JSON.stringify(account, null, 2));
-        
         // For OAuth providers, manually link the account if needed
         if (account?.provider && account.provider !== 'email') {
-          console.log('=== OAUTH SIGNIN DETECTED ===');
-          
           // Check if user exists in database by email
           const existingUser = await supabase
             .from('users')
@@ -231,8 +192,6 @@ export const authOptions = {
             .single();
             
           if (existingUser.data) {
-            console.log('=== EXISTING USER FOUND ===', existingUser.data);
-            
             // Check if account is already linked
             const existingAccount = await supabase
               .from('accounts')
@@ -243,10 +202,8 @@ export const authOptions = {
               .single();
               
             if (!existingAccount.data) {
-              console.log('=== MANUALLY LINKING ACCOUNT ===');
-              
               // Manually link the account
-              const { data: linkedAccount, error: linkError } = await supabase
+              await supabase
                 .from('accounts')
                 .insert({
                   user_id: existingUser.data.id,
@@ -260,25 +217,13 @@ export const authOptions = {
                   scope: account.scope,
                   id_token: account.id_token,
                   session_state: account.session_state
-                })
-                .select()
-                .single();
-                
-              if (linkError) {
-                console.error('=== MANUAL LINK ERROR ===', linkError);
-              } else {
-                console.log('=== MANUAL LINK SUCCESS ===', linkedAccount);
-              }
-            } else {
-              console.log('=== ACCOUNT ALREADY LINKED ===');
+                });
             }
           }
         }
         
-        console.log('=== SIGNIN CALLBACK RETURNING TRUE ===');
         return true;
       } catch (error) {
-        console.error('=== SIGNIN CALLBACK ERROR ===');
         console.error('SignIn callback error:', error);
         return false;
       }
