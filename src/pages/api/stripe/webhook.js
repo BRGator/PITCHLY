@@ -77,8 +77,8 @@ export default async function handler(req, res) {
             stripe_customer_id: session.customer,
             stripe_subscription_id: subscription.id,
             proposals_limit: getProposalLimit(detectedTier),
-            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
+            current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             updated_at: new Date().toISOString()
           });
 
@@ -120,8 +120,8 @@ export default async function handler(req, res) {
             tier: status === 'active' ? tier : 'free',
             status: status,
             proposals_limit: status === 'active' ? getProposalLimit(tier) : 3,
-            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
+            current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             updated_at: new Date().toISOString()
           })
           .eq('user_id', userId);
@@ -182,8 +182,8 @@ export default async function handler(req, res) {
               .from('user_subscriptions')
               .update({
                 proposals_used_this_period: 0,
-                current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-                current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                current_period_start: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : new Date().toISOString(),
+                current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
                 updated_at: new Date().toISOString()
               })
               .eq('user_id', userId);
