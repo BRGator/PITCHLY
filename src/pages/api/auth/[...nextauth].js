@@ -36,7 +36,12 @@ export const authOptions = {
       return data;
     },
     async getUserByEmail(email) {
+      console.log('=== GET USER BY EMAIL ===');
+      console.log('Looking for email:', email);
+      
       const { data, error } = await supabase.from('users').select().eq('email', email).single();
+      
+      console.log('getUserByEmail result:', { data, error: error?.message });
       return data;
     },
     async getUserByAccount({ providerAccountId, provider }) {
@@ -213,16 +218,61 @@ export const authOptions = {
         console.log('=== SIGNIN CALLBACK START ===');
         console.log('User:', JSON.stringify(user, null, 2));
         console.log('Account:', JSON.stringify(account, null, 2));
-        console.log('Profile:', JSON.stringify(profile, null, 2));
         
-        // For OAuth providers, ensure the account gets linked properly
+        // For OAuth providers, manually link the account if needed
         if (account?.provider && account.provider !== 'email') {
           console.log('=== OAUTH SIGNIN DETECTED ===');
-          console.log('OAuth sign in attempt:', { 
-            provider: account.provider, 
-            email: user.email,
-            userId: user.id 
-          });
+          
+          // Check if user exists in database by email
+          const existingUser = await supabase
+            .from('users')
+            .select('id')
+            .eq('email', user.email)
+            .single();
+            
+          if (existingUser.data) {
+            console.log('=== EXISTING USER FOUND ===', existingUser.data);
+            
+            // Check if account is already linked
+            const existingAccount = await supabase
+              .from('accounts')
+              .select('id')
+              .eq('user_id', existingUser.data.id)
+              .eq('provider', account.provider)
+              .eq('provider_account_id', account.providerAccountId)
+              .single();
+              
+            if (!existingAccount.data) {
+              console.log('=== MANUALLY LINKING ACCOUNT ===');
+              
+              // Manually link the account
+              const { data: linkedAccount, error: linkError } = await supabase
+                .from('accounts')
+                .insert({
+                  user_id: existingUser.data.id,
+                  type: account.type,
+                  provider: account.provider,
+                  provider_account_id: account.providerAccountId,
+                  refresh_token: account.refresh_token,
+                  access_token: account.access_token,
+                  expires_at: account.expires_at,
+                  token_type: account.token_type,
+                  scope: account.scope,
+                  id_token: account.id_token,
+                  session_state: account.session_state
+                })
+                .select()
+                .single();
+                
+              if (linkError) {
+                console.error('=== MANUAL LINK ERROR ===', linkError);
+              } else {
+                console.log('=== MANUAL LINK SUCCESS ===', linkedAccount);
+              }
+            } else {
+              console.log('=== ACCOUNT ALREADY LINKED ===');
+            }
+          }
         }
         
         console.log('=== SIGNIN CALLBACK RETURNING TRUE ===');
