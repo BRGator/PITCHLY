@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import ProposalStatusManager from '../../components/ProposalStatusManager';
+import { useNotification } from '../../components/Notification';
 import { supabase } from '../../lib/supabase';
 import jsPDF from 'jspdf';
 
@@ -15,6 +16,8 @@ export default function ProposalView() {
   const [proposal, setProposal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [subscription, setSubscription] = useState(null);
+  const { showNotification, NotificationComponent } = useNotification();
 
   // Handle authentication client-side
   useEffect(() => {
@@ -63,7 +66,21 @@ export default function ProposalView() {
       }
     };
 
+    // Fetch subscription data
+    const fetchSubscription = async () => {
+      try {
+        const response = await fetch('/api/subscription/check-limits');
+        const subscriptionData = await response.json();
+        if (response.ok) {
+          setSubscription(subscriptionData.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+      }
+    };
+
     fetchProposal();
+    fetchSubscription();
   }, [session, id]);
 
   const formatDate = (dateString) => {
@@ -76,7 +93,7 @@ export default function ProposalView() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(proposal.content);
-    alert('Proposal copied to clipboard!');
+    showNotification('Proposal copied to clipboard!', 'success');
   };
 
   const handleStatusUpdate = (updatedProposal) => {
@@ -283,6 +300,7 @@ export default function ProposalView() {
               <div className="mt-3">
                 <ProposalStatusManager 
                   proposal={proposal} 
+                  subscription={subscription}
                   onStatusUpdate={handleStatusUpdate}
                 />
               </div>
@@ -370,6 +388,9 @@ export default function ProposalView() {
           </div>
         </div>
       </div>
+      
+      {/* Notifications */}
+      <NotificationComponent />
     </>
   );
 }

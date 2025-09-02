@@ -1,5 +1,11 @@
 import { getSession } from 'next-auth/react';
-import { supabase } from '../../../../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+// Use service role key for server-side operations
+const supabase = createClient(
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 export default async function handler(req, res) {
   if (req.method !== 'PATCH') {
@@ -7,7 +13,11 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('Status update request:', { method: req.method, query: req.query, body: req.body });
+    
     const session = await getSession({ req });
+    console.log('Session check:', { hasSession: !!session, userId: session?.user?.id });
+    
     if (!session?.user?.id) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
@@ -15,17 +25,36 @@ export default async function handler(req, res) {
     const { id: proposalId } = req.query;
     const { status } = req.body;
 
+    console.log('Request data:', { proposalId, status, userId: session.user.id });
+
     if (!status) {
       return res.status(400).json({ error: 'Status is required' });
     }
 
-    const validStatuses = [
+    // Check user subscription to determine allowed statuses
+    const subscriptionResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/subscription/check-limits`, {
+      headers: {
+        'Cookie': req.headers.cookie || ''
+      }
+    });
+    
+    const subscriptionData = subscriptionResponse.ok ? await subscriptionResponse.json() : null;
+    const isProfessional = subscriptionData?.subscription?.tier === 'professional' || 
+                          subscriptionData?.subscription?.tier === 'agency';
+
+    const basicStatuses = ['draft', 'sent', 'viewed'];
+    const enhancedStatuses = [
       'draft', 'sent', 'viewed', 'under_review', 
       'accepted', 'won', 'rejected', 'expired', 'withdrawn'
     ];
 
+    const validStatuses = isProfessional ? enhancedStatuses : basicStatuses;
+
     if (!validStatuses.includes(status)) {
-      return res.status(400).json({ error: 'Invalid status' });
+      console.log('Invalid status provided:', status, 'Valid statuses:', validStatuses, 'isProfessional:', isProfessional);
+      return res.status(400).json({ 
+        error: isProfessional ? 'Invalid status' : 'Upgrade to Professional to access advanced status tracking'
+      });
     }
 
     // Update the proposal status

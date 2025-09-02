@@ -1,10 +1,22 @@
 import { useState } from 'react';
+import { useNotification } from './Notification';
 
-export default function ProposalStatusManager({ proposal, onStatusUpdate }) {
+export default function ProposalStatusManager({ proposal, onStatusUpdate, subscription }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const { showNotification, NotificationComponent } = useNotification();
 
-  const proposalStatuses = [
+  const isProfessional = subscription?.tier === 'professional' || subscription?.tier === 'agency';
+  
+  // Basic statuses for free users
+  const basicStatuses = [
+    { key: 'draft', label: 'Draft', color: 'gray', description: 'Still working on this proposal' },
+    { key: 'sent', label: 'Sent', color: 'blue', description: 'Proposal has been sent to client' },
+    { key: 'viewed', label: 'Viewed', color: 'purple', description: 'Client has viewed the proposal' }
+  ];
+
+  // Enhanced statuses for Professional+ users
+  const enhancedStatuses = [
     { key: 'draft', label: 'Draft', color: 'gray', description: 'Still working on this proposal' },
     { key: 'sent', label: 'Sent', color: 'blue', description: 'Proposal has been sent to client' },
     { key: 'viewed', label: 'Viewed', color: 'purple', description: 'Client has viewed the proposal' },
@@ -15,6 +27,8 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate }) {
     { key: 'expired', label: 'Expired', color: 'gray', description: 'Proposal expired without response' },
     { key: 'withdrawn', label: 'Withdrawn', color: 'gray', description: 'Proposal was withdrawn' }
   ];
+
+  const proposalStatuses = isProfessional ? enhancedStatuses : basicStatuses;
 
   const currentStatus = proposalStatuses.find(s => s.key === proposal?.status) || proposalStatuses[0];
 
@@ -35,9 +49,11 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate }) {
 
       const updatedProposal = await response.json();
       onStatusUpdate?.(updatedProposal);
+      showNotification(`Proposal status updated to "${proposalStatuses.find(s => s.key === newStatus)?.label}"`, 'success');
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Failed to update proposal status. Please try again.');
+      const errorMsg = error.message || 'Failed to update proposal status. Please try again.';
+      showNotification(errorMsg, 'error');
     } finally {
       setIsUpdating(false);
     }
@@ -116,6 +132,36 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate }) {
                     </button>
                   ))}
                 </div>
+                
+                {/* Upgrade prompt for free users */}
+                {!isProfessional && (
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
+                    <div className="px-3 py-2 bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 rounded-md border border-primary-200 dark:border-primary-800">
+                      <div className="flex items-center space-x-2">
+                        <svg className="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 0h12a2 2 0 002-2v-4a2 2 0 00-2-2H6a2 2 0 00-2 2v4a2 2 0 002 2zm10-12a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <div>
+                          <p className="text-sm font-medium text-primary-800 dark:text-primary-200">
+                            Unlock More Statuses
+                          </p>
+                          <p className="text-xs text-primary-700 dark:text-primary-300 mt-1">
+                            Track "Accepted", "Won", "Rejected" and more with Professional
+                          </p>
+                          <button 
+                            onClick={() => {
+                              setShowDropdown(false);
+                              window.location.href = '/upgrade';
+                            }}
+                            className="text-xs text-primary-600 dark:text-primary-400 hover:underline mt-1 font-medium"
+                          >
+                            ⭐ Upgrade Now →
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -129,6 +175,9 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate }) {
           onClick={() => setShowDropdown(false)}
         />
       )}
+      
+      {/* Notification Component */}
+      <NotificationComponent />
     </div>
   );
 }
