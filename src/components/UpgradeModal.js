@@ -88,26 +88,11 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
   ];
 
   const handleUpgrade = async (tier) => {
-    setLoading(true);
-    try {
-      // In a real app, this would create a Stripe checkout session
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier })
-      });
-
-      const { url } = await response.json();
-      if (url) {
-        window.location.href = url;
-      }
-    } catch (error) {
-      console.error('Error starting checkout:', error);
-      // For demo purposes, just show an alert
-      alert('Upgrade feature coming soon! This is a demo.');
-    } finally {
-      setLoading(false);
-    }
+    // Close modal first
+    onClose();
+    
+    // Redirect to upgrade page instead of trying to process payment directly
+    window.location.href = '/upgrade';
   };
 
   return (

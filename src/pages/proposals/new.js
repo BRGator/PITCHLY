@@ -3,17 +3,34 @@ import { useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Navbar from '../../components/Navbar';
+import ProposalTemplates from '../../components/ProposalTemplates';
 
 export default function NewProposal() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Handle authentication client-side
+  // Handle authentication client-side and fetch subscription
   useEffect(() => {
     if (status === 'loading') return;
     if (status === 'unauthenticated') {
       router.push('/auth/signin');
+      return;
     }
+
+    // Fetch subscription data
+    const fetchSubscription = async () => {
+      try {
+        const response = await fetch('/api/subscription/check-limits');
+        const data = await response.json();
+        if (response.ok) {
+          setSubscription(data.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+      }
+    };
+
+    fetchSubscription();
   }, [status, router]);
   const [formData, setFormData] = useState({
     clientName: '',
@@ -24,9 +41,22 @@ export default function NewProposal() {
     timeline: ''
   });
   const [loading, setLoading] = useState(false);
+  const [subscription, setSubscription] = useState(null);
+  const [showTemplates, setShowTemplates] = useState(false);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleTemplateSelect = (templateData) => {
+    setFormData(prev => ({
+      ...prev,
+      projectTitle: templateData.projectTitle || prev.projectTitle,
+      projectDescription: templateData.projectDescription || prev.projectDescription,
+      budget: templateData.budget || prev.budget,
+      timeline: templateData.timeline || prev.timeline
+    }));
+    setShowTemplates(false);
   };
 
   const handleSubmit = async (e) => {
@@ -110,13 +140,36 @@ export default function NewProposal() {
         <div className="max-w-4xl mx-auto p-6">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Create New Proposal
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Fill in the details and let AI generate a winning proposal for you
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                  Create New Proposal
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Fill in the details and let AI generate a winning proposal for you
+                </p>
+              </div>
+              <button
+                onClick={() => setShowTemplates(!showTemplates)}
+                className="btn-ghost flex items-center space-x-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>{showTemplates ? 'Hide Templates' : 'Use Template'}</span>
+              </button>
+            </div>
           </div>
+
+          {/* Templates Section */}
+          {showTemplates && (
+            <div className="mb-8">
+              <ProposalTemplates 
+                onSelectTemplate={handleTemplateSelect}
+                subscription={subscription}
+              />
+            </div>
+          )}
 
           {/* Form */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
