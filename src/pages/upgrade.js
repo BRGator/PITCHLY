@@ -137,7 +137,7 @@ export default function UpgradePage() {
           )}
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div id="pricing-plans" className="grid md:grid-cols-3 gap-8 mb-12">
             {pricingTiers.map((tier) => (
               <div
                 key={tier.name}

@@ -105,7 +105,10 @@ export default function ProposalAnalytics({ subscription }) {
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             Track your proposal performance, conversion rates, and business metrics.
           </p>
-          <button className="btn-primary">
+          <button 
+            onClick={() => window.location.href = '/upgrade'}
+            className="btn-primary"
+          >
             ⭐ Upgrade to Professional
           </button>
         </div>

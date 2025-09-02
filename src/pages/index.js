@@ -618,7 +618,7 @@ export default function Home() {
                   name: "Starter",
                   price: "Free",
                   period: "forever",
-                  features: ["5 proposals per month", "Basic AI templates", "Email support"],
+                  features: ["3 proposals per month", "Basic AI templates", "Email support"],
                   cta: "Get Started",
                   popular: false
                 },

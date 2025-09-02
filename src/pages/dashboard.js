@@ -109,7 +109,13 @@ export default function Dashboard() {
                 feature="analytics"
                 subscription={subscription}
                 className="btn-ghost text-sm"
-                onClick={() => {/* Analytics already shown below */}}
+                onClick={() => {
+                  // Scroll to analytics section
+                  const analyticsSection = document.querySelector('[data-analytics-section]');
+                  if (analyticsSection) {
+                    analyticsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 📊 Analytics
               </FeatureButton>
@@ -155,7 +161,7 @@ export default function Dashboard() {
         </div>
 
         {/* Analytics Section */}
-        <div className="mb-8">
+        <div className="mb-8" data-analytics-section>
           <ProposalAnalytics subscription={subscription} />
         </div>
 

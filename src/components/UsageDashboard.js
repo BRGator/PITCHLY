@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function UsageDashboard() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [usage, setUsage] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -55,6 +57,19 @@ export default function UsageDashboard() {
 
   const isNearLimit = !usageData.unlimited && usageData.remaining <= 1;
   const isAtLimit = !usageData.unlimited && usageData.remaining === 0;
+
+  const handleUpgradeClick = () => {
+    // If we're on the upgrade page, scroll to pricing section
+    if (router.pathname === '/upgrade') {
+      const pricingSection = document.getElementById('pricing-plans');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Otherwise, navigate to upgrade page
+      router.push('/upgrade');
+    }
+  };
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -143,12 +158,12 @@ export default function UsageDashboard() {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
               Get unlimited proposals and advanced features
             </p>
-            <Link 
-              href="/upgrade" 
+            <button 
+              onClick={handleUpgradeClick}
               className="btn-primary text-sm"
             >
               ⭐ Upgrade to Professional
-            </Link>
+            </button>
           </div>
         </div>
       ) : (
