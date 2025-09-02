@@ -88,7 +88,7 @@ export default async function handler(req, res) {
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object;
-        const userId = subscription.metadata?.userId;
+        let userId = subscription.metadata?.userId;
         
         if (!userId) {
           // Try to find user by customer ID
@@ -132,7 +132,7 @@ export default async function handler(req, res) {
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object;
-        const userId = subscription.metadata?.userId;
+        let userId = subscription.metadata?.userId;
 
         if (!userId) {
           // Try to find user by customer ID
