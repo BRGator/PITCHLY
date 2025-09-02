@@ -94,15 +94,11 @@ export const authOptions = {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
     async linkAccount(account) {
-      console.log('Attempting to link account:', {
-        userId: account.userId,
-        provider: account.provider,
-        providerAccountId: account.providerAccountId
-      });
-      
-      const { data, error } = await supabase
-        .from('accounts')
-        .insert({
+      try {
+        console.log('=== LINK ACCOUNT START ===');
+        console.log('Full account object:', JSON.stringify(account, null, 2));
+        
+        const accountData = {
           user_id: account.userId,
           type: account.type,
           provider: account.provider,
@@ -114,17 +110,31 @@ export const authOptions = {
           scope: account.scope,
           id_token: account.id_token,
           session_state: account.session_state
-        })
-        .select()
-        .single();
+        };
         
-      if (error) {
-        console.error('Error linking account:', error);
+        console.log('Inserting account data:', JSON.stringify(accountData, null, 2));
+        
+        const { data, error } = await supabase
+          .from('accounts')
+          .insert(accountData)
+          .select()
+          .single();
+          
+        if (error) {
+          console.error('=== LINK ACCOUNT ERROR ===');
+          console.error('Supabase error:', JSON.stringify(error, null, 2));
+          throw error;
+        }
+        
+        console.log('=== LINK ACCOUNT SUCCESS ===');
+        console.log('Account linked successfully:', JSON.stringify(data, null, 2));
+        return data;
+        
+      } catch (error) {
+        console.error('=== LINK ACCOUNT CATCH ===');
+        console.error('Caught error:', error);
         throw error;
       }
-      
-      console.log('Account linked successfully:', data);
-      return data;
     },
     async unlinkAccount({ providerAccountId, provider }) {
       await supabase
@@ -200,16 +210,25 @@ export const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
+        console.log('=== SIGNIN CALLBACK START ===');
+        console.log('User:', JSON.stringify(user, null, 2));
+        console.log('Account:', JSON.stringify(account, null, 2));
+        console.log('Profile:', JSON.stringify(profile, null, 2));
+        
         // For OAuth providers, ensure the account gets linked properly
         if (account?.provider && account.provider !== 'email') {
+          console.log('=== OAUTH SIGNIN DETECTED ===');
           console.log('OAuth sign in attempt:', { 
             provider: account.provider, 
             email: user.email,
             userId: user.id 
           });
         }
+        
+        console.log('=== SIGNIN CALLBACK RETURNING TRUE ===');
         return true;
       } catch (error) {
+        console.error('=== SIGNIN CALLBACK ERROR ===');
         console.error('SignIn callback error:', error);
         return false;
       }
