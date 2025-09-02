@@ -7,6 +7,9 @@ import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
+import UsageDashboard from '../components/UsageDashboard';
+import ProposalAnalytics from '../components/ProposalAnalytics';
+import { FeatureButton } from '../components/FeatureGate';
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -14,6 +17,7 @@ export default function Dashboard() {
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [originalProposalIds, setOriginalProposalIds] = useState(new Set());
+  const [subscription, setSubscription] = useState(null);
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -40,6 +44,7 @@ export default function Dashboard() {
       }
 
 
+      // Fetch proposals
       const { data, error } = await supabase
         .from('proposals')
         .select('*')
@@ -59,6 +64,17 @@ export default function Dashboard() {
           }
         });
         setOriginalProposalIds(originalIds);
+      }
+
+      // Fetch subscription data
+      try {
+        const response = await fetch('/api/subscription/check-limits');
+        const subscriptionData = await response.json();
+        if (response.ok) {
+          setSubscription(subscriptionData.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
       }
 
       setLoading(false);
@@ -86,14 +102,24 @@ export default function Dashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6 sticky top-20 z-40">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-              Your Proposals
+              Your Dashboard
             </h2>
-            <Link 
-              href="/proposals/new" 
-              className="btn-primary"
-            >
-              ✨ Create New Proposal
-            </Link>
+            <div className="flex items-center space-x-3">
+              <FeatureButton
+                feature="analytics"
+                subscription={subscription}
+                className="btn-ghost text-sm"
+                onClick={() => {/* Analytics already shown below */}}
+              >
+                📊 Analytics
+              </FeatureButton>
+              <Link 
+                href="/proposals/new" 
+                className="btn-primary"
+              >
+                ✨ Create New Proposal
+              </Link>
+            </div>
           </div>
         </div>
         
@@ -123,8 +149,26 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Usage Dashboard */}
+        <div className="mb-8">
+          <UsageDashboard />
+        </div>
+
+        {/* Analytics Section */}
+        <div className="mb-8">
+          <ProposalAnalytics subscription={subscription} />
+        </div>
+
         {/* Proposals Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Recent Proposals
+            </h3>
+            <Link href="/proposals" className="text-primary-600 dark:text-primary-400 hover:underline text-sm">
+              View All →
+            </Link>
+          </div>
 
           {proposals.length === 0 ? (
             <div className="text-center py-8">

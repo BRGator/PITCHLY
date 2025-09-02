@@ -26,6 +26,31 @@ export default async function handler(req, res) {
   }
 
   console.log('User session:', session.user.id);
+  
+  // Check if user can create proposal (subscription limits)
+  const { data: canCreate, error: limitError } = await supabase
+    .rpc('can_create_proposal', { p_user_id: session.user.id });
+    
+  if (limitError) {
+    console.error('Error checking limits:', limitError);
+    return res.status(500).json({ message: 'Failed to check subscription limits' });
+  }
+  
+  if (!canCreate) {
+    // Get subscription info for error message
+    const { data: subscription } = await supabase
+      .from('user_subscriptions')
+      .select('tier, proposals_limit, proposals_used_this_period')
+      .eq('user_id', session.user.id)
+      .single();
+      
+    return res.status(403).json({ 
+      message: 'Proposal limit reached',
+      details: `You've reached your monthly limit of ${subscription?.proposals_limit || 3} proposals. Upgrade to Professional for unlimited proposals.`,
+      subscription: subscription,
+      upgradeRequired: true
+    });
+  }
 
   const { clientName, clientEmail, projectTitle, projectDescription, budget, timeline } = req.body;
 
@@ -141,6 +166,24 @@ Generate a complete, ready-to-send proposal:`;
     }
 
     console.log('Proposal saved successfully:', savedProposal?.id);
+    
+    // Update usage count
+    await supabase
+      .from('user_subscriptions')
+      .update({ 
+        proposals_used_this_period: supabase.raw('proposals_used_this_period + 1'),
+        updated_at: new Date().toISOString()
+      })
+      .eq('user_id', session.user.id);
+      
+    // Track usage for analytics
+    await supabase
+      .from('proposal_usage')
+      .insert({
+        user_id: session.user.id,
+        proposal_id: savedProposal?.id,
+        action: 'created'
+      });
 
     res.status(200).json({
       success: true,
