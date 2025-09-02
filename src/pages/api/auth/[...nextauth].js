@@ -11,6 +11,8 @@ const supabase = createClient(
 );
 
 export const authOptions = {
+  // Enable automatic account linking for same email addresses
+  allowDangerousEmailAccountLinking: true,
   adapter: {
     async createUser(user) {
       const { data, error } = await supabase
@@ -170,8 +172,9 @@ export const authOptions = {
     error: '/auth/error'
   },
   callbacks: {
-    async signIn({ user }) {
-      // User creation handled by adapter
+    async signIn({ user, account, profile }) {
+      // Allow account linking - this handles the case where a user
+      // signs up with email and later tries to sign in with Google
       return true;
     },
     async session({ session, token }) {
