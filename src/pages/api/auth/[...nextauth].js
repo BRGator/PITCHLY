@@ -4,10 +4,10 @@ import AppleProvider from 'next-auth/providers/apple';
 import EmailProvider from 'next-auth/providers/email';
 import { createClient } from '@supabase/supabase-js';
 
-// Create direct Supabase client for adapter
+// Create direct Supabase client for adapter using service role key
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zthdmjgwuqwlgxmrdirw.supabase.co',
-  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aGRtamd3dXF3bGd4bXJkaXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzAzMTEsImV4cCI6MjA3MjEwNjMxMX0.apb12xES_fbqNAo30TZfxvqnhS6n78Ac5HKkmqrgWEA'
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aGRtamd3dXF3bGd4bXJkaXJ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzAzMTEsImV4cCI6MjA3MjEwNjMxMX0.apb12xES_fbqNAo30TZfxvqnhS6n78Ac5HKkmqrgWEA'
 );
 
 export const authOptions = {
@@ -15,12 +15,20 @@ export const authOptions = {
   allowDangerousEmailAccountLinking: true,
   adapter: {
     async createUser(user) {
+      console.log('Creating user:', { name: user.name, email: user.email });
+      
       const { data, error } = await supabase
         .from('users')
         .insert({ name: user.name, email: user.email, image: user.image })
         .select()
         .single();
-      if (error) throw error;
+        
+      if (error) {
+        console.error('Error creating user:', error);
+        throw error;
+      }
+      
+      console.log('User created successfully:', { id: data.id, email: data.email });
       return { id: data.id, ...data };
     },
     async getUser(id) {
@@ -86,6 +94,12 @@ export const authOptions = {
       await supabase.from('sessions').delete().eq('session_token', sessionToken);
     },
     async linkAccount(account) {
+      console.log('Attempting to link account:', {
+        userId: account.userId,
+        provider: account.provider,
+        providerAccountId: account.providerAccountId
+      });
+      
       const { data, error } = await supabase
         .from('accounts')
         .insert({
@@ -103,7 +117,13 @@ export const authOptions = {
         })
         .select()
         .single();
-      if (error) throw error;
+        
+      if (error) {
+        console.error('Error linking account:', error);
+        throw error;
+      }
+      
+      console.log('Account linked successfully:', data);
       return data;
     },
     async unlinkAccount({ providerAccountId, provider }) {
