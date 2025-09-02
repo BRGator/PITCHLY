@@ -1,4 +1,5 @@
-import { getSession } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth/next';
+import { authOptions } from '../../auth/[...nextauth]';
 import { createClient } from '@supabase/supabase-js';
 
 // Use service role key for server-side operations
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
   try {
     console.log('Status update request:', { method: req.method, query: req.query, body: req.body });
     
-    const session = await getSession({ req });
+    const session = await unstable_getServerSession(req, res, authOptions);
     console.log('Session check:', { hasSession: !!session, userId: session?.user?.id });
     
     if (!session?.user?.id) {
@@ -32,15 +33,14 @@ export default async function handler(req, res) {
     }
 
     // Check user subscription to determine allowed statuses
-    const subscriptionResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/subscription/check-limits`, {
-      headers: {
-        'Cookie': req.headers.cookie || ''
-      }
-    });
-    
-    const subscriptionData = subscriptionResponse.ok ? await subscriptionResponse.json() : null;
-    const isProfessional = subscriptionData?.subscription?.tier === 'professional' || 
-                          subscriptionData?.subscription?.tier === 'agency';
+    const { data: subscription } = await supabase
+      .from('user_subscriptions')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .single();
+
+    const isProfessional = subscription?.tier === 'professional' || subscription?.tier === 'agency';
+    console.log('Subscription check:', { subscription, isProfessional });
 
     const basicStatuses = ['draft', 'sent', 'viewed'];
     const enhancedStatuses = [
