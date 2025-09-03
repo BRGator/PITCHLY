@@ -5,12 +5,15 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import UsageDashboard from '../components/UsageDashboard';
+import EmbeddedCheckout from '../components/EmbeddedCheckout';
 
 export default function UpgradePage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState(null);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedTier, setSelectedTier] = useState(null);
 
   // Fetch user's subscription if logged in
   useEffect(() => {
@@ -46,33 +49,20 @@ export default function UpgradePage() {
       return;
     }
 
-    setLoading(true);
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier })
-      });
+    // Show embedded checkout instead of redirecting
+    setSelectedTier(tier);
+    setShowCheckout(true);
+  };
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create checkout session');
-      }
+  const handleCheckoutSuccess = () => {
+    setShowCheckout(false);
+    setSelectedTier(null);
+    router.push('/dashboard');
+  };
 
-      const data = await response.json();
-      
-      if (data.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
-      } else {
-        throw new Error('No checkout URL received');
-      }
-    } catch (error) {
-      console.error('Error starting checkout:', error);
-      alert(`Error: ${error.message}\n\nPlease ensure your Stripe credentials are configured correctly.`);
-    } finally {
-      setLoading(false);
-    }
+  const handleCheckoutCancel = () => {
+    setShowCheckout(false);
+    setSelectedTier(null);
   };
 
   // Check if a plan is the user's current plan
@@ -139,6 +129,44 @@ export default function UpgradePage() {
       ]
     }
   ];
+
+  // Show embedded checkout if selected
+  if (showCheckout && selectedTier) {
+    return (
+      <>
+        <Head>
+          <title>Checkout - PITCHLY</title>
+        </Head>
+
+        <Navbar />
+        
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16">
+          <div className="max-w-4xl mx-auto p-6">
+            <div className="mb-6">
+              <button 
+                onClick={handleCheckoutCancel}
+                className="btn-ghost mb-4"
+              >
+                ← Back to Plans
+              </button>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                Upgrade to {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Complete your subscription upgrade to unlock all premium features
+              </p>
+            </div>
+
+            <EmbeddedCheckout 
+              tier={selectedTier}
+              onSuccess={handleCheckoutSuccess}
+              onCancel={handleCheckoutCancel}
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

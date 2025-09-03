@@ -3,12 +3,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useNotification } from './Notification';
 import Link from 'next/link';
+import EmbeddedBillingPortal from './EmbeddedBillingPortal';
 
 export default function UsageDashboard() {
   const { data: session } = useSession();
   const router = useRouter();
   const [usage, setUsage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showBillingPortal, setShowBillingPortal] = useState(false);
   const { showNotification, NotificationComponent } = useNotification();
 
   useEffect(() => {
@@ -176,27 +178,7 @@ export default function UsageDashboard() {
                 Manage your subscription and billing
               </div>
               <button 
-                onClick={async () => {
-                  try {
-                    const response = await fetch('/api/stripe/billing-portal', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' }
-                    });
-                    const data = await response.json();
-                    if (data.url) {
-                      window.location.href = data.url;
-                    } else {
-                      if (data.action === 'upgrade') {
-                        showNotification(data.message + ' Click here to upgrade.', 'warning');
-                      } else {
-                        showNotification(data.message || 'Unable to access billing portal', 'error');
-                      }
-                    }
-                  } catch (error) {
-                    console.error('Billing portal error:', error);
-                    showNotification('Unable to access billing portal. Please try again.', 'error');
-                  }
-                }}
+                onClick={() => setShowBillingPortal(true)}
                 className="btn-ghost text-sm"
               >
                 💳 Manage Billing
@@ -222,27 +204,7 @@ export default function UsageDashboard() {
               Manage your subscription and billing
             </div>
             <button 
-              onClick={async () => {
-                try {
-                  const response = await fetch('/api/stripe/billing-portal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                  });
-                  const data = await response.json();
-                  if (data.url) {
-                    window.location.href = data.url;
-                  } else {
-                    if (data.action === 'upgrade') {
-                      showNotification(data.message + ' Click here to upgrade.', 'warning');
-                    } else {
-                      showNotification(data.message || 'Unable to access billing portal', 'error');
-                    }
-                  }
-                } catch (error) {
-                  console.error('Billing portal error:', error);
-                  showNotification('Unable to access billing portal. Please try again.', 'error');
-                }
-              }}
+              onClick={() => setShowBillingPortal(true)}
               className="btn-ghost text-sm"
             >
               💳 Manage Billing
@@ -258,6 +220,32 @@ export default function UsageDashboard() {
             {subscription.tier === 'free' ? 'Usage resets' : 'Next billing period'}: {' '}
             {new Date(subscription.current_period_end).toLocaleDateString()}
           </p>
+        </div>
+      )}
+      
+      {/* Embedded Billing Portal Modal */}
+      {showBillingPortal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Billing Management
+                </h2>
+                <button 
+                  onClick={() => setShowBillingPortal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <EmbeddedBillingPortal />
+            </div>
+          </div>
         </div>
       )}
       
