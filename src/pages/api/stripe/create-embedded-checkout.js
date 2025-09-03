@@ -20,6 +20,7 @@ export default async function handler(req, res) {
 
   try {
     const { tier } = req.body;
+    console.log('Creating embedded checkout for tier:', tier);
     
     // Get the price ID based on tier
     let priceId;
@@ -31,14 +32,23 @@ export default async function handler(req, res) {
         priceId = process.env.STRIPE_AGENCY_PRICE_ID;
         break;
       default:
+        console.error('Invalid tier provided:', tier);
         return res.status(400).json({ error: 'Invalid tier' });
     }
 
+    console.log('Using price ID:', priceId ? 'configured' : 'missing');
     if (!priceId) {
-      return res.status(500).json({ error: 'Price ID not configured' });
+      return res.status(500).json({ error: 'Price ID not configured for tier: ' + tier });
     }
 
     // Create embedded checkout session
+    console.log('Creating Stripe checkout session with:', {
+      priceId,
+      userId: session.user.id,
+      email: session.user.email,
+      tier
+    });
+
     const checkoutSession = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items: [
@@ -59,6 +69,11 @@ export default async function handler(req, res) {
         },
       },
       return_url: `${process.env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    });
+
+    console.log('Stripe checkout session created:', {
+      id: checkoutSession.id,
+      hasClientSecret: !!checkoutSession.client_secret
     });
 
     res.status(200).json({ 

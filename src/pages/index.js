@@ -56,8 +56,16 @@ export default function Home() {
     }
 
     // For paid plans, show embedded checkout
-    console.log('Setting tier and showing checkout:', planName.toLowerCase());
-    setSelectedTier(planName.toLowerCase());
+    // Map plan names to correct tier names for API
+    let tierName = planName.toLowerCase();
+    if (planName === 'Professional') {
+      tierName = 'professional';
+    } else if (planName === 'Agency') {
+      tierName = 'agency';
+    }
+    
+    console.log('Setting tier and showing checkout:', planName, '->', tierName);
+    setSelectedTier(tierName);
     setShowCheckout(true);
   };
 

@@ -18,6 +18,13 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
+
+# Sensitive configuration files
+*.key
+*.pem
+*.p12
+config/secrets.*
 
 # Logs
 *.log
