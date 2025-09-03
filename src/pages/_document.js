@@ -12,11 +12,11 @@ export default function Document() {
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         
-        {/* Theme colors for mobile browsers - supports both light and dark */}
-        <meta name="theme-color" content="#3B82F6" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#1F2937" media="(prefers-color-scheme: dark)" />
-        <meta name="msapplication-navbutton-color" content="#3B82F6" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {/* Theme colors for mobile browsers - matches app background gradient */}
+        <meta name="theme-color" content="#f1f4f8" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+        <meta name="msapplication-navbutton-color" content="#f1f4f8" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         
         {/* Manifest for PWA */}
         <link rel="manifest" href="/site.webmanifest" />
