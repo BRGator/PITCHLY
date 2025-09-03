@@ -168,6 +168,53 @@ export default function UsageDashboard() {
             </button>
           </div>
         </div>
+      ) : subscription?.tier === 'professional' ? (
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="flex flex-col space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Manage your subscription and billing
+              </div>
+              <button 
+                onClick={async () => {
+                  try {
+                    const response = await fetch('/api/stripe/billing-portal', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    } else {
+                      if (data.action === 'upgrade') {
+                        showNotification(data.message + ' Click here to upgrade.', 'warning');
+                      } else {
+                        showNotification(data.message || 'Unable to access billing portal', 'error');
+                      }
+                    }
+                  } catch (error) {
+                    console.error('Billing portal error:', error);
+                    showNotification('Unable to access billing portal. Please try again.', 'error');
+                  }
+                }}
+                className="btn-ghost text-sm"
+              >
+                💳 Manage Billing
+              </button>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                Need more power? Upgrade to Agency for unlimited proposals and team features
+              </p>
+              <button 
+                onClick={handleUpgradeClick}
+                className="btn-secondary text-sm"
+              >
+                🚀 Upgrade to Agency
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
           <div className="flex items-center justify-between">

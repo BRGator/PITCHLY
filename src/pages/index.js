@@ -8,9 +8,63 @@ import ProposalForm from '../components/ProposalForm';
 export default function Home() {
   const { data: session } = useSession();
   const [showDemo, setShowDemo] = useState(false);
+  const [subscription, setSubscription] = useState(null);
   const [expandedFeature, setExpandedFeature] = useState(null);
   const [contractingFeature, setContractingFeature] = useState(null);
   const [hoverTimer, setHoverTimer] = useState(null);
+
+  // Fetch user's subscription if logged in
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      if (!session?.user?.id) {
+        setSubscription(null);
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/subscription/check-limits');
+        const data = await response.json();
+        if (response.ok) {
+          setSubscription(data.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+      }
+    };
+
+    fetchSubscription();
+  }, [session]);
+
+  // Handle pricing plan clicks
+  const handlePlanClick = (planName) => {
+    if (!session) {
+      // Not logged in - redirect to signin
+      signIn();
+      return;
+    }
+
+    // User is logged in
+    if (planName === 'Starter') {
+      // Free plan - go to dashboard
+      window.location.href = '/dashboard';
+    } else {
+      // Paid plans - go to upgrade page for proper Stripe checkout
+      window.location.href = '/upgrade';
+    }
+  };
+
+  // Check if a plan is the user's current plan
+  const isCurrentPlan = (planName) => {
+    if (!subscription) return false;
+    
+    const tierMapping = {
+      'Starter': 'free',
+      'Professional': 'professional', 
+      'Agency': 'agency'
+    };
+    
+    return subscription.tier === tierMapping[planName];
+  };
 
   // Luxury icon component for expanded features
   const LuxuryIcon = ({ type, className = "w-5 h-5" }) => {
@@ -639,8 +693,19 @@ export default function Home() {
                   popular: false
                 }
               ].map((plan, index) => (
-                <div key={index} className={`card-premium p-8 relative ${plan.popular ? 'ring-4 ring-primary-500 animate-glow' : ''} flex flex-col h-full`}>
-                  {plan.popular && (
+                <div key={index} className={`card-premium p-8 relative ${
+                  isCurrentPlan(plan.name) 
+                    ? 'ring-4 ring-green-500 bg-green-50 dark:bg-green-900/10' 
+                    : plan.popular 
+                      ? 'ring-4 ring-primary-500 animate-glow' 
+                      : ''
+                } flex flex-col h-full`}>
+                  {isCurrentPlan(plan.name) && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                      Current Plan
+                    </div>
+                  )}
+                  {plan.popular && !isCurrentPlan(plan.name) && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                       Most Popular
                     </div>
@@ -662,10 +727,17 @@ export default function Home() {
                       ))}
                     </ul>
                     <button
-                      onClick={() => signIn()}
-                      className={`${plan.popular ? 'btn-primary' : 'btn-secondary'} w-full mt-auto`}
+                      onClick={() => handlePlanClick(plan.name)}
+                      disabled={isCurrentPlan(plan.name)}
+                      className={`w-full mt-auto transition-all duration-200 ${
+                        isCurrentPlan(plan.name)
+                          ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                          : plan.popular 
+                            ? 'btn-primary' 
+                            : 'btn-secondary'
+                      }`}
                     >
-                      {plan.cta}
+                      {isCurrentPlan(plan.name) ? 'Current Plan' : session ? (plan.name === 'Starter' ? 'Switch to Free' : 'Upgrade Now') : plan.cta}
                     </button>
                   </div>
                 </div>
