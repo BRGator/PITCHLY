@@ -4,6 +4,7 @@ import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import ProposalForm from '../components/ProposalForm';
+import EmbeddedCheckout from '../components/EmbeddedCheckout';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -12,6 +13,8 @@ export default function Home() {
   const [expandedFeature, setExpandedFeature] = useState(null);
   const [contractingFeature, setContractingFeature] = useState(null);
   const [hoverTimer, setHoverTimer] = useState(null);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedTier, setSelectedTier] = useState(null);
 
   // Fetch user's subscription if logged in
   useEffect(() => {
@@ -50,32 +53,20 @@ export default function Home() {
       return;
     }
 
-    // For paid plans, go directly to Stripe checkout
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: planName.toLowerCase() })
-      });
+    // For paid plans, show embedded checkout
+    setSelectedTier(planName.toLowerCase());
+    setShowCheckout(true);
+  };
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create checkout session');
-      }
+  const handleCheckoutSuccess = () => {
+    setShowCheckout(false);
+    setSelectedTier(null);
+    window.location.href = '/dashboard';
+  };
 
-      const data = await response.json();
-      
-      if (data.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
-      } else {
-        throw new Error('No checkout URL received');
-      }
-    } catch (error) {
-      console.error('Error starting checkout:', error);
-      // Fallback to upgrade page if checkout fails
-      window.location.href = '/upgrade';
-    }
+  const handleCheckoutCancel = () => {
+    setShowCheckout(false);
+    setSelectedTier(null);
   };
 
   // Check if a plan is the user's current plan
@@ -844,6 +835,36 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Embedded Checkout Modal */}
+      {showCheckout && selectedTier && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Upgrade to {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}
+                </h2>
+                <button 
+                  onClick={handleCheckoutCancel}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <EmbeddedCheckout 
+                tier={selectedTier}
+                onSuccess={handleCheckoutSuccess}
+                onCancel={handleCheckoutCancel}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
