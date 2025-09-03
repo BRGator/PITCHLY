@@ -3,6 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import AppleProvider from 'next-auth/providers/apple';
 import EmailProvider from 'next-auth/providers/email';
 import { createClient } from '@supabase/supabase-js';
+import { createTransporter } from 'nodemailer';
 
 // Create direct Supabase client for adapter using service role key
 const supabase = createClient(
@@ -163,8 +164,6 @@ export const authOptions = {
       maxAge: 24 * 60 * 60, // 24 hours
       sendVerificationRequest: async ({ identifier: email, url, provider }) => {
         // Custom email template to encourage same-tab behavior
-        const { createTransporter } = await import('nodemailer');
-        
         const transport = createTransporter(provider.server);
         
         await transport.sendMail({
@@ -203,7 +202,7 @@ export const authOptions = {
                     
                     <div style="text-align: center; margin: 40px 0;">
                       <a href="${url}" 
-                         target="_self"
+                         id="signin-link"
                          style="display: inline-block; background: linear-gradient(135deg, #3B82F6, #1D4ED8); color: white; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s;">
                         ✨ Sign in to PITCHLY
                       </a>
@@ -225,14 +224,33 @@ export const authOptions = {
                 
                 <!-- JavaScript to encourage same-tab behavior -->
                 <script>
-                  // If this email is opened in a webview, try to open in same tab
                   document.addEventListener('DOMContentLoaded', function() {
-                    const link = document.querySelector('a[href*="api/auth"]');
+                    const link = document.getElementById('signin-link');
                     if (link) {
+                      // Multiple strategies to ensure same-tab behavior
+                      link.removeAttribute('target');
+                      
                       link.addEventListener('click', function(e) {
-                        // Force same window behavior
-                        window.location.href = this.href;
                         e.preventDefault();
+                        
+                        // Try multiple methods to navigate in same tab
+                        try {
+                          // Method 1: window.location (most reliable)
+                          window.location.href = this.href;
+                        } catch (error) {
+                          // Method 2: fallback to window.open with _self
+                          try {
+                            window.open(this.href, '_self');
+                          } catch (error2) {
+                            // Method 3: fallback to creating a new link element
+                            const newLink = document.createElement('a');
+                            newLink.href = this.href;
+                            newLink.target = '_self';
+                            document.body.appendChild(newLink);
+                            newLink.click();
+                            document.body.removeChild(newLink);
+                          }
+                        }
                       });
                     }
                   });
