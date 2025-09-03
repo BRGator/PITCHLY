@@ -1,9 +1,12 @@
 // Analytics Dashboard for Proposal Data
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRegional } from './RegionalProvider';
+import { formatCurrency } from '../lib/regionalization';
 
 export default function ProposalAnalytics() {
   const { data: session } = useSession();
+  const { region } = useRegional();
   const [analytics, setAnalytics] = useState({
     totalProposals: 0,
     totalValue: 0,
@@ -50,13 +53,8 @@ export default function ProposalAnalytics() {
     );
   }
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount || 0);
+  const formatRegionalCurrency = (amount) => {
+    return formatCurrency(amount || 0, region);
   };
 
   return (
@@ -83,7 +81,7 @@ export default function ProposalAnalytics() {
 
         <div className="card-premium p-6 text-center">
           <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-            {formatCurrency(analytics.totalValue)}
+            {formatRegionalCurrency(analytics.totalValue)}
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Total Proposal Value
@@ -92,7 +90,7 @@ export default function ProposalAnalytics() {
 
         <div className="card-premium p-6 text-center">
           <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-            {formatCurrency(analytics.averageValue)}
+            {formatRegionalCurrency(analytics.averageValue)}
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Average Value
@@ -149,7 +147,7 @@ export default function ProposalAnalytics() {
                       {data.count} ({data.percentage}%)
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {formatCurrency(data.avgValue)} avg
+                      {formatRegionalCurrency(data.avgValue)} avg
                     </div>
                   </div>
                 </div>
@@ -179,7 +177,7 @@ export default function ProposalAnalytics() {
                     {data.count} ({data.percentage}%)
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {formatCurrency(data.avgValue)} avg
+                    {formatRegionalCurrency(data.avgValue)} avg
                   </div>
                 </div>
               </div>
@@ -209,7 +207,7 @@ export default function ProposalAnalytics() {
                     {data.count} ({data.percentage}%)
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {formatCurrency(data.avgValue)} avg value
+                    {formatRegionalCurrency(data.avgValue)} avg value
                   </div>
                 </div>
               </div>
@@ -251,10 +249,10 @@ export default function ProposalAnalytics() {
                     {month.proposalCount}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
-                    {formatCurrency(month.totalValue)}
+                    {formatRegionalCurrency(month.totalValue)}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
-                    {formatCurrency(month.avgValue)}
+                    {formatRegionalCurrency(month.avgValue)}
                   </td>
                 </tr>
               ))}

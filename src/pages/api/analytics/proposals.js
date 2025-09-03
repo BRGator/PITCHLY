@@ -162,6 +162,10 @@ function calculateAnalytics(proposals) {
     colorIndex++;
   });
 
+  // Calculate win rate
+  const wonProposals = proposals.filter(p => p.status === 'won' || p.status === 'accepted').length;
+  const conversionRate = totalProposals > 0 ? Math.round((wonProposals / totalProposals) * 100) : 0;
+
   // Top insights
   const topPricingUnit = Object.entries(budgetBreakdown)
     .sort(([,a], [,b]) => b.count - a.count)[0]?.[0]?.replace('-', ' ') || 'N/A';
@@ -179,6 +183,6 @@ function calculateAnalytics(proposals) {
     monthlyTrends,
     topPricingUnit,
     topTimeline,
-    conversionRate: 0 // TODO: Implement when we add proposal status tracking
+    conversionRate
   };
 }

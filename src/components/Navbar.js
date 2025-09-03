@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import DarkModeToggle from './DarkModeToggle';
+import RegionSelector from './RegionSelector';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -67,6 +68,7 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
+            <RegionSelector variant="compact" />
             <DarkModeToggle />
             
             {status === 'loading' ? (

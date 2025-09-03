@@ -84,6 +84,80 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     onSelectTemplate(template.template_data);
   };
 
+  // Advanced templates for Professional+ users
+  const advancedTemplates = [
+    {
+      id: 'enterprise-consulting',
+      name: 'Enterprise Consulting Package',
+      description: 'Comprehensive enterprise-level consulting and strategy development',
+      template_data: {
+        projectTitle: 'Enterprise Digital Transformation & Strategic Consulting',
+        projectDescription: 'End-to-end enterprise consulting including digital transformation roadmap, organizational change management, technology stack optimization, process reengineering, stakeholder alignment, executive coaching, and implementation oversight. Includes competitive analysis, market research, regulatory compliance review, and 12-month strategic planning with quarterly business reviews.',
+        budgetAmount: '45000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '6-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'saas-development',
+      name: 'SaaS Platform Development',
+      description: 'Full-stack SaaS application with advanced features',
+      template_data: {
+        projectTitle: 'Custom SaaS Platform Development & Launch',
+        projectDescription: 'Complete SaaS platform development including user authentication, subscription billing, admin dashboard, API development, third-party integrations, automated testing, security implementation, scalable cloud infrastructure, monitoring setup, and go-to-market support. Includes user onboarding flows, analytics dashboard, multi-tenant architecture, and compliance features.',
+        budgetAmount: '85000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '8-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'brand-transformation',
+      name: 'Complete Brand Transformation',
+      description: 'Full brand overhaul with marketing strategy and implementation',
+      template_data: {
+        projectTitle: 'Complete Brand Transformation & Market Repositioning',
+        projectDescription: 'Comprehensive brand transformation including market research, brand strategy development, visual identity redesign, messaging framework, website redesign, marketing collateral creation, social media strategy, PR campaign launch, and brand guidelines documentation. Includes stakeholder workshops, customer journey mapping, competitive positioning, and 6-month post-launch optimization.',
+        budgetAmount: '25000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '4-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'ecommerce-platform',
+      name: 'Enterprise E-commerce Platform',
+      description: 'Advanced e-commerce solution with custom features',
+      template_data: {
+        projectTitle: 'Enterprise E-commerce Platform with Custom Integrations',
+        projectDescription: 'Advanced e-commerce platform development including custom product configurators, inventory management system, multi-channel selling, automated marketing workflows, advanced analytics, payment processing, shipping integrations, customer portal, and admin dashboard. Includes mobile optimization, performance optimization, SEO implementation, and staff training.',
+        budgetAmount: '65000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '5-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'data-analytics',
+      name: 'Enterprise Data & Analytics',
+      description: 'Custom data platform with advanced analytics and reporting',
+      template_data: {
+        projectTitle: 'Enterprise Data Analytics Platform & Business Intelligence',
+        projectDescription: 'Custom data analytics platform including data warehouse design, ETL pipeline development, real-time dashboard creation, predictive analytics implementation, automated reporting system, data visualization, machine learning integration, and executive reporting suite. Includes data governance framework, security implementation, and team training on analytics tools.',
+        budgetAmount: '55000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '7-months',
+        timelineDeadline: ''
+      }
+    }
+  ];
+
   // Built-in templates for all users - Updated with structured fields
   const builtInTemplates = [
     {
@@ -195,6 +269,43 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
           </button>
         )}
       </div>
+
+      {/* Advanced Templates (Professional+ only) */}
+      {isProfessional && (
+        <div className="mb-8">
+          <h4 className="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">
+            ⭐ Advanced Templates
+            <span className="ml-2 text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded">
+              Professional
+            </span>
+          </h4>
+          <div className="grid gap-3">
+            {advancedTemplates.map(template => (
+              <div
+                key={template.id}
+                className="p-4 border border-purple-200 dark:border-purple-700 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:border-purple-300 dark:hover:border-purple-600 cursor-pointer transition-colors"
+                onClick={() => handleTemplateSelect(template)}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h5 className="font-medium text-gray-900 dark:text-gray-100">
+                      {template.name}
+                    </h5>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      {template.description}
+                    </p>
+                  </div>
+                  <div className="ml-4">
+                    <span className="text-xs bg-purple-500 text-white px-2 py-1 rounded">
+                      Advanced
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Built-in Templates */}
       <div>
