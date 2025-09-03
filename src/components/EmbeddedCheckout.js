@@ -5,9 +5,101 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
-import { useDarkMode, getStripeAppearance } from '../utils/darkMode';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+// Simple dark mode detection (fallback)
+const useDarkMode = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    try {
+      const checkDarkMode = () => {
+        const isDarkMode = 
+          document.documentElement.classList.contains('dark') ||
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setIsDark(isDarkMode);
+      };
+
+      checkDarkMode();
+
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const observer = new MutationObserver(checkDarkMode);
+      
+      mediaQuery.addEventListener('change', checkDarkMode);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      return () => {
+        mediaQuery.removeEventListener('change', checkDarkMode);
+        observer.disconnect();
+      };
+    } catch (error) {
+      console.warn('Dark mode detection failed:', error);
+    }
+  }, []);
+
+  return isDark;
+};
+
+// Inline Stripe appearance configuration
+const getStripeAppearance = (isDark = false) => ({
+  theme: isDark ? 'night' : 'stripe',
+  variables: {
+    colorPrimary: '#3B82F6',
+    colorBackground: isDark ? '#1F2937' : '#ffffff',
+    colorText: isDark ? '#F9FAFB' : '#1F2937',
+    colorDanger: '#EF4444',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    spacingUnit: '4px',
+    borderRadius: '8px',
+  },
+  rules: {
+    '.Input': {
+      backgroundColor: isDark ? '#374151' : '#ffffff',
+      border: isDark ? '1px solid #4B5563' : '1px solid #D1D5DB',
+      color: isDark ? '#F9FAFB' : '#1F2937',
+    },
+    '.Input:focus': {
+      border: '2px solid #3B82F6',
+      boxShadow: '0 0 0 1px #3B82F6',
+    },
+    '.Label': {
+      color: isDark ? '#D1D5DB' : '#374151',
+      fontSize: '14px',
+      fontWeight: '500',
+    },
+    '.Tab': {
+      backgroundColor: isDark ? '#374151' : '#F3F4F6',
+      color: isDark ? '#D1D5DB' : '#4B5563',
+      border: isDark ? '1px solid #4B5563' : '1px solid #E5E7EB',
+    },
+    '.Tab:hover': {
+      backgroundColor: isDark ? '#4B5563' : '#E5E7EB',
+    },
+    '.Tab--selected': {
+      backgroundColor: isDark ? '#1F2937' : '#ffffff',
+      color: isDark ? '#F9FAFB' : '#1F2937',
+      border: '2px solid #3B82F6',
+    },
+    '.Block': {
+      backgroundColor: isDark ? '#374151' : '#ffffff',
+      border: isDark ? '1px solid #4B5563' : '1px solid #E5E7EB',
+    },
+    '.BlockDivider': {
+      backgroundColor: isDark ? '#4B5563' : '#E5E7EB',
+    },
+    '.AccordionItem': {
+      backgroundColor: isDark ? '#374151' : '#ffffff',
+      border: isDark ? '1px solid #4B5563' : '1px solid #E5E7EB',
+    },
+    '.AccordionItem--selected': {
+      backgroundColor: isDark ? '#1F2937' : '#F9FAFB',
+    }
+  }
+});
 
 export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel }) {
   const [clientSecret, setClientSecret] = useState('');
@@ -19,6 +111,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     // Create embedded checkout session
     const createCheckoutSession = async () => {
       try {
+        console.log('Creating checkout session for tier:', tier);
         const response = await fetch('/api/stripe/create-embedded-checkout', {
           method: 'POST',
           headers: {
@@ -28,15 +121,25 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
         });
 
         const data = await response.json();
+        console.log('Checkout session response:', data);
         
         if (data.error) {
+          console.error('Checkout session error:', data.error);
           setError(data.error);
           return;
         }
 
+        if (!data.clientSecret) {
+          console.error('No client secret received');
+          setError('No client secret received from server');
+          return;
+        }
+
+        console.log('Setting client secret:', data.clientSecret.substring(0, 20) + '...');
         setClientSecret(data.clientSecret);
         setLoading(false);
       } catch (err) {
+        console.error('Checkout session creation error:', err);
         setError('Failed to initialize checkout');
         setLoading(false);
       }
@@ -102,6 +205,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
 
   return (
     <div className="w-full">
+      {console.log('Rendering EmbeddedCheckout with clientSecret:', clientSecret ? 'Present' : 'Missing')}
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
         <div className={`embedded-checkout-container ${
           isDark ? 'dark-checkout' : 'light-checkout'

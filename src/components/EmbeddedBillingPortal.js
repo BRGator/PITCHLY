@@ -1,7 +1,43 @@
 // Embedded Billing Management Component
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useDarkMode } from '../utils/darkMode';
+import EmbeddedPaymentMethodUpdate from './EmbeddedPaymentMethodUpdate';
+
+// Simple dark mode detection (fallback)
+const useDarkMode = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    try {
+      const checkDarkMode = () => {
+        const isDarkMode = 
+          document.documentElement.classList.contains('dark') ||
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setIsDark(isDarkMode);
+      };
+
+      checkDarkMode();
+
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const observer = new MutationObserver(checkDarkMode);
+      
+      mediaQuery.addEventListener('change', checkDarkMode);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      return () => {
+        mediaQuery.removeEventListener('change', checkDarkMode);
+        observer.disconnect();
+      };
+    } catch (error) {
+      console.warn('Dark mode detection failed:', error);
+    }
+  }, []);
+
+  return isDark;
+};
 
 export default function EmbeddedBillingPortal() {
   const { data: session } = useSession();
@@ -9,6 +45,7 @@ export default function EmbeddedBillingPortal() {
   const [loading, setLoading] = useState(true);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [invoices, setInvoices] = useState([]);
+  const [showPaymentMethodUpdate, setShowPaymentMethodUpdate] = useState(false);
   const isDark = useDarkMode();
 
   useEffect(() => {
@@ -56,20 +93,17 @@ export default function EmbeddedBillingPortal() {
   };
 
   const handleUpdatePaymentMethod = async () => {
-    try {
-      const response = await fetch('/api/stripe/update-payment-method', {
-        method: 'POST',
-      });
-      
-      const data = await response.json();
-      
-      if (data.setupIntent) {
-        // Redirect to Stripe's payment method update form
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      alert('Error updating payment method');
-    }
+    setShowPaymentMethodUpdate(true);
+  };
+
+  const handlePaymentMethodSuccess = async () => {
+    setShowPaymentMethodUpdate(false);
+    await fetchBillingData(); // Refresh billing data
+    alert('Payment method updated successfully!');
+  };
+
+  const handlePaymentMethodCancel = () => {
+    setShowPaymentMethodUpdate(false);
   };
 
   if (loading) {
@@ -97,6 +131,18 @@ export default function EmbeddedBillingPortal() {
         >
           View Plans
         </button>
+      </div>
+    );
+  }
+
+  // Show payment method update modal if requested
+  if (showPaymentMethodUpdate) {
+    return (
+      <div className="card-premium p-6">
+        <EmbeddedPaymentMethodUpdate
+          onSuccess={handlePaymentMethodSuccess}
+          onCancel={handlePaymentMethodCancel}
+        />
       </div>
     );
   }

@@ -43,19 +43,9 @@ export default async function handler(req, res) {
       payment_method_types: ['card'],
     });
 
-    // Create a hosted page for payment method update (simpler approach)
-    // Alternatively, you could return the setup intent for client-side handling
-    const session_url = await stripe.billingPortal.sessions.create({
-      customer: subscription.stripe_customer_id,
-      return_url: `${process.env.NEXTAUTH_URL}/dashboard`,
-      flow_data: {
-        type: 'payment_method_update',
-      }
-    });
-
     res.status(200).json({ 
-      url: session_url.url,
-      setupIntent: setupIntent.client_secret 
+      clientSecret: setupIntent.client_secret,
+      customerId: subscription.stripe_customer_id
     });
 
   } catch (error) {
