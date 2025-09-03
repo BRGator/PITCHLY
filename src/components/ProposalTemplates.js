@@ -84,7 +84,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     onSelectTemplate(template.template_data);
   };
 
-  // Built-in templates for all users
+  // Built-in templates for all users - Updated with structured fields
   const builtInTemplates = [
     {
       id: 'web-design',
@@ -92,9 +92,12 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
       description: 'Template for web design and development projects',
       template_data: {
         projectTitle: 'Professional Website Design & Development',
-        projectDescription: 'Complete website design and development including responsive design, content management system, SEO optimization, and mobile-friendly layout.',
-        budget: '$3,000 - $8,000',
-        timeline: '4-6 weeks'
+        projectDescription: 'Complete website design and development including responsive design, content management system, SEO optimization, and mobile-friendly layout. Includes user research, wireframing, custom design, development, testing, and launch support.',
+        budgetAmount: '5500',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '6-weeks',
+        timelineDeadline: ''
       }
     },
     {
@@ -103,9 +106,54 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
       description: 'Template for marketing and advertising campaigns',
       template_data: {
         projectTitle: 'Digital Marketing Campaign Strategy',
-        projectDescription: 'Comprehensive digital marketing strategy including social media management, content creation, paid advertising, and performance tracking.',
-        budget: '$2,000 - $5,000/month',
-        timeline: '3-month initial campaign'
+        projectDescription: 'Comprehensive digital marketing strategy including social media management, content creation, paid advertising, and performance tracking. Includes market research, competitor analysis, content calendar, ad creation, and monthly reporting.',
+        budgetAmount: '3500',
+        budgetUnit: 'per-month',
+        timelineType: 'duration', 
+        timelineDuration: '3-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'branding',
+      name: 'Brand Identity Package',
+      description: 'Complete brand identity and logo design package',
+      template_data: {
+        projectTitle: 'Complete Brand Identity & Logo Design',
+        projectDescription: 'Full brand identity package including logo design, color palette, typography, brand guidelines, business card design, and brand application mockups. Includes market research, concept development, and 3 rounds of revisions.',
+        budgetAmount: '2500',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '3-weeks', 
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'app-development',
+      name: 'Mobile App Development',
+      description: 'Native or cross-platform mobile application',
+      template_data: {
+        projectTitle: 'Custom Mobile Application Development',
+        projectDescription: 'Full-stack mobile application development including user interface design, backend development, API integration, user authentication, push notifications, and app store deployment. Includes testing, documentation, and post-launch support.',
+        budgetAmount: '15000',
+        budgetUnit: 'lump-sum',
+        timelineType: 'duration',
+        timelineDuration: '4-months',
+        timelineDeadline: ''
+      }
+    },
+    {
+      id: 'consulting',
+      name: 'Business Consulting',
+      description: 'Strategic business consulting and advisory services',
+      template_data: {
+        projectTitle: 'Strategic Business Consulting & Advisory',
+        projectDescription: 'Comprehensive business consulting including market analysis, operational review, growth strategy development, process optimization recommendations, and implementation roadmap. Includes stakeholder interviews, data analysis, and executive presentations.',
+        budgetAmount: '200',
+        budgetUnit: 'per-hour',
+        timelineType: 'duration',
+        timelineDuration: '2-months',
+        timelineDeadline: ''
       }
     }
   ];

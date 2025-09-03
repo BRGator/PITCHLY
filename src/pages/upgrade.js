@@ -228,7 +228,7 @@ export default function UpgradePage() {
 
                 {tier.popular && !isCurrentPlan(tier.name) && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-medium">
+                    <span className="bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
                       Most Popular
                     </span>
                   </div>

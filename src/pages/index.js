@@ -730,7 +730,7 @@ export default function Home() {
                     </div>
                   )}
                   {plan.popular && !isCurrentPlan(plan.name) && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap">
                       Most Popular
                     </div>
                   )}
