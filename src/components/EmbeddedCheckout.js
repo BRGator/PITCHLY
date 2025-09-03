@@ -78,10 +78,8 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
   if (loading) {
     return (
       <div className="flex items-center justify-center p-12">
-        <div className={`animate-spin rounded-full h-12 w-12 border-b-2 ${
-          isDark ? 'border-primary-400' : 'border-primary-600'
-        }`}></div>
-        <span className={`ml-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <span className="ml-4 text-gray-600 dark:text-gray-300">
           Loading secure checkout...
         </span>
       </div>
@@ -112,19 +110,11 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
 
   if (error) {
     return (
-      <div className={`rounded-lg p-6 border ${
-        isDark 
-          ? 'bg-red-900/20 border-red-800' 
-          : 'bg-red-50 border-red-200'
-      }`}>
-        <h3 className={`font-medium mb-2 ${
-          isDark ? 'text-red-200' : 'text-red-800'
-        }`}>
+      <div className="rounded-lg p-6 border bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
+        <h3 className="font-medium mb-2 text-red-800 dark:text-red-200">
           Checkout Error
         </h3>
-        <p className={`text-sm mb-4 ${
-          isDark ? 'text-red-300' : 'text-red-600'
-        }`}>
+        <p className="text-sm mb-4 text-red-600 dark:text-red-300">
           {error}
         </p>
         <div className="flex gap-3">
@@ -137,11 +127,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
           {onCancel && (
             <button 
               onClick={onCancel}
-              className={`text-sm px-4 py-2 rounded-md transition-colors ${
-                isDark 
-                  ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
-              }`}
+              className="text-sm px-4 py-2 rounded-md transition-colors bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
             >
               Go Back
             </button>
