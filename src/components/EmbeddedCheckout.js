@@ -254,16 +254,39 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
           Loading secure checkout...
         </span>
       </div>
-    ) : null;
+    ) : (
+      <div className="text-center p-8">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Unable to load embedded checkout
+        </p>
+        <button 
+          onClick={handleHostedCheckout}
+          className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
+        >
+          Continue with Stripe Checkout
+        </button>
+      </div>
+    );
   }
 
   return (
     <div className="w-full">
+      <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-400">
+        Debug: Stripe loaded: {stripe ? 'Yes' : 'No'}, Client Secret: {clientSecret ? 'Present' : 'Missing'}
+      </div>
       <EmbeddedCheckoutProvider stripe={stripe} options={options}>
         <div className={`embedded-checkout-container ${
           isDark ? 'dark-checkout' : 'light-checkout'
         }`}>
           <EmbeddedCheckout />
+          <div className="mt-4 text-center">
+            <button 
+              onClick={handleHostedCheckout}
+              className="text-sm text-primary-600 hover:text-primary-700 underline"
+            >
+              Having trouble? Try hosted checkout instead
+            </button>
+          </div>
         </div>
       </EmbeddedCheckoutProvider>
       
