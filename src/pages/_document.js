@@ -16,7 +16,7 @@ export default function Document() {
         <meta name="theme-color" content="#f1f4f8" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="msapplication-navbutton-color" content="#f1f4f8" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         
         {/* Manifest for PWA */}
         <link rel="manifest" href="/site.webmanifest" />
