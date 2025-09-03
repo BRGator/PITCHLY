@@ -38,6 +38,27 @@ html {
   height: -webkit-fill-available;
 }
 
+/* iOS Status Bar Background Fix */
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: linear-gradient(135deg, #f1f4f8 0%, #e8ecf4 25%, #dde4f0 50%, #e2e8f0 75%, #f1f5f9 100%);
+  background-size: 400% 400%;
+  animation: luxuryBackground 25s ease infinite;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.dark html::before {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+  background-size: 400% 400%;
+  animation: luxuryBackground 20s ease infinite;
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -48,18 +69,14 @@ body {
   background-attachment: fixed;
   animation: luxuryBackground 25s ease infinite;
   
-  /* iOS safe area support - Enhanced for status bar */
+  /* iOS safe area support - Enhanced */
   min-height: 100vh;
   min-height: -webkit-fill-available;
   min-height: stretch; /* iOS 15+ support */
   
-  /* Force background to extend behind status bar */
+  /* Force background to cover entire viewport including safe areas */
   margin: 0;
   padding: 0;
-  
-  /* Ensure background extends to cover status bar area */
-  padding-top: env(safe-area-inset-top);
-  margin-top: calc(-1 * env(safe-area-inset-top));
 }
 
 .dark body {
