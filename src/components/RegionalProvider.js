@@ -1,8 +1,9 @@
-// Regional Context Provider
+// Regional Context Provider with I18n Integration
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { supabase } from '../lib/supabase';
 import { REGIONS, LANGUAGES, detectRegionFromBrowser } from '../lib/regionalization';
+import { useTranslation, I18nContext } from '../lib/i18n';
 
 // Regional Context
 const RegionalContext = createContext({
@@ -28,6 +29,7 @@ export default function RegionalProvider({ children }) {
   const [region, setRegion] = useState('US');
   const [language, setLanguage] = useState('en');
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation(language);
 
   // Initialize region and language on mount
   useEffect(() => {
@@ -160,9 +162,16 @@ export default function RegionalProvider({ children }) {
     loading
   };
 
+  const i18nValue = {
+    language,
+    t
+  };
+
   return (
     <RegionalContext.Provider value={value}>
-      {children}
+      <I18nContext.Provider value={i18nValue}>
+        {children}
+      </I18nContext.Provider>
     </RegionalContext.Provider>
   );
 }

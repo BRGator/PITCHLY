@@ -5,9 +5,11 @@ import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import ProposalForm from '../components/ProposalForm';
 import EmbeddedCheckout from '../components/EmbeddedCheckout';
+import { useI18n } from '../lib/i18n';
 
 export default function Home() {
   const { data: session } = useSession();
+  const { t } = useI18n();
   const [showDemo, setShowDemo] = useState(false);
   const [subscription, setSubscription] = useState(null);
   const [expandedFeature, setExpandedFeature] = useState(null);
@@ -287,13 +289,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16 animate-fade-in">
               <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                <span className="text-gradient">Win More Clients</span>
-                <br />
-                <span className="text-gray-900 dark:text-gray-100">with AI-Powered Proposals</span>
+                <span className="text-gradient">{t('landing.heroTitle')}</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-                Transform your freelance business with professional proposals that convert. 
-                Generate personalized, winning proposals in minutes, not hours.
+                {t('landing.heroSubtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                 {session ? (
@@ -305,14 +304,14 @@ export default function Home() {
                     onClick={() => signIn()}
                     className="btn-primary"
                   >
-                    Start Creating Proposals
+                    {t('landing.getStartedFree')}
                   </button>
                 )}
                 <button
                   onClick={() => setShowDemo(!showDemo)}
                   className="btn-secondary"
                 >
-                  {showDemo ? 'Hide Demo' : 'See How It Works'}
+                  {showDemo ? 'Hide Demo' : t('landing.howItWorks')}
                 </button>
               </div>
               

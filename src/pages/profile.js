@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import AvatarUpload from '../components/AvatarUpload';
 import UsageDashboard from '../components/UsageDashboard';
+import RegionSelector from '../components/RegionSelector';
 import { supabase } from '../lib/supabase';
 
 export default function Profile() {
@@ -331,6 +332,27 @@ export default function Profile() {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <hr className="border-gray-200 dark:border-gray-700" />
+
+              {/* Regional Preferences */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    🌍 Regional Preferences
+                  </h3>
+                  <Link 
+                    href="/settings/regional" 
+                    className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                  >
+                    Advanced Settings →
+                  </Link>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Set your preferred region, language, and currency format
+                </p>
+                <RegionSelector />
               </div>
 
               <hr className="border-gray-200 dark:border-gray-700" />

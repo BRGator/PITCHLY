@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import DarkModeToggle from './DarkModeToggle';
 import RegionSelector from './RegionSelector';
+import { useI18n } from '../lib/i18n';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const { t } = useI18n();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
