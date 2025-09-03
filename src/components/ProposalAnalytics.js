@@ -110,7 +110,53 @@ export default function ProposalAnalytics() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Proposal Status Breakdown */}
+        <div className="card-premium p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            Proposal Status Breakdown
+          </h3>
+          <div className="space-y-3">
+            {Object.entries(analytics.statusBreakdown || {}).map(([status, data]) => {
+              // Match the color coding from dashboard.js
+              const statusColors = {
+                draft: { bg: 'bg-gray-100', text: 'text-gray-800', darkBg: 'dark:bg-gray-700', darkText: 'dark:text-gray-300' },
+                sent: { bg: 'bg-blue-100', text: 'text-blue-800', darkBg: 'dark:bg-blue-900', darkText: 'dark:text-blue-300' },
+                viewed: { bg: 'bg-purple-100', text: 'text-purple-800', darkBg: 'dark:bg-purple-900', darkText: 'dark:text-purple-300' },
+                under_review: { bg: 'bg-yellow-100', text: 'text-yellow-800', darkBg: 'dark:bg-yellow-900', darkText: 'dark:text-yellow-300' },
+                accepted: { bg: 'bg-green-100', text: 'text-green-800', darkBg: 'dark:bg-green-900', darkText: 'dark:text-green-300' },
+                won: { bg: 'bg-emerald-100', text: 'text-emerald-800', darkBg: 'dark:bg-emerald-900', darkText: 'dark:text-emerald-300' },
+                rejected: { bg: 'bg-red-100', text: 'text-red-800', darkBg: 'dark:bg-red-900', darkText: 'dark:text-red-300' },
+                expired: { bg: 'bg-gray-100', text: 'text-gray-800', darkBg: 'dark:bg-gray-700', darkText: 'dark:text-gray-300' },
+                withdrawn: { bg: 'bg-gray-100', text: 'text-gray-800', darkBg: 'dark:bg-gray-700', darkText: 'dark:text-gray-300' },
+                revision: { bg: 'bg-blue-100', text: 'text-blue-800', darkBg: 'dark:bg-blue-900', darkText: 'dark:text-blue-300' }
+              };
+              
+              const colors = statusColors[status] || statusColors.draft;
+              const statusLabel = status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+              
+              return (
+                <div key={status} className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors.bg} ${colors.text} ${colors.darkBg} ${colors.darkText}`}>
+                      {statusLabel}
+                      {status === 'won' && ' 🎉'}
+                      {status === 'accepted' && ' ✅'}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      {data.count} ({data.percentage}%)
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {formatCurrency(data.avgValue)} avg
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         {/* Budget Breakdown */}
         <div className="card-premium p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">

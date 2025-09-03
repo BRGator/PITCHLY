@@ -33,9 +33,20 @@
 /* Base styles */
 html {
   scroll-behavior: smooth;
-  /* iOS safe area support */
+  /* iOS safe area support - Enhanced for full coverage */
   height: 100%;
   height: -webkit-fill-available;
+  height: stretch;
+  background: linear-gradient(135deg, #f1f4f8 0%, #e8ecf4 25%, #dde4f0 50%, #e2e8f0 75%, #f1f5f9 100%);
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  animation: luxuryBackground 25s ease infinite;
+}
+
+.dark html {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+  background-size: 400% 400%;
+  animation: luxuryBackground 20s ease infinite;
 }
 
 body {
@@ -43,28 +54,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @apply text-gray-900 dark:text-gray-100;
-  background: linear-gradient(135deg, #f1f4f8 0%, #e8ecf4 25%, #dde4f0 50%, #e2e8f0 75%, #f1f5f9 100%);
-  background-size: 400% 400%;
-  background-attachment: fixed;
-  animation: luxuryBackground 25s ease infinite;
+  
+  /* Inherit background from html to ensure continuity */
+  background: inherit;
   
   /* iOS safe area support - Enhanced */
   min-height: 100vh;
   min-height: -webkit-fill-available;
   min-height: stretch; /* iOS 15+ support */
   
-  /* Force background to cover entire viewport including safe areas */
+  /* Force full coverage */
   margin: 0;
   padding: 0;
   
-  /* Apply safe area insets to a wrapper div instead of body */
+  /* Ensure background extends beyond viewport */
+  position: relative;
 }
 
-.dark body {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
-  background-size: 400% 400%;
-  animation: luxuryBackground 20s ease infinite;
-}
 
 @keyframes luxuryBackground {
   0%, 100% { background-position: 0% 50%; }

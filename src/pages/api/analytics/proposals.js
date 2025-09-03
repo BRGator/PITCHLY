@@ -138,6 +138,30 @@ function calculateAnalytics(proposals) {
     .sort((a, b) => b.month.localeCompare(a.month))
     .slice(0, 6); // Last 6 months
 
+  // Status breakdown
+  const statusBreakdown = {};
+  const statusData = proposals.reduce((acc, p) => {
+    const status = p.status || 'draft';
+    acc[status] = (acc[status] || []).concat(p);
+    return acc;
+  }, {});
+
+  colorIndex = 0;
+  Object.entries(statusData).forEach(([status, statusProposals]) => {
+    const count = statusProposals.length;
+    const totalStatusValue = statusProposals.reduce((sum, p) => sum + (p.budget_amount || 0), 0);
+    const avgValue = count > 0 ? totalStatusValue / count : 0;
+    const percentage = totalProposals > 0 ? Math.round((count / totalProposals) * 100) : 0;
+    
+    statusBreakdown[status] = {
+      count,
+      percentage,
+      avgValue,
+      color: colors[colorIndex % colors.length]
+    };
+    colorIndex++;
+  });
+
   // Top insights
   const topPricingUnit = Object.entries(budgetBreakdown)
     .sort(([,a], [,b]) => b.count - a.count)[0]?.[0]?.replace('-', ' ') || 'N/A';
@@ -151,6 +175,7 @@ function calculateAnalytics(proposals) {
     averageValue,
     budgetBreakdown,
     timelineBreakdown,
+    statusBreakdown,
     monthlyTrends,
     topPricingUnit,
     topTimeline,
