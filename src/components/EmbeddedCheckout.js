@@ -163,7 +163,6 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
 
   const options = clientSecret ? {
     clientSecret,
-    appearance: getStripeAppearance(isDark),
     onComplete: () => {
       if (onSuccess) onSuccess();
     }
