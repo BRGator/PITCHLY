@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import AvatarUpload from '../components/AvatarUpload';
+import UsageDashboard from '../components/UsageDashboard';
 import { supabase } from '../lib/supabase';
 
 export default function Profile() {
@@ -330,6 +331,16 @@ export default function Profile() {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <hr className="border-gray-200 dark:border-gray-700" />
+
+              {/* Billing Management */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                  Billing & Subscription
+                </h3>
+                <UsageDashboard />
               </div>
 
               <hr className="border-gray-200 dark:border-gray-700" />

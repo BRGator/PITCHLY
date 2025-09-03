@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 export default async function handler(req, res) {
@@ -24,16 +24,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get user's Stripe customer ID from our database
-    const { data: subscription } = await supabase
+    // Get user's subscription data from our database
+    const { data: subscription, error: subscriptionError } = await supabase
       .from('user_subscriptions')
-      .select('stripe_customer_id')
+      .select('*')
       .eq('user_id', session.user.id)
       .single();
 
+    console.log('Billing portal debug:', { 
+      userId: session.user.id, 
+      subscription, 
+      subscriptionError,
+      hasCustomerId: !!subscription?.stripe_customer_id 
+    });
+
     if (!subscription?.stripe_customer_id) {
       return res.status(400).json({ 
-        message: 'No active subscription found. Please upgrade to a paid plan first.' 
+        message: 'No active subscription found. Please upgrade to a paid plan first.',
+        debug: process.env.NODE_ENV === 'development' ? { subscription, subscriptionError } : undefined
       });
     }
 

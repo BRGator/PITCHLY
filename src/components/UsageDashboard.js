@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useNotification } from './Notification';
 import Link from 'next/link';
 
 export default function UsageDashboard() {
@@ -8,6 +9,7 @@ export default function UsageDashboard() {
   const router = useRouter();
   const [usage, setUsage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { showNotification, NotificationComponent } = useNotification();
 
   useEffect(() => {
     const fetchUsage = async () => {
@@ -183,11 +185,11 @@ export default function UsageDashboard() {
                   if (data.url) {
                     window.location.href = data.url;
                   } else {
-                    alert(data.message || 'Unable to access billing portal');
+                    showNotification(data.message || 'Unable to access billing portal', 'error');
                   }
                 } catch (error) {
                   console.error('Billing portal error:', error);
-                  alert('Unable to access billing portal. Please try again.');
+                  showNotification('Unable to access billing portal. Please try again.', 'error');
                 }
               }}
               className="btn-ghost text-sm"
@@ -207,6 +209,9 @@ export default function UsageDashboard() {
           </p>
         </div>
       )}
+      
+      {/* Notifications */}
+      <NotificationComponent />
     </div>
   );
 }
