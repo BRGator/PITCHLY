@@ -163,20 +163,9 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
 
   return (
     <div className="w-full">
-      <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-400">
-        Debug: Stripe loaded: {stripe ? 'Yes' : 'No'}, Client Secret: {clientSecret ? 'Present' : 'Missing'}
-      </div>
       <EmbeddedCheckoutProvider stripe={stripe} options={options}>
         <div className="embedded-checkout-container">
           <EmbeddedCheckout />
-          <div className="mt-4 text-center">
-            <button 
-              onClick={handleHostedCheckout}
-              className="text-sm text-primary-600 hover:text-primary-700 underline"
-            >
-              Having trouble? Try hosted checkout instead
-            </button>
-          </div>
         </div>
       </EmbeddedCheckoutProvider>
       
