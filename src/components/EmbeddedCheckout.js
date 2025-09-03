@@ -6,7 +6,6 @@ import {
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
 
-console.log('Loading Stripe with key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ? 'configured' : 'missing');
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 // Simple dark mode detection (fallback)
@@ -112,7 +111,6 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     // Create embedded checkout session
     const createCheckoutSession = async () => {
       try {
-        console.log('Creating checkout session for tier:', tier);
         const response = await fetch('/api/stripe/create-embedded-checkout', {
           method: 'POST',
           headers: {
@@ -122,25 +120,20 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
         });
 
         const data = await response.json();
-        console.log('Checkout session response:', data);
         
         if (data.error) {
-          console.error('Checkout session error:', data.error);
           setError(data.error);
           return;
         }
 
         if (!data.clientSecret) {
-          console.error('No client secret received');
           setError('No client secret received from server');
           return;
         }
 
-        console.log('Setting client secret:', data.clientSecret.substring(0, 20) + '...');
         setClientSecret(data.clientSecret);
         setLoading(false);
       } catch (err) {
-        console.error('Checkout session creation error:', err);
         setError('Failed to initialize checkout');
         setLoading(false);
       }
@@ -154,16 +147,9 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     appearance: getStripeAppearance(isDark),
     onComplete: () => {
       // Handle successful payment
-      console.log('Stripe checkout completed!');
       if (onSuccess) onSuccess();
     }
   };
-
-  console.log('EmbeddedCheckout options:', {
-    hasClientSecret: !!clientSecret,
-    clientSecretStart: clientSecret ? clientSecret.substring(0, 10) : 'none',
-    appearance: options.appearance.theme
-  });
 
   if (loading) {
     return (
@@ -211,30 +197,17 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     );
   }
 
-  // Check if Stripe is loaded
-  const [stripeReady, setStripeReady] = useState(false);
-  
-  useEffect(() => {
-    stripePromise.then((stripe) => {
-      console.log('Stripe loaded:', !!stripe);
-      setStripeReady(!!stripe);
-    });
-  }, []);
-
   return (
     <div className="w-full">
-      {console.log('Rendering EmbeddedCheckout:', {
-        clientSecret: clientSecret ? 'Present' : 'Missing',
-        stripeReady,
-        hasOptions: !!options
-      })}
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <div className={`embedded-checkout-container ${
-          isDark ? 'dark-checkout' : 'light-checkout'
-        }`}>
-          <EmbeddedCheckout />
-        </div>
-      </EmbeddedCheckoutProvider>
+      {clientSecret && (
+        <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+          <div className={`embedded-checkout-container ${
+            isDark ? 'dark-checkout' : 'light-checkout'
+          }`}>
+            <EmbeddedCheckout />
+          </div>
+        </EmbeddedCheckoutProvider>
+      )}
       
       <style jsx>{`
         .embedded-checkout-container {
