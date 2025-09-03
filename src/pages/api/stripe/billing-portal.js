@@ -39,10 +39,18 @@ export default async function handler(req, res) {
     });
 
     if (!subscription?.stripe_customer_id) {
-      return res.status(400).json({ 
-        message: 'No active subscription found. Please upgrade to a paid plan first.',
-        debug: process.env.NODE_ENV === 'development' ? { subscription, subscriptionError } : undefined
-      });
+      // Check if user has an active subscription but no Stripe customer ID
+      if (subscription && subscription.tier !== 'free') {
+        return res.status(400).json({ 
+          message: 'Your subscription is not linked to Stripe billing. Please contact support or upgrade through our billing system.',
+          action: 'upgrade'
+        });
+      } else {
+        return res.status(400).json({ 
+          message: 'No active subscription found. Please upgrade to a paid plan first.',
+          action: 'upgrade'
+        });
+      }
     }
 
     // Create billing portal session

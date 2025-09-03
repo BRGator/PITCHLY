@@ -185,7 +185,11 @@ export default function UsageDashboard() {
                   if (data.url) {
                     window.location.href = data.url;
                   } else {
-                    showNotification(data.message || 'Unable to access billing portal', 'error');
+                    if (data.action === 'upgrade') {
+                      showNotification(data.message + ' Click here to upgrade.', 'warning');
+                    } else {
+                      showNotification(data.message || 'Unable to access billing portal', 'error');
+                    }
                   }
                 } catch (error) {
                   console.error('Billing portal error:', error);
