@@ -37,8 +37,11 @@ export default function NewProposal() {
     clientEmail: '',
     projectTitle: '',
     projectDescription: '',
-    budget: '',
-    timeline: ''
+    budgetAmount: '',
+    budgetUnit: 'lump-sum',
+    timelineType: 'duration',
+    timelineDuration: '',
+    timelineDeadline: ''
   });
   const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState(null);
@@ -53,8 +56,10 @@ export default function NewProposal() {
       ...prev,
       projectTitle: templateData.projectTitle || prev.projectTitle,
       projectDescription: templateData.projectDescription || prev.projectDescription,
-      budget: templateData.budget || prev.budget,
-      timeline: templateData.timeline || prev.timeline
+      budgetAmount: templateData.budgetAmount || prev.budgetAmount,
+      budgetUnit: templateData.budgetUnit || prev.budgetUnit,
+      timelineDuration: templateData.timelineDuration || prev.timelineDuration,
+      timelineDeadline: templateData.timelineDeadline || prev.timelineDeadline
     }));
     setShowTemplates(false);
   };
@@ -231,42 +236,119 @@ export default function NewProposal() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Budget Range (Optional)
+              {/* Budget Section */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Project Budget *
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      Amount
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      step="0.01"
+                      value={formData.budgetAmount}
+                      onChange={(e) => handleInputChange('budgetAmount', e.target.value)}
+                      className="input-field"
+                      placeholder="5000"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      Pricing Structure
+                    </label>
+                    <select
+                      value={formData.budgetUnit}
+                      onChange={(e) => handleInputChange('budgetUnit', e.target.value)}
+                      className="input-field"
+                      required
+                    >
+                      <option value="lump-sum">Lump Sum (Total Project)</option>
+                      <option value="per-hour">Per Hour</option>
+                      <option value="per-day">Per Day</option>
+                      <option value="per-week">Per Week</option>
+                      <option value="per-month">Per Month</option>
+                      <option value="per-deliverable">Per Deliverable</option>
+                      <option value="per-milestone">Per Milestone</option>
+                      <option value="retainer">Monthly Retainer</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Timeline Section */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Project Timeline *
+                </label>
+                
+                {/* Timeline Type Toggle */}
+                <div className="flex space-x-4 mb-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      value="duration"
+                      checked={formData.timelineType === 'duration'}
+                      onChange={(e) => handleInputChange('timelineType', e.target.value)}
+                      className="mr-2 text-primary-600"
+                    />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Duration Based</span>
                   </label>
-                  <select
-                    value={formData.budget}
-                    onChange={(e) => handleInputChange('budget', e.target.value)}
-                    className="input-field"
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="under-5k">Under $5,000</option>
-                    <option value="5k-10k">$5,000 - $10,000</option>
-                    <option value="10k-25k">$10,000 - $25,000</option>
-                    <option value="25k-50k">$25,000 - $50,000</option>
-                    <option value="50k-plus">$50,000+</option>
-                  </select>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      value="deadline"
+                      checked={formData.timelineType === 'deadline'}
+                      onChange={(e) => handleInputChange('timelineType', e.target.value)}
+                      className="mr-2 text-primary-600"
+                    />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Specific Deadline</span>
+                  </label>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Timeline (Optional)
-                  </label>
+                {/* Duration Input */}
+                {formData.timelineType === 'duration' && (
                   <select
-                    value={formData.timeline}
-                    onChange={(e) => handleInputChange('timeline', e.target.value)}
+                    value={formData.timelineDuration}
+                    onChange={(e) => handleInputChange('timelineDuration', e.target.value)}
                     className="input-field"
+                    required
                   >
-                    <option value="">Select timeline</option>
-                    <option value="1-2-weeks">1-2 weeks</option>
-                    <option value="3-4-weeks">3-4 weeks</option>
-                    <option value="1-2-months">1-2 months</option>
-                    <option value="3-6-months">3-6 months</option>
-                    <option value="6-months-plus">6+ months</option>
+                    <option value="">Select project duration</option>
+                    <option value="1-week">1 week</option>
+                    <option value="2-weeks">2 weeks</option>
+                    <option value="3-weeks">3 weeks</option>
+                    <option value="1-month">1 month</option>
+                    <option value="6-weeks">6 weeks</option>
+                    <option value="2-months">2 months</option>
+                    <option value="3-months">3 months</option>
+                    <option value="4-months">4 months</option>
+                    <option value="6-months">6 months</option>
+                    <option value="12-months">12 months</option>
+                    <option value="ongoing">Ongoing</option>
                   </select>
-                </div>
+                )}
+
+                {/* Deadline Input */}
+                {formData.timelineType === 'deadline' && (
+                  <div>
+                    <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      Project Completion Deadline
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.timelineDeadline}
+                      onChange={(e) => handleInputChange('timelineDeadline', e.target.value)}
+                      className="input-field"
+                      required
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Submit Button */}

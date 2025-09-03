@@ -52,10 +52,29 @@ export default async function handler(req, res) {
     });
   }
 
-  const { clientName, clientEmail, projectTitle, projectDescription, budget, timeline } = req.body;
+  const { 
+    clientName, 
+    clientEmail, 
+    projectTitle, 
+    projectDescription, 
+    budgetAmount, 
+    budgetUnit, 
+    timelineType, 
+    timelineDuration, 
+    timelineDeadline 
+  } = req.body;
 
-  if (!clientName || !projectTitle || !projectDescription) {
-    return res.status(400).json({ message: 'Client name, project title, and description are required' });
+  if (!clientName || !projectTitle || !projectDescription || !budgetAmount || !budgetUnit) {
+    return res.status(400).json({ message: 'Client name, project title, description, and budget information are required' });
+  }
+
+  // Validate timeline based on type
+  if (timelineType === 'duration' && !timelineDuration) {
+    return res.status(400).json({ message: 'Please specify project duration' });
+  }
+  
+  if (timelineType === 'deadline' && !timelineDeadline) {
+    return res.status(400).json({ message: 'Please specify project deadline' });
   }
 
   try {
@@ -72,6 +91,61 @@ export default async function handler(req, res) {
       .eq('user_id', session.user.id)
       .single();
 
+    // Format budget and timeline information
+    const formatBudget = () => {
+      const amount = parseFloat(budgetAmount);
+      const formattedAmount = amount.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      });
+      
+      const unitLabels = {
+        'lump-sum': 'Total Project',
+        'per-hour': 'per hour',
+        'per-day': 'per day',
+        'per-week': 'per week',
+        'per-month': 'per month',
+        'per-deliverable': 'per deliverable',
+        'per-milestone': 'per milestone',
+        'retainer': 'monthly retainer'
+      };
+      
+      return `${formattedAmount} ${unitLabels[budgetUnit] || budgetUnit}`;
+    };
+
+    const formatTimeline = () => {
+      if (timelineType === 'deadline') {
+        const deadlineDate = new Date(timelineDeadline);
+        const today = new Date();
+        const timeDiff = deadlineDate.getTime() - today.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        return `Deadline: ${deadlineDate.toLocaleDateString('en-US', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        })} (${daysDiff} days from today)`;
+      } else {
+        const durationLabels = {
+          '1-week': '1 week',
+          '2-weeks': '2 weeks', 
+          '3-weeks': '3 weeks',
+          '1-month': '1 month',
+          '6-weeks': '6 weeks',
+          '2-months': '2 months',
+          '3-months': '3 months',
+          '4-months': '4 months', 
+          '6-months': '6 months',
+          '12-months': '12 months',
+          'ongoing': 'Ongoing engagement'
+        };
+        return `Duration: ${durationLabels[timelineDuration] || timelineDuration}`;
+      }
+    };
+
     // Construct the AI prompt
     const prompt = `You are a professional proposal writer helping ${userData?.name || 'a business owner'} ${userSettings?.company_name ? `from ${userSettings?.company_name}` : ''} create a winning business proposal.
 
@@ -84,32 +158,54 @@ Create a comprehensive, persuasive proposal for the following project:
 **PROJECT DETAILS:**
 - Project Title: ${projectTitle}
 - Description: ${projectDescription}
-- Budget Range: ${budget || 'To be discussed'}
-- Timeline: ${timeline || 'To be discussed'}
+- Budget: ${formatBudget()}
+- Timeline: ${formatTimeline()}
 
 **YOUR BUSINESS:**
 - Your Name: ${userData?.name || '[Your Name]'}
 - Company: ${userSettings?.company_name || '[Your Company]'}
 - Business Type: ${userSettings?.business_type || 'Service Provider'}
 
+**PRICING CONTEXT:**
+- Budget is ${formatBudget()}
+- ${budgetUnit === 'lump-sum' ? 'This is the total project investment' : 'This is the rate structure for ongoing work'}
+- ${budgetUnit.includes('per-') ? 'Ensure the proposal explains what is included in each unit of work' : ''}
+
+**TIMELINE CONTEXT:**
+- ${formatTimeline()}
+- ${timelineType === 'deadline' ? 'This is a firm deadline - structure milestones to ensure on-time delivery' : 'This is the expected project duration - break into phases'}
+- Plan deliverables and milestones that align with this timeline
+
 **INSTRUCTIONS:**
 Generate a professional, persuasive proposal that includes:
 
-1. **Executive Summary** - Brief overview highlighting key value propositions
-2. **Project Understanding** - Demonstrate deep understanding of client's needs
-3. **Proposed Solution** - Detailed approach, methodology, and deliverables
-4. **Timeline & Milestones** - Clear project phases and deadlines
-5. **Investment & Value** - Pricing structure and ROI justification
-6. **Why Choose Us** - Unique qualifications and competitive advantages
-7. **Next Steps** - Clear call-to-action for moving forward
+1. **Executive Summary** - Brief overview highlighting key value propositions and investment summary
+2. **Project Understanding** - Demonstrate deep understanding of client's needs and timeline requirements
+3. **Proposed Solution** - Detailed approach, methodology, and specific deliverables
+4. **Timeline & Milestones** - ${timelineType === 'deadline' ? 'Detailed project schedule leading to the specified deadline' : 'Clear project phases based on the specified duration'}
+5. **Investment & Pricing** - Clear breakdown of the ${formatBudget()} investment and what it includes
+6. **Payment Terms** - Appropriate payment schedule based on the ${budgetUnit} structure
+7. **Why Choose Us** - Unique qualifications and competitive advantages
+8. **Next Steps** - Clear call-to-action for moving forward
+
+**PRICING REQUIREMENTS:**
+- Clearly present the ${formatBudget()} investment
+- ${budgetUnit === 'lump-sum' ? 'Break down what is included in the total project cost' : `Explain exactly what is delivered for each ${budgetUnit.replace('per-', '')} payment`}
+- Justify the value and ROI of this investment
+- Include professional payment terms
+
+**TIMELINE REQUIREMENTS:**
+- ${timelineType === 'deadline' ? `Work backwards from the ${timelineDeadline} deadline to create realistic milestones` : `Structure the work into logical phases over the ${timelineDuration} timeframe`}
+- Include buffer time for revisions and client feedback
+- Specify key deliverables and review points
 
 **TONE & STYLE:**
 - Professional yet approachable
-- Confident but not arrogant
+- Confident but not arrogant  
 - Focus on client benefits and outcomes
 - Use persuasive language that builds trust
 - Include specific details that show expertise
-- Address potential concerns proactively
+- Address potential concerns about budget and timeline proactively
 
 **FORMAT:**
 Structure as a formal business proposal with clear headers and professional formatting. Make it compelling enough that the client feels confident moving forward with this partnership.
@@ -142,14 +238,17 @@ Generate a complete, ready-to-send proposal:`;
       title: projectTitle,
       client_name: clientName,
       content: generatedProposal,
-      status: 'draft'
+      status: 'draft',
+      project_description: projectDescription,
+      budget_amount: parseFloat(budgetAmount),
+      budget_unit: budgetUnit,
+      timeline_type: timelineType,
+      timeline_duration: timelineType === 'duration' ? timelineDuration : null,
+      timeline_deadline: timelineType === 'deadline' ? timelineDeadline : null
     };
     
     // Add optional fields if provided
     if (clientEmail) proposalData.client_email = clientEmail;
-    if (projectDescription) proposalData.project_description = projectDescription;
-    if (budget) proposalData.budget_range = budget;
-    if (timeline) proposalData.timeline = timeline;
     
     const { data: savedProposal, error: saveError } = await supabase
       .from('proposals')
