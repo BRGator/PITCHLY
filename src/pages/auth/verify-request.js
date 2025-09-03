@@ -1,13 +1,54 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import DarkModeToggle from '../../components/DarkModeToggle';
 
 export default function VerifyRequest() {
+  useEffect(() => {
+    // Add same-tab behavior instructions for email clients
+    if (typeof window !== 'undefined') {
+      // Set a flag in localStorage that can be checked by the callback page
+      localStorage.setItem('pitchly_email_signin', 'true');
+      
+      // Set up a message listener for communication from email links
+      const handleMessage = (event) => {
+        if (event.data && event.data.type === 'PITCHLY_SIGNIN_CALLBACK') {
+          window.location.href = event.data.url;
+        }
+      };
+      
+      window.addEventListener('message', handleMessage);
+      
+      return () => {
+        window.removeEventListener('message', handleMessage);
+      };
+    }
+  }, []);
+
   return (
     <>
       <Head>
         <title>Check Your Email - PITCHLY</title>
         <meta name="description" content="Check your email for your sign-in link" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Global function to handle email link clicks
+            window.handlePitchlySignin = function(url) {
+              try {
+                if (window.opener && !window.opener.closed) {
+                  window.opener.location.href = url;
+                  window.close();
+                } else if (window.parent && window.parent !== window) {
+                  window.parent.location.href = url;
+                } else {
+                  window.location.href = url;
+                }
+              } catch (error) {
+                window.location.href = url;
+              }
+            };
+          `
+        }} />
       </Head>
 
       <div className="min-h-screen gradient-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -54,6 +95,13 @@ export default function VerifyRequest() {
               Click the link in your email to securely sign in to your PITCHLY account. 
               The link will expire in 24 hours for security.
             </p>
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                💡 <strong>Tip:</strong> When clicking the email link, make sure to click "Open in browser" or "Open in app" 
+                if your email client asks, to avoid opening in a new tab.
+              </p>
+            </div>
 
             <div className="space-y-3">
               <p className="text-sm text-gray-500 dark:text-gray-400">

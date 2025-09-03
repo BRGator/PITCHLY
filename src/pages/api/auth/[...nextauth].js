@@ -161,10 +161,6 @@ export const authOptions = {
       },
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60, // 24 hours
-      sendVerificationRequest: async (params) => {
-        const { sendCustomVerificationEmail } = require('../../../lib/email');
-        return await sendCustomVerificationEmail(params);
-      }
     }),
     
     // Google OAuth
