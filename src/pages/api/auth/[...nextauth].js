@@ -3,7 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import AppleProvider from 'next-auth/providers/apple';
 import EmailProvider from 'next-auth/providers/email';
 import { createClient } from '@supabase/supabase-js';
-import { createTransporter } from 'nodemailer';
+import nodemailer from 'nodemailer';
 
 // Create direct Supabase client for adapter using service role key
 const supabase = createClient(
@@ -164,7 +164,7 @@ export const authOptions = {
       maxAge: 24 * 60 * 60, // 24 hours
       sendVerificationRequest: async ({ identifier: email, url, provider }) => {
         // Custom email template to encourage same-tab behavior
-        const transport = createTransporter(provider.server);
+        const transport = nodemailer.createTransporter(provider.server);
         
         await transport.sendMail({
           to: email,
