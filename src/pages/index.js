@@ -36,7 +36,7 @@ export default function Home() {
   }, [session]);
 
   // Handle pricing plan clicks
-  const handlePlanClick = (planName) => {
+  const handlePlanClick = async (planName) => {
     if (!session) {
       // Not logged in - redirect to signin
       signIn();
@@ -47,8 +47,33 @@ export default function Home() {
     if (planName === 'Starter') {
       // Free plan - go to dashboard
       window.location.href = '/dashboard';
-    } else {
-      // Paid plans - go to upgrade page for proper Stripe checkout
+      return;
+    }
+
+    // For paid plans, go directly to Stripe checkout
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tier: planName.toLowerCase() })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create checkout session');
+      }
+
+      const data = await response.json();
+      
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Error starting checkout:', error);
+      // Fallback to upgrade page if checkout fails
       window.location.href = '/upgrade';
     }
   };
