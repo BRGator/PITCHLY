@@ -266,14 +266,8 @@ Generate a complete, ready-to-send proposal:`;
 
     console.log('Proposal saved successfully:', savedProposal?.id);
     
-    // Update usage count
-    await supabase
-      .from('user_subscriptions')
-      .update({ 
-        proposals_used_this_period: supabase.raw('proposals_used_this_period + 1'),
-        updated_at: new Date().toISOString()
-      })
-      .eq('user_id', session.user.id);
+    // Update usage count using RPC function
+    await supabase.rpc('increment_proposal_usage', { p_user_id: session.user.id });
       
     // Track usage for analytics
     await supabase
