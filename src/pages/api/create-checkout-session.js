@@ -30,6 +30,8 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('Creating checkout session for:', { userId: session.user.id, tier, email: session.user.email });
+    
     // Get or create Stripe customer
     let stripeCustomerId;
     
@@ -77,6 +79,30 @@ export default async function handler(req, res) {
     }
 
     // Create Stripe checkout session
+    // Check if we have Stripe keys configured
+    if (!process.env.STRIPE_SECRET_KEY || !priceId) {
+      console.log('Stripe not configured, creating subscription directly for development');
+      
+      // For development/testing - create subscription directly
+      const { error } = await supabase
+        .from('user_subscriptions')
+        .upsert({
+          user_id: session.user.id,
+          tier: tier.toLowerCase(),
+          status: 'active',
+          stripe_customer_id: stripeCustomerId,
+          stripe_subscription_id: `dev_sub_${Date.now()}`,
+          proposals_limit: tier.toLowerCase() === 'professional' ? 100 : -1,
+          current_period_start: new Date().toISOString(),
+          current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+      
+      return res.status(200).json({ url: `${process.env.NEXTAUTH_URL}/dashboard?success=true&tier=${tier}` });
+    }
+
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       payment_method_types: ['card'],
@@ -103,6 +129,7 @@ export default async function handler(req, res) {
       allow_promotion_codes: true,
     });
 
+    console.log('Stripe checkout session created:', checkoutSession.id);
     res.status(200).json({ url: checkoutSession.url });
 
   } catch (error) {

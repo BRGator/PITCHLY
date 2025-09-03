@@ -41,10 +41,42 @@ export default async function handler(req, res) {
     if (!subscription?.stripe_customer_id) {
       // Check if user has an active subscription but no Stripe customer ID
       if (subscription && subscription.tier !== 'free') {
-        return res.status(400).json({ 
-          message: 'Your subscription is not linked to Stripe billing. Please contact support or upgrade through our billing system.',
-          action: 'upgrade'
-        });
+        // Try to create a Stripe customer for existing subscription
+        try {
+          const customer = await stripe.customers.create({
+            email: session.user.email,
+            name: session.user.name,
+            metadata: {
+              userId: session.user.id,
+            },
+          });
+
+          // Update subscription with Stripe customer ID
+          await supabase
+            .from('user_subscriptions')
+            .update({
+              stripe_customer_id: customer.id,
+              updated_at: new Date().toISOString()
+            })
+            .eq('user_id', session.user.id);
+
+          console.log('Created Stripe customer for existing subscription:', customer.id);
+          
+          // Now create billing portal with new customer ID
+          const portalSession = await stripe.billingPortal.sessions.create({
+            customer: customer.id,
+            return_url: `${process.env.NEXTAUTH_URL}/dashboard`,
+          });
+
+          return res.status(200).json({ url: portalSession.url });
+
+        } catch (error) {
+          console.error('Failed to create Stripe customer:', error);
+          return res.status(400).json({ 
+            message: 'Unable to access billing portal. This appears to be a development subscription.',
+            action: 'contact_support'
+          });
+        }
       } else {
         return res.status(400).json({ 
           message: 'No active subscription found. Please upgrade to a paid plan first.',
