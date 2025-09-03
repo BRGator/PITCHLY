@@ -105,12 +105,25 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
   const [clientSecret, setClientSecret] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [stripe, setStripe] = useState(null);
   const isDark = useDarkMode();
 
+  // Load Stripe
   useEffect(() => {
+    stripePromise.then((stripeInstance) => {
+      setStripe(stripeInstance);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!tier) return;
+    
     // Create embedded checkout session
     const createCheckoutSession = async () => {
       try {
+        setLoading(true);
+        setError(null);
+        
         const response = await fetch('/api/stripe/create-embedded-checkout', {
           method: 'POST',
           headers: {
@@ -119,37 +132,42 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
           body: JSON.stringify({ tier }),
         });
 
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
         const data = await response.json();
         
         if (data.error) {
           setError(data.error);
+          setLoading(false);
           return;
         }
 
         if (!data.clientSecret) {
           setError('No client secret received from server');
+          setLoading(false);
           return;
         }
 
         setClientSecret(data.clientSecret);
         setLoading(false);
       } catch (err) {
-        setError('Failed to initialize checkout');
+        setError('Failed to initialize checkout: ' + err.message);
         setLoading(false);
       }
     };
 
     createCheckoutSession();
-  }, [tier, isDark]); // Re-create session when dark mode changes for better theming
+  }, [tier]);
 
-  const options = {
+  const options = clientSecret ? {
     clientSecret,
     appearance: getStripeAppearance(isDark),
     onComplete: () => {
-      // Handle successful payment
       if (onSuccess) onSuccess();
     }
-  };
+  } : null;
 
   if (loading) {
     return (
@@ -164,6 +182,28 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     );
   }
 
+  const handleHostedCheckout = async () => {
+    try {
+      const response = await fetch('/api/stripe/create-hosted-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tier }),
+      });
+
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError('Failed to create checkout session');
+      }
+    } catch (err) {
+      setError('Failed to initialize checkout');
+    }
+  };
+
   if (error) {
     return (
       <div className={`rounded-lg p-6 border ${
@@ -176,38 +216,56 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
         }`}>
           Checkout Error
         </h3>
-        <p className={`text-sm ${
+        <p className={`text-sm mb-4 ${
           isDark ? 'text-red-300' : 'text-red-600'
         }`}>
           {error}
         </p>
-        {onCancel && (
+        <div className="flex gap-3">
           <button 
-            onClick={onCancel}
-            className={`mt-4 text-sm px-4 py-2 rounded-md transition-colors ${
-              isDark 
-                ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
-                : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
-            }`}
+            onClick={handleHostedCheckout}
+            className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-md transition-colors"
           >
-            Go Back
+            Continue with Stripe
           </button>
-        )}
+          {onCancel && (
+            <button 
+              onClick={onCancel}
+              className={`text-sm px-4 py-2 rounded-md transition-colors ${
+                isDark 
+                  ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+              }`}
+            >
+              Go Back
+            </button>
+          )}
+        </div>
       </div>
     );
   }
 
+  // Don't render anything until we have both Stripe and clientSecret
+  if (!stripe || !clientSecret || !options) {
+    return loading ? (
+      <div className="flex items-center justify-center p-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        <span className="ml-4 text-gray-600 dark:text-gray-400">
+          Loading secure checkout...
+        </span>
+      </div>
+    ) : null;
+  }
+
   return (
     <div className="w-full">
-      {clientSecret && (
-        <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-          <div className={`embedded-checkout-container ${
-            isDark ? 'dark-checkout' : 'light-checkout'
-          }`}>
-            <EmbeddedCheckout />
-          </div>
-        </EmbeddedCheckoutProvider>
-      )}
+      <EmbeddedCheckoutProvider stripe={stripe} options={options}>
+        <div className={`embedded-checkout-container ${
+          isDark ? 'dark-checkout' : 'light-checkout'
+        }`}>
+          <EmbeddedCheckout />
+        </div>
+      </EmbeddedCheckoutProvider>
       
       <style jsx>{`
         .embedded-checkout-container {
