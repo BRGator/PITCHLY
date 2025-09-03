@@ -23,14 +23,20 @@ export default function Document() {
               min-height: calc(100% + var(--safe-area-inset-top));
               padding-top: var(--safe-area-inset-top);
               padding-bottom: var(--safe-area-inset-bottom);
-              background: linear-gradient(135deg, #f1f4f8 0%, #e8ecf4 25%, #dde4f0 50%, #e2e8f0 75%, #f1f5f9 100%);
+              background: #f1f4f8;
+              background-image: linear-gradient(135deg, #f1f4f8 0%, #e8ecf4 25%, #dde4f0 50%, #e2e8f0 75%, #f1f5f9 100%);
               background-size: 400% 400%;
               background-attachment: fixed;
+              
+              /* Ensure background covers bounce area */
+              min-height: 100%;
+              height: auto;
             }
             
             @media (prefers-color-scheme: dark) {
               html {
-                background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+                background: #0f172a;
+                background-image: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
                 background-size: 400% 400%;
                 background-attachment: fixed;
               }
@@ -54,6 +60,9 @@ export default function Document() {
         <meta name="theme-color" content="#f1f4f8" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="msapplication-navbutton-color" content="#f1f4f8" />
+        
+        {/* iOS Safari bounce background color */}
+        <meta name="format-detection" content="telephone=no" />
         
         {/* Manifest for PWA */}
         <link rel="manifest" href="/site.webmanifest" />
