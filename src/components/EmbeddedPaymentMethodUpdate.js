@@ -165,6 +165,7 @@ export default function EmbeddedPaymentMethodUpdate({ onSuccess, onCancel }) {
   useEffect(() => {
     const createSetupIntent = async () => {
       try {
+        console.log('Creating setup intent for payment method update');
         const response = await fetch('/api/stripe/update-payment-method', {
           method: 'POST',
           headers: {
@@ -173,15 +174,25 @@ export default function EmbeddedPaymentMethodUpdate({ onSuccess, onCancel }) {
         });
 
         const data = await response.json();
+        console.log('Setup intent response:', data);
         
         if (data.error) {
+          console.error('Setup intent error:', data.error);
           setError(data.error);
           return;
         }
 
+        if (!data.clientSecret) {
+          console.error('No client secret received for payment method update');
+          setError('No client secret received from server');
+          return;
+        }
+
+        console.log('Setting client secret for payment method update');
         setClientSecret(data.clientSecret);
         setLoading(false);
       } catch (err) {
+        console.error('Payment method update initialization error:', err);
         setError('Failed to initialize payment method update');
         setLoading(false);
       }

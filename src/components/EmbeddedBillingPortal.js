@@ -93,6 +93,7 @@ export default function EmbeddedBillingPortal() {
   };
 
   const handleUpdatePaymentMethod = async () => {
+    console.log('Update payment method clicked');
     setShowPaymentMethodUpdate(true);
   };
 

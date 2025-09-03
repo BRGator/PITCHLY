@@ -40,6 +40,8 @@ export default function Home() {
 
   // Handle pricing plan clicks
   const handlePlanClick = async (planName) => {
+    console.log('Plan click:', planName, 'Session:', !!session);
+    
     if (!session) {
       // Not logged in - redirect to signin
       signIn();
@@ -54,6 +56,7 @@ export default function Home() {
     }
 
     // For paid plans, show embedded checkout
+    console.log('Setting tier and showing checkout:', planName.toLowerCase());
     setSelectedTier(planName.toLowerCase());
     setShowCheckout(true);
   };
@@ -837,6 +840,7 @@ export default function Home() {
       </footer>
 
       {/* Embedded Checkout Modal */}
+      {console.log('Modal check:', { showCheckout, selectedTier })}
       {showCheckout && selectedTier && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
