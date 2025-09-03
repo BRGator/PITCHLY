@@ -5,6 +5,7 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
+import { useDarkMode, getStripeAppearance } from '../utils/darkMode';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -12,6 +13,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
   const [clientSecret, setClientSecret] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isDark = useDarkMode();
 
   useEffect(() => {
     // Create embedded checkout session
@@ -41,10 +43,11 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
     };
 
     createCheckoutSession();
-  }, [tier]);
+  }, [tier, isDark]); // Re-create session when dark mode changes for better theming
 
   const options = {
     clientSecret,
+    appearance: getStripeAppearance(isDark),
     onComplete: () => {
       // Handle successful payment
       if (onSuccess) onSuccess();
@@ -54,25 +57,41 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
   if (loading) {
     return (
       <div className="flex items-center justify-center p-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-        <span className="ml-4 text-gray-600 dark:text-gray-400">Loading checkout...</span>
+        <div className={`animate-spin rounded-full h-12 w-12 border-b-2 ${
+          isDark ? 'border-primary-400' : 'border-primary-600'
+        }`}></div>
+        <span className={`ml-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          Loading secure checkout...
+        </span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
-        <h3 className="text-red-800 dark:text-red-200 font-medium mb-2">
+      <div className={`rounded-lg p-6 border ${
+        isDark 
+          ? 'bg-red-900/20 border-red-800' 
+          : 'bg-red-50 border-red-200'
+      }`}>
+        <h3 className={`font-medium mb-2 ${
+          isDark ? 'text-red-200' : 'text-red-800'
+        }`}>
           Checkout Error
         </h3>
-        <p className="text-red-600 dark:text-red-300 text-sm">
+        <p className={`text-sm ${
+          isDark ? 'text-red-300' : 'text-red-600'
+        }`}>
           {error}
         </p>
         {onCancel && (
           <button 
             onClick={onCancel}
-            className="mt-4 btn-secondary text-sm"
+            className={`mt-4 text-sm px-4 py-2 rounded-md transition-colors ${
+              isDark 
+                ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
+                : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+            }`}
           >
             Go Back
           </button>
@@ -84,7 +103,9 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
   return (
     <div className="w-full">
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <div className="embedded-checkout-container">
+        <div className={`embedded-checkout-container ${
+          isDark ? 'dark-checkout' : 'light-checkout'
+        }`}>
           <EmbeddedCheckout />
         </div>
       </EmbeddedCheckoutProvider>
@@ -93,7 +114,16 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
         .embedded-checkout-container {
           border-radius: 12px;
           overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        .light-checkout {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .dark-checkout {
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(75, 85, 99, 0.5);
+          background: #1F2937;
         }
       `}</style>
     </div>

@@ -1,6 +1,7 @@
 // Embedded Billing Management Component
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useDarkMode } from '../utils/darkMode';
 
 export default function EmbeddedBillingPortal() {
   const { data: session } = useSession();
@@ -8,6 +9,7 @@ export default function EmbeddedBillingPortal() {
   const [loading, setLoading] = useState(true);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [invoices, setInvoices] = useState([]);
+  const isDark = useDarkMode();
 
   useEffect(() => {
     if (session) {
