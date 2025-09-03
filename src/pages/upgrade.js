@@ -17,6 +17,12 @@ export default function UpgradePage() {
       return;
     }
 
+    // Handle free tier differently - no Stripe checkout needed
+    if (tier === 'free') {
+      router.push('/dashboard');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await fetch('/api/create-checkout-session', {
