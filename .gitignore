@@ -49,7 +49,8 @@ Thumbs.db
 # Vercel
 .vercel
 
-# Database setup files
+# Database setup files and SQL scripts
 *.sql
-create_proposals_table.sql
-add_missing_columns.sql
+
+# Claude Code development documentation
+CLAUDE.md
