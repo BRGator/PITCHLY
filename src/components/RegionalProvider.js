@@ -71,7 +71,7 @@ export default function RegionalProvider({ children }) {
               setLanguage(userPrefs.language);
             } else {
               // Set language based on region if not explicitly set
-              const regionConfig = REGIONS[userPrefs.region || region];
+              const regionConfig = REGIONS[userPrefs.region || 'US'];
               if (regionConfig && regionConfig.language) {
                 setLanguage(regionConfig.language);
               }
@@ -80,7 +80,7 @@ export default function RegionalProvider({ children }) {
             // No saved preferences, detect from browser
             const detectedRegion = detectRegionFromBrowser();
             setRegion(detectedRegion);
-            setLanguage(REGIONS[detectedRegion].language);
+            setLanguage(REGIONS[detectedRegion]?.language || 'en');
           }
         } else {
           // Not logged in, detect from browser and save to localStorage
@@ -93,12 +93,12 @@ export default function RegionalProvider({ children }) {
           } else {
             const detectedRegion = detectRegionFromBrowser();
             setRegion(detectedRegion);
-            setLanguage(REGIONS[detectedRegion].language);
+            setLanguage(REGIONS[detectedRegion]?.language || 'en');
             
             // Save to localStorage for next visit
             if (typeof window !== 'undefined') {
               localStorage.setItem('pitchly-region', detectedRegion);
-              localStorage.setItem('pitchly-language', REGIONS[detectedRegion].language);
+              localStorage.setItem('pitchly-language', REGIONS[detectedRegion]?.language || 'en');
             }
           }
         }
@@ -107,14 +107,14 @@ export default function RegionalProvider({ children }) {
         // Fallback to detected region
         const detectedRegion = detectRegionFromBrowser();
         setRegion(detectedRegion);
-        setLanguage(REGIONS[detectedRegion].language);
+        setLanguage(REGIONS[detectedRegion]?.language || 'en');
       } finally {
         setLoading(false);
       }
     };
 
     initializeRegion();
-  }, [session]);
+  }, [session?.user?.id]);
 
   // Update region handler
   const updateRegion = async (newRegion) => {

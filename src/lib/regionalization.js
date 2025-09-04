@@ -332,7 +332,7 @@ export const detectRegionFromBrowser = () => {
     }
     
     // Fallback to language
-    const language = navigator.language || navigator.userLanguage;
+    const language = navigator?.language || navigator?.userLanguage || 'en-US';
     const langMap = {
       'en-US': 'US',
       'en-CA': 'CA',
@@ -353,7 +353,7 @@ export const detectRegionFromBrowser = () => {
     
     return langMap[language] || 'US';
   } catch (error) {
-    console.log('Region detection fallback to US:', error);
+    console.warn('Region detection fallback to US:', error);
     return 'US';
   }
 };
