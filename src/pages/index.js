@@ -319,15 +319,15 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">10x</div>
-                  <div className="text-gray-600 dark:text-gray-400">Faster Proposal Creation</div>
+                  <div className="text-gray-600 dark:text-gray-400">{t('landing.fasterProposalCreation')}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">85%</div>
-                  <div className="text-gray-600 dark:text-gray-400">Higher Win Rate</div>
+                  <div className="text-gray-600 dark:text-gray-400">{t('landing.higherWinRate')}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">50+</div>
-                  <div className="text-gray-600 dark:text-gray-400">Hours Saved Monthly</div>
+                  <div className="text-gray-600 dark:text-gray-400">{t('landing.hoursSavedMonthly')}</div>
                 </div>
               </div>
             </div>
@@ -337,7 +337,7 @@ export default function Home() {
               <div className="animate-slide-up">
                 <div className="card-premium p-8 max-w-4xl mx-auto">
                   <h3 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
-                    Try It Now - Create Your First Proposal
+                    {t('landing.tryItNow')}
                   </h3>
                   <ProposalForm />
                 </div>
@@ -351,10 +351,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-                Everything You Need to <span className="text-gradient">Win Clients</span>
+                {t('landing.everythingYouNeed')} <span className="text-gradient">{t('landing.winClients')}</span>
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-                Our AI-powered platform handles the heavy lifting so you can focus on what matters most - your work.
+                {t('landing.aiPoweredPlatform')}
               </p>
             </div>
 
@@ -374,17 +374,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "ProposalAI™ Engine",
-                  description: "Our proprietary AI algorithm, trained exclusively on winning proposals, analyzes client requirements and generates persuasive, industry-specific content that converts prospects into clients.",
+                  title: t('features.proposalAIEngine'),
+                  description: t('features.proposalAIDesc'),
                   expandedContent: {
-                    title: "Advanced ProposalAI™ Technology",
+                    title: t('features.advancedProposalAI'),
                     details: [
-                      { icon: "brain", text: "Trained on 50,000+ winning proposals from top freelancers" },
-                      { icon: "target", text: "Industry-specific language patterns and terminology" },
-                      { icon: "chart", text: "Conversion-optimized structure and persuasion techniques" },
-                      { icon: "lightning", text: "Real-time client requirement analysis and adaptation" },
-                      { icon: "refresh", text: "Continuous learning from successful proposal outcomes" },
-                      { icon: "lightbulb", text: "Personalized tone matching for different client types" }
+                      { icon: "brain", text: t('features.trainedOn50k') },
+                      { icon: "target", text: t('features.industrySpecific') },
+                      { icon: "chart", text: t('features.conversionOptimized') },
+                      { icon: "lightning", text: t('features.realTimeAnalysis') },
+                      { icon: "refresh", text: t('features.continuousLearning') },
+                      { icon: "lightbulb", text: t('features.personalizedTone') }
                     ]
                   }
                 },
@@ -400,17 +400,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "Lightning Fast Generation",
-                  description: "Generate comprehensive proposals in under 2 minutes. No more spending hours crafting the perfect pitch.",
+                  title: t('features.lightningFast'),
+                  description: t('features.lightningFastDesc'),
                   expandedContent: {
-                    title: "Speed Without Sacrifice",
+                    title: t('features.speedWithoutSacrifice'),
                     details: [
-                      { icon: "clock", text: "Average generation time: 47 seconds for full proposals" },
-                      { icon: "rocket", text: "Instant brief analysis and requirement extraction" },
-                      { icon: "document", text: "Complete proposals with scope, timeline, and pricing" },
-                      { icon: "gear", text: "Real-time editing and refinement capabilities" },
-                      { icon: "folder", text: "Multiple format exports (PDF, Word, HTML)" },
-                      { icon: "save", text: "Auto-save and version history for all proposals" }
+                      { icon: "clock", text: t('features.averageGeneration') },
+                      { icon: "rocket", text: t('features.instantBrief') },
+                      { icon: "document", text: t('features.completeProposals') },
+                      { icon: "gear", text: t('features.realTimeEditing') },
+                      { icon: "folder", text: t('features.multipleFormats') },
+                      { icon: "save", text: t('features.autoSave') }
                     ]
                   }
                 },
@@ -427,17 +427,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "Higher Conversion Rates",
-                  description: "Our proposals follow proven frameworks that consistently convert prospects into paying clients.",
+                  title: t('features.higherConversion'),
+                  description: t('features.higherConversionDesc'),
                   expandedContent: {
-                    title: "Conversion-Optimized Framework",
+                    title: t('features.conversionFramework'),
                     details: [
-                      { icon: "trending", text: "85% average acceptance rate vs 30% industry standard" },
-                      { icon: "psychology", text: "Psychology-based persuasion techniques built-in" },
-                      { icon: "dollar", text: "Value-focused positioning that justifies premium pricing" },
-                      { icon: "search", text: "Pain point identification and solution mapping" },
-                      { icon: "clipboard", text: "Clear project scopes that prevent scope creep" },
-                      { icon: "star", text: "Professional formatting that builds instant credibility" }
+                      { icon: "trending", text: t('features.acceptanceRate') },
+                      { icon: "psychology", text: t('features.psychologyBased') },
+                      { icon: "dollar", text: t('features.valueFocused') },
+                      { icon: "search", text: t('features.painPointId') },
+                      { icon: "clipboard", text: t('features.clearProjectScope') },
+                      { icon: "star", text: t('features.professionalFormatting') }
                     ]
                   }
                 },
@@ -455,17 +455,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "Smart Analytics Dashboard",
-                  description: "Track which proposals perform best and optimize your approach with data-driven insights.",
+                  title: t('features.smartAnalytics'),
+                  description: t('features.smartAnalyticsDesc'),
                   expandedContent: {
-                    title: "Data-Driven Success Insights",
+                    title: t('features.dataDrivenInsights'),
                     details: [
-                      { icon: "analytics", text: "Proposal performance tracking and success rates" },
-                      { icon: "target", text: "Client engagement metrics (views, time spent, sections read)" },
-                      { icon: "lightbulb", text: "AI-powered recommendations for improvement" },
-                      { icon: "trending", text: "Revenue attribution and ROI tracking per proposal" },
-                      { icon: "search", text: "Industry benchmarking and competitive analysis" },
-                      { icon: "calendar", text: "Follow-up reminders and client communication tracking" }
+                      { icon: "analytics", text: t('features.proposalPerformance') },
+                      { icon: "target", text: t('features.clientEngagement') },
+                      { icon: "lightbulb", text: t('features.aiRecommendations') },
+                      { icon: "trending", text: t('features.revenueAttribution') },
+                      { icon: "search", text: t('features.industryBenchmarking') },
+                      { icon: "calendar", text: t('features.followUpReminders') }
                     ]
                   }
                 },
@@ -483,17 +483,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "Enterprise Security",
-                  description: "Your client data and proposals are encrypted and stored securely. We never share your information.",
+                  title: t('features.enterpriseSecurity'),
+                  description: t('features.enterpriseSecurityDesc'),
                   expandedContent: {
-                    title: "Bank-Level Security Standards",
+                    title: t('features.bankLevelSecurity'),
                     details: [
-                      { icon: "shield", text: "AES-256 encryption for all data at rest and in transit" },
-                      { icon: "shield", text: "SOC 2 Type II compliance and regular security audits" },
-                      { icon: "globe", text: "GDPR and CCPA compliant data handling practices" },
-                      { icon: "refresh", text: "Automated backups with 99.9% uptime guarantee" },
-                      { icon: "shield", text: "Zero data sharing - your proposals remain private" },
-                      { icon: "users", text: "Role-based access controls and team permissions" }
+                      { icon: "shield", text: t('features.aes256Encryption') },
+                      { icon: "shield", text: t('features.soc2Compliance') },
+                      { icon: "globe", text: t('features.gdprCompliant') },
+                      { icon: "refresh", text: t('features.automatedBackups') },
+                      { icon: "shield", text: t('features.zeroDataSharing') },
+                      { icon: "users", text: t('features.roleBasedAccess') }
                     ]
                   }
                 },
@@ -510,17 +510,17 @@ export default function Home() {
                       </div>
                     </div>
                   ),
-                  title: "Professional Templates",
-                  description: "Choose from industry-specific templates designed by successful freelancers and agencies.",
+                  title: t('features.professionalTemplates'),
+                  description: t('features.professionalTemplatesDesc'),
                   expandedContent: {
-                    title: "Industry-Specific Templates",
+                    title: t('features.industrySpecificTemplates'),
                     details: [
-                      { icon: "template", text: "50+ professional templates for every industry" },
-                      { icon: "star", text: "Designs by award-winning agencies and top freelancers" },
-                      { icon: "template", text: "Web Development, Design, Marketing, Consulting themes" },
-                      { icon: "palette", text: "Customizable branding and color schemes" },
-                      { icon: "mobile", text: "Mobile-responsive proposal viewing experience" },
-                      { icon: "refresh", text: "Regular template updates based on market trends" }
+                      { icon: "template", text: t('features.fiftyPlusTemplates') },
+                      { icon: "star", text: t('features.designsByAward') },
+                      { icon: "template", text: t('features.webDevDesign') },
+                      { icon: "palette", text: t('features.customizableBranding') },
+                      { icon: "mobile", text: t('features.mobileResponsive') },
+                      { icon: "refresh", text: t('features.regularUpdates') }
                     ]
                   }
                 }
@@ -590,7 +590,7 @@ export default function Home() {
                     
                     {!showContent && (
                       <div className="mt-4 text-center">
-                        <span className="text-xs text-primary-600 dark:text-primary-400 font-medium">Hover for details</span>
+                        <span className="text-xs text-primary-600 dark:text-primary-400 font-medium">{t('features.hoverForDetails')}</span>
                       </div>
                     )}
                   </div>
@@ -616,29 +616,29 @@ export default function Home() {
               {[
                 {
                   name: "Sarah Chen",
-                  role: "UX Designer",
+                  role: t('testimonials.sarahRole'),
                   initials: "SC",
                   gradientFrom: "from-purple-500",
                   gradientTo: "to-pink-500",
-                  quote: "PITCHLY increased my proposal acceptance rate from 30% to 85%. The AI understands exactly what clients want to hear.",
+                  quote: t('testimonials.sarahQuote'),
                   rating: 5
                 },
                 {
                   name: "Marcus Johnson",
-                  role: "Marketing Consultant",
+                  role: t('testimonials.marcusRole'),
                   initials: "MJ",
                   gradientFrom: "from-blue-500",
                   gradientTo: "to-indigo-500",
-                  quote: "I used to spend 6 hours per proposal. Now it takes 5 minutes and they're more persuasive than ever.",
+                  quote: t('testimonials.marcusQuote'),
                   rating: 5
                 },
                 {
                   name: "Elena Rodriguez",
-                  role: "Web Developer",
+                  role: t('testimonials.elenaRole'),
                   initials: "ER",
                   gradientFrom: "from-green-500",
                   gradientTo: "to-emerald-500",
-                  quote: "The proposals generated by PITCHLY consistently outperform my hand-written ones. It's like having a copywriting expert on my team.",
+                  quote: t('testimonials.elenaQuote'),
                   rating: 5
                 }
               ].map((testimonial, index) => (

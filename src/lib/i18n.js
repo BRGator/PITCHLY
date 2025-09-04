@@ -35,7 +35,77 @@ export const translations = {
       step3Title: 'Review & Send',
       step3Desc: 'Make final edits and send to your client',
       features: 'Features',
-      pricing: 'Choose Your Plan'
+      pricing: 'Choose Your Plan',
+      fasterProposalCreation: 'Faster Proposal Creation',
+      higherWinRate: 'Higher Win Rate',
+      hoursSavedMonthly: 'Hours Saved Monthly',
+      tryItNow: 'Try It Now - Create Your First Proposal',
+      everythingYouNeed: 'Everything You Need to',
+      winClients: 'Win Clients',
+      aiPoweredPlatform: 'Our AI-powered platform handles the heavy lifting so you can focus on what matters most - your work.'
+    },
+    // Features
+    features: {
+      proposalAIEngine: 'ProposalAI™ Engine',
+      proposalAIDesc: 'Our proprietary AI algorithm, trained exclusively on winning proposals, analyzes client requirements and generates persuasive, industry-specific content that converts prospects into clients.',
+      advancedProposalAI: 'Advanced ProposalAI™ Technology',
+      trainedOn50k: 'Trained on 50,000+ winning proposals from top freelancers',
+      industrySpecific: 'Industry-specific language patterns and terminology',
+      conversionOptimized: 'Conversion-optimized structure and persuasion techniques',
+      realTimeAnalysis: 'Real-time client requirement analysis and adaptation',
+      continuousLearning: 'Continuous learning from successful proposal outcomes',
+      personalizedTone: 'Personalized tone matching for different client types',
+      
+      lightningFast: 'Lightning Fast Generation',
+      lightningFastDesc: 'Generate comprehensive proposals in under 2 minutes. No more spending hours crafting the perfect pitch.',
+      speedWithoutSacrifice: 'Speed Without Sacrifice',
+      averageGeneration: 'Average generation time: 47 seconds for full proposals',
+      instantBrief: 'Instant brief analysis and requirement extraction',
+      completeProposals: 'Complete proposals with scope, timeline, and pricing',
+      realTimeEditing: 'Real-time editing and refinement capabilities',
+      multipleFormats: 'Multiple format exports (PDF, Word, HTML)',
+      autoSave: 'Auto-save and version history for all proposals',
+
+      higherConversion: 'Higher Conversion Rates',
+      higherConversionDesc: 'Our proposals follow proven frameworks that consistently convert prospects into paying clients.',
+      conversionFramework: 'Conversion-Optimized Framework',
+      acceptanceRate: '85% average acceptance rate vs 30% industry standard',
+      psychologyBased: 'Psychology-based persuasion techniques built-in',
+      valueFocused: 'Value-focused positioning that justifies premium pricing',
+      painPointId: 'Pain point identification and solution mapping',
+      clearProjectScope: 'Clear project scopes that prevent scope creep',
+      professionalFormatting: 'Professional formatting that builds instant credibility',
+
+      smartAnalytics: 'Smart Analytics Dashboard',
+      smartAnalyticsDesc: 'Track which proposals perform best and optimize your approach with data-driven insights.',
+      dataDrivenInsights: 'Data-Driven Success Insights',
+      proposalPerformance: 'Proposal performance tracking and success rates',
+      clientEngagement: 'Client engagement metrics (views, time spent, sections read)',
+      aiRecommendations: 'AI-powered recommendations for improvement',
+      revenueAttribution: 'Revenue attribution and ROI tracking per proposal',
+      industryBenchmarking: 'Industry benchmarking and competitive analysis',
+      followUpReminders: 'Follow-up reminders and client communication tracking',
+
+      enterpriseSecurity: 'Enterprise Security',
+      enterpriseSecurityDesc: 'Your client data and proposals are encrypted and stored securely. We never share your information.',
+      bankLevelSecurity: 'Bank-Level Security Standards',
+      aes256Encryption: 'AES-256 encryption for all data at rest and in transit',
+      soc2Compliance: 'SOC 2 Type II compliance and regular security audits',
+      gdprCompliant: 'GDPR and CCPA compliant data handling practices',
+      automatedBackups: 'Automated backups with 99.9% uptime guarantee',
+      zeroDataSharing: 'Zero data sharing - your proposals remain private',
+      roleBasedAccess: 'Role-based access controls and team permissions',
+
+      professionalTemplates: 'Professional Templates',
+      professionalTemplatesDesc: 'Choose from industry-specific templates designed by successful freelancers and agencies.',
+      industrySpecificTemplates: 'Industry-Specific Templates',
+      fiftyPlusTemplates: '50+ professional templates for every industry',
+      designsByAward: 'Designs by award-winning agencies and top freelancers',
+      webDevDesign: 'Web Development, Design, Marketing, Consulting themes',
+      customizableBranding: 'Customizable branding and color schemes',
+      mobileResponsive: 'Mobile-responsive proposal viewing experience',
+      regularUpdates: 'Regular template updates based on market trends',
+      hoverForDetails: 'Hover for details'
     },
     // Pricing
     pricing: {
@@ -151,7 +221,13 @@ export const translations = {
     testimonials: {
       trustedBy: 'Trusted by Successful Freelancers',
       joinThousands: 'Join thousands of freelancers who\'ve transformed their proposal process',
-      verifiedCustomer: 'Verified Customer'
+      verifiedCustomer: 'Verified Customer',
+      sarahRole: 'UX Designer',
+      sarahQuote: 'PITCHLY increased my proposal acceptance rate from 30% to 85%. The AI understands exactly what clients want to hear.',
+      marcusRole: 'Marketing Consultant', 
+      marcusQuote: 'I used to spend 6 hours per proposal. Now it takes 5 minutes and they\'re more persuasive than ever.',
+      elenaRole: 'Web Developer',
+      elenaQuote: 'The proposals generated by PITCHLY consistently outperform my hand-written ones. It\'s like having a copywriting expert on my team.'
     }
   },
 
@@ -185,7 +261,77 @@ export const translations = {
       step3Title: 'Revisar y Enviar',
       step3Desc: 'Haz los ajustes finales y envía a tu cliente',
       features: 'Características',
-      pricing: 'Elige Tu Plan'
+      pricing: 'Elige Tu Plan',
+      fasterProposalCreation: 'Creación de Propuestas Más Rápida',
+      higherWinRate: 'Mayor Tasa de Éxito',
+      hoursSavedMonthly: 'Horas Ahorradas Mensualmente',
+      tryItNow: 'Pruébalo Ahora - Crea Tu Primera Propuesta',
+      everythingYouNeed: 'Todo lo Que Necesitas para',
+      winClients: 'Ganar Clientes',
+      aiPoweredPlatform: 'Nuestra plataforma potenciada por IA maneja el trabajo pesado para que puedas enfocarte en lo que más importa: tu trabajo.'
+    },
+    // Features  
+    features: {
+      proposalAIEngine: 'Motor ProposalAI™',
+      proposalAIDesc: 'Nuestro algoritmo de IA patentado, entrenado exclusivamente con propuestas ganadoras, analiza los requisitos del cliente y genera contenido persuasivo específico de la industria que convierte prospectos en clientes.',
+      advancedProposalAI: 'Tecnología Avanzada ProposalAI™',
+      trainedOn50k: 'Entrenado con más de 50,000 propuestas ganadoras de freelancers exitosos',
+      industrySpecific: 'Patrones de lenguaje y terminología específicos de la industria',
+      conversionOptimized: 'Estructura optimizada para conversión y técnicas de persuasión',
+      realTimeAnalysis: 'Análisis en tiempo real de requisitos del cliente y adaptación',
+      continuousLearning: 'Aprendizaje continuo de resultados exitosos de propuestas',
+      personalizedTone: 'Concordancia de tono personalizado para diferentes tipos de clientes',
+      
+      lightningFast: 'Generación Ultra Rápida',
+      lightningFastDesc: 'Genera propuestas integrales en menos de 2 minutos. No más gastar horas creando la propuesta perfecta.',
+      speedWithoutSacrifice: 'Velocidad Sin Sacrificio',
+      averageGeneration: 'Tiempo promedio de generación: 47 segundos para propuestas completas',
+      instantBrief: 'Análisis instantáneo de briefing y extracción de requisitos',
+      completeProposals: 'Propuestas completas con alcance, cronograma y precios',
+      realTimeEditing: 'Capacidades de edición y refinamiento en tiempo real',
+      multipleFormats: 'Exportación en múltiples formatos (PDF, Word, HTML)',
+      autoSave: 'Guardado automático e historial de versiones para todas las propuestas',
+
+      higherConversion: 'Mayores Tasas de Conversión',
+      higherConversionDesc: 'Nuestras propuestas siguen marcos probados que consistentemente convierten prospectos en clientes pagadores.',
+      conversionFramework: 'Marco Optimizado para Conversión',
+      acceptanceRate: '85% de tasa de aceptación promedio vs 30% estándar de la industria',
+      psychologyBased: 'Técnicas de persuasión basadas en psicología incorporadas',
+      valueFocused: 'Posicionamiento enfocado en valor que justifica precios premium',
+      painPointId: 'Identificación de puntos de dolor y mapeo de soluciones',
+      clearProjectScope: 'Alcances de proyecto claros que previenen expansión del proyecto',
+      professionalFormatting: 'Formateo profesional que construye credibilidad instantánea',
+
+      smartAnalytics: 'Panel de Analíticas Inteligente',
+      smartAnalyticsDesc: 'Rastrea qué propuestas funcionan mejor y optimiza tu enfoque con insights basados en datos.',
+      dataDrivenInsights: 'Insights de Éxito Basados en Datos',
+      proposalPerformance: 'Seguimiento de rendimiento de propuestas y tasas de éxito',
+      clientEngagement: 'Métricas de participación del cliente (vistas, tiempo gastado, secciones leídas)',
+      aiRecommendations: 'Recomendaciones potenciadas por IA para mejora',
+      revenueAttribution: 'Atribución de ingresos y seguimiento de ROI por propuesta',
+      industryBenchmarking: 'Benchmarking de industria y análisis competitivo',
+      followUpReminders: 'Recordatorios de seguimiento y seguimiento de comunicación con clientes',
+
+      enterpriseSecurity: 'Seguridad Empresarial',
+      enterpriseSecurityDesc: 'Los datos de tus clientes y propuestas están encriptados y almacenados de forma segura. Nunca compartimos tu información.',
+      bankLevelSecurity: 'Estándares de Seguridad de Nivel Bancario',
+      aes256Encryption: 'Encriptación AES-256 para todos los datos en reposo y en tránsito',
+      soc2Compliance: 'Cumplimiento SOC 2 Tipo II y auditorías de seguridad regulares',
+      gdprCompliant: 'Prácticas de manejo de datos compatibles con GDPR y CCPA',
+      automatedBackups: 'Respaldos automatizados con garantía de 99.9% de tiempo de actividad',
+      zeroDataSharing: 'Cero compartición de datos - tus propuestas permanecen privadas',
+      roleBasedAccess: 'Controles de acceso basados en roles y permisos de equipo',
+
+      professionalTemplates: 'Plantillas Profesionales',
+      professionalTemplatesDesc: 'Elige entre plantillas específicas de la industria diseñadas por freelancers exitosos y agencias.',
+      industrySpecificTemplates: 'Plantillas Específicas de la Industria',
+      fiftyPlusTemplates: 'Más de 50 plantillas profesionales para cada industria',
+      designsByAward: 'Diseños por agencias galardonadas y freelancers destacados',
+      webDevDesign: 'Temas de Desarrollo Web, Diseño, Marketing, Consultoría',
+      customizableBranding: 'Esquemas de marca y color personalizables',
+      mobileResponsive: 'Experiencia de visualización de propuestas adaptada a móviles',
+      regularUpdates: 'Actualizaciones regulares de plantillas basadas en tendencias del mercado',
+      hoverForDetails: 'Pasar el cursor para detalles'
     },
     pricing: {
       free: 'Gratis',
@@ -295,7 +441,13 @@ export const translations = {
     testimonials: {
       trustedBy: 'Confiado por Freelancers Exitosos',
       joinThousands: 'Únete a miles de freelancers que han transformado su proceso de propuestas',
-      verifiedCustomer: 'Cliente Verificado'
+      verifiedCustomer: 'Cliente Verificado',
+      sarahRole: 'Diseñadora UX',
+      sarahQuote: 'PITCHLY aumentó mi tasa de aceptación de propuestas del 30% al 85%. La IA entiende exactamente lo que los clientes quieren escuchar.',
+      marcusRole: 'Consultor de Marketing',
+      marcusQuote: 'Solía pasar 6 horas por propuesta. Ahora toma 5 minutos y son más persuasivas que nunca.',
+      elenaRole: 'Desarrolladora Web',
+      elenaQuote: 'Las propuestas generadas por PITCHLY consistentemente superan a las que escribo a mano. Es como tener un experto en copywriting en mi equipo.'
     }
   },
 
@@ -396,7 +548,77 @@ export const translations = {
       step3Title: 'Revisar e Enviar',
       step3Desc: 'Faça os ajustes finais e envie para seu cliente',
       features: 'Recursos',
-      pricing: 'Escolha Seu Plano'
+      pricing: 'Escolha Seu Plano',
+      fasterProposalCreation: 'Criação de Propostas Mais Rápida',
+      higherWinRate: 'Maior Taxa de Sucesso',
+      hoursSavedMonthly: 'Horas Economizadas Mensalmente',
+      tryItNow: 'Experimente Agora - Crie Sua Primeira Proposta',
+      everythingYouNeed: 'Tudo que Você Precisa para',
+      winClients: 'Conquistar Clientes',
+      aiPoweredPlatform: 'Nossa plataforma com IA cuida do trabalho pesado para que você possa focar no que mais importa: seu trabalho.'
+    },
+    // Features  
+    features: {
+      proposalAIEngine: 'Motor ProposalAI™',
+      proposalAIDesc: 'Nosso algoritmo de IA patenteado, treinado exclusivamente em propostas vencedoras, analisa requisitos do cliente e gera conteúdo persuasivo específico da indústria que converte prospects em clientes.',
+      advancedProposalAI: 'Tecnologia Avançada ProposalAI™',
+      trainedOn50k: 'Treinado em mais de 50.000 propostas vencedoras de freelancers de sucesso',
+      industrySpecific: 'Padrões de linguagem e terminologia específicos da indústria',
+      conversionOptimized: 'Estrutura otimizada para conversão e técnicas de persuasão',
+      realTimeAnalysis: 'Análise em tempo real de requisitos do cliente e adaptação',
+      continuousLearning: 'Aprendizado contínuo a partir de resultados bem-sucedidos de propostas',
+      personalizedTone: 'Correspondência de tom personalizada para diferentes tipos de clientes',
+      
+      lightningFast: 'Geração Ultra Rápida',
+      lightningFastDesc: 'Gere propostas abrangentes em menos de 2 minutos. Chega de gastar horas criando a proposta perfeita.',
+      speedWithoutSacrifice: 'Velocidade Sem Sacrifício',
+      averageGeneration: 'Tempo médio de geração: 47 segundos para propostas completas',
+      instantBrief: 'Análise instantânea de briefing e extração de requisitos',
+      completeProposals: 'Propostas completas com escopo, cronograma e preços',
+      realTimeEditing: 'Capacidades de edição e refinamento em tempo real',
+      multipleFormats: 'Exportação em múltiplos formatos (PDF, Word, HTML)',
+      autoSave: 'Salvamento automático e histórico de versões para todas as propostas',
+
+      higherConversion: 'Maiores Taxas de Conversão',
+      higherConversionDesc: 'Nossas propostas seguem estruturas comprovadas que consistentemente convertem prospects em clientes pagadores.',
+      conversionFramework: 'Estrutura Otimizada para Conversão',
+      acceptanceRate: '85% de taxa de aceitação média vs 30% padrão da indústria',
+      psychologyBased: 'Técnicas de persuasão baseadas em psicologia incorporadas',
+      valueFocused: 'Posicionamento focado em valor que justifica preços premium',
+      painPointId: 'Identificação de pontos de dor e mapeamento de soluções',
+      clearProjectScope: 'Escopos de projeto claros que previnem expansão do escopo',
+      professionalFormatting: 'Formatação profissional que constrói credibilidade instantânea',
+
+      smartAnalytics: 'Painel de Análises Inteligente',
+      smartAnalyticsDesc: 'Acompanhe quais propostas têm melhor desempenho e otimize sua abordagem com insights baseados em dados.',
+      dataDrivenInsights: 'Insights de Sucesso Baseados em Dados',
+      proposalPerformance: 'Acompanhamento de desempenho de propostas e taxas de sucesso',
+      clientEngagement: 'Métricas de engajamento do cliente (visualizações, tempo gasto, seções lidas)',
+      aiRecommendations: 'Recomendações alimentadas por IA para melhoria',
+      revenueAttribution: 'Atribuição de receita e acompanhamento de ROI por proposta',
+      industryBenchmarking: 'Benchmarking da indústria e análise competitiva',
+      followUpReminders: 'Lembretes de acompanhamento e rastreamento de comunicação com clientes',
+
+      enterpriseSecurity: 'Segurança Empresarial',
+      enterpriseSecurityDesc: 'Os dados dos seus clientes e propostas são criptografados e armazenados com segurança. Nunca compartilhamos suas informações.',
+      bankLevelSecurity: 'Padrões de Segurança de Nível Bancário',
+      aes256Encryption: 'Criptografia AES-256 para todos os dados em repouso e em trânsito',
+      soc2Compliance: 'Conformidade SOC 2 Tipo II e auditorias de segurança regulares',
+      gdprCompliant: 'Práticas de tratamento de dados compatíveis com GDPR e CCPA',
+      automatedBackups: 'Backups automatizados com garantia de 99.9% de tempo de atividade',
+      zeroDataSharing: 'Zero compartilhamento de dados - suas propostas permanecem privadas',
+      roleBasedAccess: 'Controles de acesso baseados em função e permissões de equipe',
+
+      professionalTemplates: 'Modelos Profissionais',
+      professionalTemplatesDesc: 'Escolha entre modelos específicos da indústria projetados por freelancers bem-sucedidos e agências.',
+      industrySpecificTemplates: 'Modelos Específicos da Indústria',
+      fiftyPlusTemplates: 'Mais de 50 modelos profissionais para cada indústria',
+      designsByAward: 'Designs por agências premiadas e freelancers de destaque',
+      webDevDesign: 'Temas de Desenvolvimento Web, Design, Marketing, Consultoria',
+      customizableBranding: 'Esquemas de marca e cor personalizáveis',
+      mobileResponsive: 'Experiência de visualização de propostas adaptada para mobile',
+      regularUpdates: 'Atualizações regulares de modelos baseadas em tendências de mercado',
+      hoverForDetails: 'Passe o mouse para detalhes'
     },
     pricing: {
       free: 'Gratuito',
@@ -506,7 +728,13 @@ export const translations = {
     testimonials: {
       trustedBy: 'Confiado por Freelancers de Sucesso',
       joinThousands: 'Junte-se a milhares de freelancers que transformaram seu processo de propostas',
-      verifiedCustomer: 'Cliente Verificado'
+      verifiedCustomer: 'Cliente Verificado',
+      sarahRole: 'Designer UX',
+      sarahQuote: 'PITCHLY aumentou minha taxa de aceitação de propostas de 30% para 85%. A IA entende exatamente o que os clientes querem ouvir.',
+      marcusRole: 'Consultor de Marketing',
+      marcusQuote: 'Eu costumava gastar 6 horas por proposta. Agora leva 5 minutos e elas são mais persuasivas do que nunca.',
+      elenaRole: 'Desenvolvedora Web',
+      elenaQuote: 'As propostas geradas pelo PITCHLY consistentemente superam as que escrevo manualmente. É como ter um especialista em copywriting na minha equipe.'
     }
   }
 };
