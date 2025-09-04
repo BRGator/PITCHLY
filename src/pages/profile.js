@@ -11,12 +11,16 @@ import { supabase } from '../lib/supabase';
 import { useI18n } from '../lib/i18n';
 
 export default function Profile() {
+  console.log('[Profile] Component rendering started');
+  
   const { t } = useI18n();
   const { data: session, status, update: updateSession } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
+  
+  console.log('[Profile] Hooks initialized, session status:', status);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -56,16 +60,33 @@ export default function Profile() {
 
   // Load user data
   useEffect(() => {
+    console.log('[Profile] useEffect loadUserData triggered, session:', {
+      hasSession: !!session,
+      userId: session?.user?.id,
+      userEmail: session?.user?.email
+    });
+    
     const loadUserData = async () => {
-      if (!session?.user?.id) return;
+      if (!session?.user?.id) {
+        console.log('[Profile] No session or user ID, skipping data load');
+        return;
+      }
 
       try {
+        console.log('[Profile] Loading user settings for user:', session.user.id);
+        
         // Get user settings
-        const { data: userSettings } = await supabase
+        const { data: userSettings, error } = await supabase
           .from('user_settings')
           .select('*')
           .eq('user_id', session.user.id)
           .single();
+
+        if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+          console.warn('[Profile] Error loading user settings:', error);
+        }
+
+        console.log('[Profile] User settings loaded:', userSettings);
 
         setFormData({
           name: session.user.name || '',
@@ -75,9 +96,12 @@ export default function Profile() {
           goals: userSettings?.goals || []
         });
         setAvatarUrl(session.user.image);
+        
+        console.log('[Profile] Form data set successfully');
       } catch (error) {
-        console.error('Error loading user data:', error);
+        console.error('[Profile] Error loading user data:', error);
       } finally {
+        console.log('[Profile] Setting loading to false');
         setLoading(false);
       }
     };
@@ -153,6 +177,7 @@ export default function Profile() {
   };
 
   if (status === 'loading' || loading) {
+    console.log('[Profile] Showing loading state, status:', status, 'loading:', loading);
     return (
       <>
         <Navbar />
@@ -167,6 +192,8 @@ export default function Profile() {
       </>
     );
   }
+
+  console.log('[Profile] Rendering main profile content');
 
   return (
     <>
@@ -219,10 +246,20 @@ export default function Profile() {
               {/* Profile Picture & Basic Info */}
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
-                  <AvatarUpload 
-                    currentImage={avatarUrl}
-                    onUploadSuccess={(newImageUrl) => setAvatarUrl(newImageUrl)}
-                  />
+                  {(() => {
+                    try {
+                      console.log('[Profile] Rendering AvatarUpload');
+                      return <AvatarUpload 
+                        currentImage={avatarUrl}
+                        onUploadSuccess={(newImageUrl) => setAvatarUrl(newImageUrl)}
+                      />;
+                    } catch (error) {
+                      console.error('[Profile] Error rendering AvatarUpload:', error);
+                      return <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500 text-sm">Avatar Error</span>
+                      </div>;
+                    }
+                  })()}
                 </div>
                 
                 <div className="flex-1 space-y-4">
@@ -354,7 +391,15 @@ export default function Profile() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   {t('profile.sections.regionalDescription')}
                 </p>
-                <RegionSelector />
+                {(() => {
+                  try {
+                    console.log('[Profile] Rendering RegionSelector');
+                    return <RegionSelector />;
+                  } catch (error) {
+                    console.error('[Profile] Error rendering RegionSelector:', error);
+                    return <div className="text-red-500 text-sm">Error loading regional preferences</div>;
+                  }
+                })()}
               </div>
 
               <hr className="border-gray-200 dark:border-gray-700" />
@@ -364,7 +409,15 @@ export default function Profile() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   {t('profile.sections.billing')}
                 </h3>
-                <UsageDashboard />
+                {(() => {
+                  try {
+                    console.log('[Profile] Rendering UsageDashboard');
+                    return <UsageDashboard />;
+                  } catch (error) {
+                    console.error('[Profile] Error rendering UsageDashboard:', error);
+                    return <div className="text-red-500 text-sm">Error loading billing information</div>;
+                  }
+                })()}
               </div>
 
               <hr className="border-gray-200 dark:border-gray-700" />

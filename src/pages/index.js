@@ -42,7 +42,7 @@ export default function Home() {
   }, [session]);
 
   // Handle pricing plan clicks
-  const handlePlanClick = async (planName) => {
+  const handlePlanClick = async (planId) => {
     if (!session) {
       // Not logged in - redirect to signin
       signIn();
@@ -50,22 +50,15 @@ export default function Home() {
     }
 
     // User is logged in
-    if (planName === 'Starter') {
+    if (planId === 'free') {
       // Free plan - go to dashboard
       window.location.href = '/dashboard';
       return;
     }
 
     // For paid plans, show embedded checkout
-    // Map plan names to correct tier names for API
-    let tierName = planName.toLowerCase();
-    if (planName === 'Professional') {
-      tierName = 'professional';
-    } else if (planName === 'Agency') {
-      tierName = 'agency';
-    }
-    
-    setSelectedTier(tierName);
+    // Use plan ID directly for API
+    setSelectedTier(planId);
     setShowCheckout(true);
   };
 
@@ -81,16 +74,9 @@ export default function Home() {
   };
 
   // Check if a plan is the user's current plan
-  const isCurrentPlan = (planName) => {
+  const isCurrentPlan = (planId) => {
     if (!subscription) return false;
-    
-    const tierMapping = {
-      'Starter': 'free',
-      'Professional': 'professional', 
-      'Agency': 'agency'
-    };
-    
-    return subscription.tier === tierMapping[planName];
+    return subscription.tier === planId;
   };
 
   // Luxury icon component for expanded features
@@ -721,6 +707,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
               {[
                 {
+                  id: 'free',
                   name: t('pricing.planStarter'),
                   price: t('pricing.free'),
                   period: t('pricing.forever'),
@@ -729,6 +716,7 @@ export default function Home() {
                   popular: false
                 },
                 {
+                  id: 'professional',
                   name: t('pricing.planProfessional'),
                   price: "$29",
                   period: t('pricing.perMonth'),
@@ -737,6 +725,7 @@ export default function Home() {
                   popular: true
                 },
                 {
+                  id: 'agency',
                   name: t('pricing.planAgency'),
                   price: "$99",
                   period: t('pricing.perMonth'),
@@ -746,18 +735,18 @@ export default function Home() {
                 }
               ].map((plan, index) => (
                 <div key={index} className={`card-premium p-8 relative ${
-                  isCurrentPlan(plan.name) 
+                  isCurrentPlan(plan.id) 
                     ? 'ring-4 ring-green-500 bg-green-50 dark:bg-green-900/10' 
                     : plan.popular 
                       ? 'ring-4 ring-primary-500 animate-glow' 
                       : ''
                 } flex flex-col h-full`}>
-                  {isCurrentPlan(plan.name) && (
+                  {isCurrentPlan(plan.id) && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                       {t('pricing.currentPlan')}
                     </div>
                   )}
-                  {plan.popular && !isCurrentPlan(plan.name) && (
+                  {plan.popular && !isCurrentPlan(plan.id) && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap">
                       {t('pricing.mostPopular')}
                     </div>
@@ -779,17 +768,17 @@ export default function Home() {
                       ))}
                     </ul>
                     <button
-                      onClick={() => handlePlanClick(plan.name)}
-                      disabled={isCurrentPlan(plan.name)}
+                      onClick={() => handlePlanClick(plan.id)}
+                      disabled={isCurrentPlan(plan.id)}
                       className={`w-full mt-auto transition-all duration-200 ${
-                        isCurrentPlan(plan.name)
+                        isCurrentPlan(plan.id)
                           ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                           : plan.popular 
                             ? 'btn-primary' 
                             : 'btn-secondary'
                       }`}
                     >
-                      {isCurrentPlan(plan.name) ? t('landing.currentPlan') : session ? (plan.name === 'Starter' ? t('landing.switchToFree') : t('landing.upgradeNow')) : plan.cta}
+                      {isCurrentPlan(plan.id) ? t('landing.currentPlan') : session ? (plan.id === 'free' ? t('landing.switchToFree') : t('landing.upgradeNow')) : plan.cta}
                     </button>
                   </div>
                 </div>
