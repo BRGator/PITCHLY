@@ -8,8 +8,10 @@ import AvatarUpload from '../components/AvatarUpload';
 import UsageDashboard from '../components/UsageDashboard';
 import RegionSelector from '../components/RegionSelector';
 import { supabase } from '../lib/supabase';
+import { useI18n } from '../lib/i18n';
 
 export default function Profile() {
+  const { t } = useI18n();
   const { data: session, status, update: updateSession } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -26,22 +28,22 @@ export default function Profile() {
   const [avatarUrl, setAvatarUrl] = useState(null);
 
   const businessTypes = [
-    'Freelancer',
-    'Small Agency',
-    'Consultant',
-    'Creative Services',
-    'Marketing Agency',
-    'Web Development',
-    'Other'
+    { value: 'freelancer', label: t('profile.businessTypes.freelancer') },
+    { value: 'small-agency', label: t('profile.businessTypes.smallAgency') },
+    { value: 'consultant', label: t('profile.businessTypes.consultant') },
+    { value: 'creative-services', label: t('profile.businessTypes.creativeServices') },
+    { value: 'marketing-agency', label: t('profile.businessTypes.marketingAgency') },
+    { value: 'web-development', label: t('profile.businessTypes.webDevelopment') },
+    { value: 'other', label: t('profile.businessTypes.other') }
   ];
 
   const goalOptions = [
-    'Win more clients',
-    'Save time on proposals',
-    'Increase proposal value',
-    'Improve win rates',
-    'Standardize processes',
-    'Scale my business'
+    { value: 'win-more-clients', label: t('profile.goals.winMoreClients') },
+    { value: 'save-time', label: t('profile.goals.saveTime') },
+    { value: 'increase-value', label: t('profile.goals.increaseValue') },
+    { value: 'improve-rates', label: t('profile.goals.improveRates') },
+    { value: 'standardize', label: t('profile.goals.standardize') },
+    { value: 'scale-business', label: t('profile.goals.scaleBusiness') }
   ];
 
   // Handle authentication
@@ -87,12 +89,12 @@ export default function Profile() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleGoalToggle = (goal) => {
+  const handleGoalToggle = (goalValue) => {
     setFormData(prev => ({
       ...prev,
-      goals: prev.goals.includes(goal) 
-        ? prev.goals.filter(g => g !== goal)
-        : [...prev.goals, goal]
+      goals: prev.goals.includes(goalValue) 
+        ? prev.goals.filter(g => g !== goalValue)
+        : [...prev.goals, goalValue]
     }));
   };
 
@@ -131,10 +133,10 @@ export default function Profile() {
 
       if (error) throw error;
 
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      setMessage({ type: 'success', text: t('profile.messages.profileUpdated') });
     } catch (error) {
       console.error('Error saving profile:', error);
-      setMessage({ type: 'error', text: 'Failed to update profile. Please try again.' });
+      setMessage({ type: 'error', text: t('profile.messages.updateFailed') });
     } finally {
       setSaving(false);
     }
@@ -158,7 +160,7 @@ export default function Profile() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-              <p className="text-gray-600 dark:text-gray-400 mt-4">Loading profile...</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-4">{t('profile.loadingProfile')}</p>
             </div>
           </div>
         </div>
@@ -169,8 +171,8 @@ export default function Profile() {
   return (
     <>
       <Head>
-        <title>Profile Settings - PITCHLY</title>
-        <meta name="description" content="Manage your PITCHLY profile and account settings" />
+        <title>{t('profile.pageTitle')} - PITCHLY</title>
+        <meta name="description" content={t('profile.pageDescription')} />
       </Head>
 
       <Navbar />
@@ -181,14 +183,14 @@ export default function Profile() {
           <div className="mb-8">
             <div className="flex items-center space-x-4 mb-6">
               <Link href="/dashboard" className="btn-ghost">
-                ← Back to Dashboard
+                {t('profile.backToDashboard')}
               </Link>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Profile Settings
+              {t('profile.title')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Manage your account information and preferences
+              {t('profile.subtitle')}
             </p>
           </div>
 
@@ -226,30 +228,30 @@ export default function Profile() {
                 <div className="flex-1 space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Full Name
+                      {t('profile.fields.fullName')}
                     </label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       className="input-field"
-                      placeholder="Your full name"
+                      placeholder={t('profile.fields.fullNamePlaceholder')}
                     />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Email Address
+                      {t('profile.fields.emailAddress')}
                     </label>
                     <input
                       type="email"
                       value={formData.email}
                       disabled
                       className="input-field opacity-60 cursor-not-allowed"
-                      title="Email cannot be changed"
+                      title={t('profile.fields.emailCannotChange')}
                     />
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Email address cannot be changed
+                      {t('profile.fields.emailCannotChangeDesc')}
                     </p>
                   </div>
                 </div>
@@ -260,34 +262,34 @@ export default function Profile() {
               {/* Business Information */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Business Information
+                  {t('profile.sections.businessInfo')}
                 </h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Company/Business Name
+                      {t('profile.fields.companyName')}
                     </label>
                     <input
                       type="text"
                       value={formData.company}
                       onChange={(e) => handleInputChange('company', e.target.value)}
                       className="input-field"
-                      placeholder="Your company name"
+                      placeholder={t('profile.fields.companyNamePlaceholder')}
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Business Type
+                      {t('profile.fields.businessType')}
                     </label>
                     <select
                       value={formData.businessType}
                       onChange={(e) => handleInputChange('businessType', e.target.value)}
                       className="input-field"
                     >
-                      <option value="">Select your business type</option>
+                      <option value="">{t('profile.fields.selectBusinessType')}</option>
                       {businessTypes.map(type => (
-                        <option key={type} value={type}>{type}</option>
+                        <option key={type.value} value={type.value}>{type.label}</option>
                       ))}
                     </select>
                   </div>
@@ -297,37 +299,37 @@ export default function Profile() {
               {/* Goals */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Your Goals
+                  {t('profile.sections.yourGoals')}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                  Select all that apply to help us personalize your experience
+                  {t('profile.sections.goalsDescription')}
                 </p>
                 
                 <div className="grid md:grid-cols-2 gap-4">
                   {goalOptions.map(goal => (
                     <button
-                      key={goal}
+                      key={goal.value}
                       type="button"
-                      onClick={() => handleGoalToggle(goal)}
+                      onClick={() => handleGoalToggle(goal.value)}
                       className={`p-4 rounded-lg border-2 text-left transition-all ${
-                        formData.goals.includes(goal)
+                        formData.goals.includes(goal.value)
                           ? 'border-primary-600 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                           : 'border-gray-200 dark:border-gray-600 hover:border-primary-300 text-gray-700 dark:text-gray-300'
                       }`}
                     >
                       <div className="flex items-center space-x-3">
                         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                          formData.goals.includes(goal)
+                          formData.goals.includes(goal.value)
                             ? 'border-primary-600 bg-primary-600'
                             : 'border-gray-300 dark:border-gray-500'
                         }`}>
-                          {formData.goals.includes(goal) && (
+                          {formData.goals.includes(goal.value) && (
                             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           )}
                         </div>
-                        <span className="font-medium">{goal}</span>
+                        <span className="font-medium">{goal.label}</span>
                       </div>
                     </button>
                   ))}
@@ -340,17 +342,17 @@ export default function Profile() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    🌍 Regional Preferences
+                    {t('profile.sections.regionalPreferences')}
                   </h3>
                   <Link 
                     href="/settings/regional" 
                     className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
                   >
-                    Advanced Settings →
+                    {t('profile.advancedSettings')}
                   </Link>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Set your preferred region, language, and currency format
+                  {t('profile.sections.regionalDescription')}
                 </p>
                 <RegionSelector />
               </div>
@@ -360,7 +362,7 @@ export default function Profile() {
               {/* Billing Management */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Billing & Subscription
+                  {t('profile.sections.billing')}
                 </h3>
                 <UsageDashboard />
               </div>
@@ -374,7 +376,7 @@ export default function Profile() {
                   disabled={saving}
                   className="btn-primary"
                 >
-                  {saving ? 'Saving...' : 'Save Changes'}
+                  {saving ? t('profile.saving') : t('profile.saveChanges')}
                 </button>
               </div>
             </form>
@@ -383,33 +385,33 @@ export default function Profile() {
           {/* Account Actions */}
           <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Account Actions
+              {t('profile.sections.accountActions')}
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100">Export Data</h4>
+                  <h4 className="font-medium text-gray-900 dark:text-gray-100">{t('profile.actions.exportData.title')}</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Download all your proposals and account data
+                    {t('profile.actions.exportData.description')}
                   </p>
                 </div>
                 <button className="btn-ghost text-sm">
-                  Export
+                  {t('profile.actions.exportData.button')}
                 </button>
               </div>
               
               <div className="flex items-center justify-between p-4 border border-red-200 dark:border-red-700 rounded-lg">
                 <div>
-                  <h4 className="font-medium text-red-900 dark:text-red-100">Delete Account</h4>
+                  <h4 className="font-medium text-red-900 dark:text-red-100">{t('profile.actions.deleteAccount.title')}</h4>
                   <p className="text-sm text-red-600 dark:text-red-400">
-                    Permanently delete your account and all data
+                    {t('profile.actions.deleteAccount.description')}
                   </p>
                 </div>
                 <button 
                   className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium"
-                  onClick={() => alert('Account deletion coming soon. Contact support for assistance.')}
+                  onClick={() => alert(t('profile.actions.deleteAccount.comingSoon'))}
                 >
-                  Delete
+                  {t('profile.actions.deleteAccount.button')}
                 </button>
               </div>
             </div>

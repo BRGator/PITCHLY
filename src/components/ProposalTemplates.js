@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { supabase } from '../lib/supabase';
+import { useI18n } from '../lib/i18n';
 
 export default function ProposalTemplates({ onSelectTemplate, subscription }) {
+  const { t } = useI18n();
   const { data: session } = useSession();
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
   };
 
   const deleteTemplate = async (templateId) => {
-    if (!confirm('Are you sure you want to delete this template?')) return;
+    if (!confirm(t('proposalTemplates.deleteConfirm'))) return;
 
     try {
       const { error } = await supabase
@@ -88,8 +90,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
   const advancedTemplates = [
     {
       id: 'enterprise-consulting',
-      name: 'Enterprise Consulting Package',
-      description: 'Comprehensive enterprise-level consulting and strategy development',
+      name: t('proposalTemplates.templates.enterpriseConsulting.name'),
+      description: t('proposalTemplates.templates.enterpriseConsulting.description'),
       template_data: {
         projectTitle: 'Enterprise Digital Transformation & Strategic Consulting',
         projectDescription: 'End-to-end enterprise consulting including digital transformation roadmap, organizational change management, technology stack optimization, process reengineering, stakeholder alignment, executive coaching, and implementation oversight. Includes competitive analysis, market research, regulatory compliance review, and 12-month strategic planning with quarterly business reviews.',
@@ -102,8 +104,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'saas-development',
-      name: 'SaaS Platform Development',
-      description: 'Full-stack SaaS application with advanced features',
+      name: t('proposalTemplates.templates.saasDevelopment.name'),
+      description: t('proposalTemplates.templates.saasDevelopment.description'),
       template_data: {
         projectTitle: 'Custom SaaS Platform Development & Launch',
         projectDescription: 'Complete SaaS platform development including user authentication, subscription billing, admin dashboard, API development, third-party integrations, automated testing, security implementation, scalable cloud infrastructure, monitoring setup, and go-to-market support. Includes user onboarding flows, analytics dashboard, multi-tenant architecture, and compliance features.',
@@ -116,8 +118,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'brand-transformation',
-      name: 'Complete Brand Transformation',
-      description: 'Full brand overhaul with marketing strategy and implementation',
+      name: t('proposalTemplates.templates.brandTransformation.name'),
+      description: t('proposalTemplates.templates.brandTransformation.description'),
       template_data: {
         projectTitle: 'Complete Brand Transformation & Market Repositioning',
         projectDescription: 'Comprehensive brand transformation including market research, brand strategy development, visual identity redesign, messaging framework, website redesign, marketing collateral creation, social media strategy, PR campaign launch, and brand guidelines documentation. Includes stakeholder workshops, customer journey mapping, competitive positioning, and 6-month post-launch optimization.',
@@ -130,8 +132,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'ecommerce-platform',
-      name: 'Enterprise E-commerce Platform',
-      description: 'Advanced e-commerce solution with custom features',
+      name: t('proposalTemplates.templates.ecommercePlatform.name'),
+      description: t('proposalTemplates.templates.ecommercePlatform.description'),
       template_data: {
         projectTitle: 'Enterprise E-commerce Platform with Custom Integrations',
         projectDescription: 'Advanced e-commerce platform development including custom product configurators, inventory management system, multi-channel selling, automated marketing workflows, advanced analytics, payment processing, shipping integrations, customer portal, and admin dashboard. Includes mobile optimization, performance optimization, SEO implementation, and staff training.',
@@ -144,8 +146,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'data-analytics',
-      name: 'Enterprise Data & Analytics',
-      description: 'Custom data platform with advanced analytics and reporting',
+      name: t('proposalTemplates.templates.dataAnalytics.name'),
+      description: t('proposalTemplates.templates.dataAnalytics.description'),
       template_data: {
         projectTitle: 'Enterprise Data Analytics Platform & Business Intelligence',
         projectDescription: 'Custom data analytics platform including data warehouse design, ETL pipeline development, real-time dashboard creation, predictive analytics implementation, automated reporting system, data visualization, machine learning integration, and executive reporting suite. Includes data governance framework, security implementation, and team training on analytics tools.',
@@ -162,8 +164,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
   const builtInTemplates = [
     {
       id: 'web-design',
-      name: 'Web Design Project',
-      description: 'Template for web design and development projects',
+      name: t('proposalTemplates.templates.webDesign.name'),
+      description: t('proposalTemplates.templates.webDesign.description'),
       template_data: {
         projectTitle: 'Professional Website Design & Development',
         projectDescription: 'Complete website design and development including responsive design, content management system, SEO optimization, and mobile-friendly layout. Includes user research, wireframing, custom design, development, testing, and launch support.',
@@ -176,8 +178,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'marketing',
-      name: 'Marketing Campaign',
-      description: 'Template for marketing and advertising campaigns',
+      name: t('proposalTemplates.templates.marketing.name'),
+      description: t('proposalTemplates.templates.marketing.description'),
       template_data: {
         projectTitle: 'Digital Marketing Campaign Strategy',
         projectDescription: 'Comprehensive digital marketing strategy including social media management, content creation, paid advertising, and performance tracking. Includes market research, competitor analysis, content calendar, ad creation, and monthly reporting.',
@@ -190,8 +192,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'branding',
-      name: 'Brand Identity Package',
-      description: 'Complete brand identity and logo design package',
+      name: t('proposalTemplates.templates.branding.name'),
+      description: t('proposalTemplates.templates.branding.description'),
       template_data: {
         projectTitle: 'Complete Brand Identity & Logo Design',
         projectDescription: 'Full brand identity package including logo design, color palette, typography, brand guidelines, business card design, and brand application mockups. Includes market research, concept development, and 3 rounds of revisions.',
@@ -204,8 +206,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'app-development',
-      name: 'Mobile App Development',
-      description: 'Native or cross-platform mobile application',
+      name: t('proposalTemplates.templates.appDevelopment.name'),
+      description: t('proposalTemplates.templates.appDevelopment.description'),
       template_data: {
         projectTitle: 'Custom Mobile Application Development',
         projectDescription: 'Full-stack mobile application development including user interface design, backend development, API integration, user authentication, push notifications, and app store deployment. Includes testing, documentation, and post-launch support.',
@@ -218,8 +220,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
     },
     {
       id: 'consulting',
-      name: 'Business Consulting',
-      description: 'Strategic business consulting and advisory services',
+      name: t('proposalTemplates.templates.consulting.name'),
+      description: t('proposalTemplates.templates.consulting.description'),
       template_data: {
         projectTitle: 'Strategic Business Consulting & Advisory',
         projectDescription: 'Comprehensive business consulting including market analysis, operational review, growth strategy development, process optimization recommendations, and implementation roadmap. Includes stakeholder interviews, data analysis, and executive presentations.',
@@ -251,12 +253,12 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Proposal Templates
+            {t('proposalTemplates.title')}
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             {isProfessional 
-              ? 'Save time with pre-made templates'
-              : 'Upgrade to Professional to create custom templates'
+              ? t('proposalTemplates.saveTimeDesc')
+              : t('proposalTemplates.upgradeDesc')
             }
           </p>
         </div>
@@ -265,7 +267,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
             onClick={() => setShowSaveModal(true)}
             className="btn-ghost text-sm"
           >
-            💾 Save as Template
+{t('proposalTemplates.saveAsTemplate')}
           </button>
         )}
       </div>
@@ -274,9 +276,9 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
       {isProfessional && (
         <div className="mb-8">
           <h4 className="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">
-            ⭐ Advanced Templates
+            {t('proposalTemplates.advancedTemplates')}
             <span className="ml-2 text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded">
-              Professional
+              {t('proposalTemplates.professional')}
             </span>
           </h4>
           <div className="grid gap-3">
@@ -297,7 +299,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                   </div>
                   <div className="ml-4">
                     <span className="text-xs bg-purple-500 text-white px-2 py-1 rounded">
-                      Advanced
+                      {t('proposalTemplates.advanced')}
                     </span>
                   </div>
                 </div>
@@ -310,7 +312,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
       {/* Built-in Templates */}
       <div>
         <h4 className="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">
-          Starter Templates
+          {t('proposalTemplates.starterTemplates')}
         </h4>
         <div className="grid gap-3">
           {builtInTemplates.map(template => (
@@ -330,7 +332,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                 </div>
                 <div className="ml-4">
                   <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-                    Free
+                    {t('proposalTemplates.free')}
                   </span>
                 </div>
               </div>
@@ -344,11 +346,11 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-md font-medium text-gray-800 dark:text-gray-200">
-              Your Templates
+              {t('proposalTemplates.yourTemplates')}
             </h4>
             {!isProfessional && (
               <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded">
-                Pro Feature
+                {t('proposalTemplates.proFeature')}
               </span>
             )}
           </div>
@@ -361,13 +363,13 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                 </svg>
               </div>
               <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">
-                Custom Templates
+                {t('proposalTemplates.customTemplates')}
               </h5>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Save your best proposals as templates and reuse them for similar projects.
+                {t('proposalTemplates.customTemplatesDesc')}
               </p>
               <button className="btn-primary text-sm">
-                ⭐ Upgrade to Professional
+                {t('proposalTemplates.upgradeToPro')}
               </button>
             </div>
           ) : templates.length === 0 ? (
@@ -377,8 +379,8 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <p>No custom templates yet</p>
-              <p className="text-xs mt-1">Generate a proposal first, then save it as a template</p>
+              <p>{t('proposalTemplates.noCustomTemplates')}</p>
+              <p className="text-xs mt-1">{t('proposalTemplates.noCustomTemplatesDesc')}</p>
             </div>
           ) : (
             <div className="grid gap-3">
@@ -397,7 +399,7 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                         {template.description}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                        Created {new Date(template.created_at).toLocaleDateString()}
+                        {t('proposalTemplates.created')} {new Date(template.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -425,18 +427,18 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Save as Template
+              {t('proposalTemplates.saveAsTemplate')}
             </h3>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Template Name
+                {t('proposalTemplates.templateName')}
               </label>
               <input
                 type="text"
                 value={templateName}
                 onChange={(e) => setTemplateName(e.target.value)}
                 className="input-field"
-                placeholder="e.g., Web Design Template"
+                placeholder={t('proposalTemplates.templateNamePlaceholder')}
                 autoFocus
               />
             </div>
@@ -448,14 +450,14 @@ export default function ProposalTemplates({ onSelectTemplate, subscription }) {
                 }}
                 className="btn-ghost"
               >
-                Cancel
+                {t('proposalTemplates.cancel')}
               </button>
               <button
                 onClick={saveTemplate}
                 disabled={!templateName.trim()}
                 className="btn-primary disabled:opacity-50"
               >
-                Save Template
+                {t('proposalTemplates.saveTemplate')}
               </button>
             </div>
           </div>

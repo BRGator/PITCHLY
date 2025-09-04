@@ -42,7 +42,11 @@ export const translations = {
       tryItNow: 'Try It Now - Create Your First Proposal',
       everythingYouNeed: 'Everything You Need to',
       winClients: 'Win Clients',
-      aiPoweredPlatform: 'Our AI-powered platform handles the heavy lifting so you can focus on what matters most - your work.'
+      aiPoweredPlatform: 'Our AI-powered platform handles the heavy lifting so you can focus on what matters most - your work.',
+      goToDashboard: 'Go to Dashboard →',
+      currentPlan: 'Current Plan',
+      switchToFree: 'Switch to Free',
+      upgradeNow: 'Upgrade Now'
     },
     // Features
     features: {
@@ -233,7 +237,17 @@ export const translations = {
       expired: 'Expired',
       withdrawn: 'Withdrawn',
       revision: 'Revision',
-      hasRevisions: 'Has Revisions'
+      hasRevisions: 'Has Revisions',
+      // Status descriptions
+      draftDesc: 'Still working on this proposal',
+      sentDesc: 'Proposal has been sent to client',
+      viewedDesc: 'Client has viewed the proposal',
+      underReviewDesc: 'Client is considering the proposal',
+      acceptedDesc: 'Client accepted the proposal! 🎉',
+      wonDesc: 'Contract signed and project started! 🚀',
+      rejectedDesc: 'Client declined the proposal',
+      expiredDesc: 'Proposal expired without response',
+      withdrawnDesc: 'Proposal was withdrawn'
     },
     // Forms & actions
     actions: {
@@ -282,6 +296,110 @@ export const translations = {
       joinThousandsSuccessful: 'Join thousands of successful freelancers using PITCHLY to create winning proposals.',
       startCreatingBetter: 'Start Creating Better Proposals Today',
       noCreditCard: 'No credit card required • 5 free proposals to get started'
+    },
+    // Profile Page
+    profile: {
+      pageTitle: 'Profile Settings',
+      pageDescription: 'Manage your PITCHLY profile and account settings',
+      loadingProfile: 'Loading profile...',
+      backToDashboard: '← Back to Dashboard',
+      title: 'Profile Settings',
+      subtitle: 'Manage your account information and preferences',
+      saving: 'Saving...',
+      saveChanges: 'Save Changes',
+      advancedSettings: 'Advanced Settings →',
+      
+      // Messages
+      messages: {
+        profileUpdated: 'Profile updated successfully!',
+        updateFailed: 'Failed to update profile. Please try again.'
+      },
+
+      // Form fields
+      fields: {
+        fullName: 'Full Name',
+        fullNamePlaceholder: 'Your full name',
+        emailAddress: 'Email Address',
+        emailCannotChange: 'Email cannot be changed',
+        emailCannotChangeDesc: 'Email address cannot be changed',
+        companyName: 'Company/Business Name',
+        companyNamePlaceholder: 'Your company name',
+        businessType: 'Business Type',
+        selectBusinessType: 'Select your business type'
+      },
+
+      // Business types
+      businessTypes: {
+        freelancer: 'Freelancer',
+        smallAgency: 'Small Agency',
+        consultant: 'Consultant',
+        creativeServices: 'Creative Services',
+        marketingAgency: 'Marketing Agency',
+        webDevelopment: 'Web Development',
+        other: 'Other'
+      },
+
+      // Goals
+      goals: {
+        winMoreClients: 'Win more clients',
+        saveTime: 'Save time on proposals',
+        increaseValue: 'Increase proposal value',
+        improveRates: 'Improve win rates',
+        standardize: 'Standardize processes',
+        scaleBusiness: 'Scale my business'
+      },
+
+      // Sections
+      sections: {
+        businessInfo: 'Business Information',
+        yourGoals: 'Your Goals',
+        goalsDescription: 'Select all that apply to help us personalize your experience',
+        regionalPreferences: '🌍 Regional Preferences',
+        regionalDescription: 'Set your preferred region, language, and currency format',
+        billing: 'Billing & Subscription',
+        accountActions: 'Account Actions'
+      },
+
+      // Actions
+      actions: {
+        exportData: {
+          title: 'Export Data',
+          description: 'Download all your proposals and account data',
+          button: 'Export'
+        },
+        deleteAccount: {
+          title: 'Delete Account',
+          description: 'Permanently delete your account and all data',
+          button: 'Delete',
+          comingSoon: 'Account deletion coming soon. Contact support for assistance.'
+        }
+      }
+    },
+    // Billing Portal
+    billing: {
+      cancelConfirm: 'Are you sure you want to cancel your subscription?',
+      subscriptionCancelled: 'Subscription cancelled successfully',
+      cancelFailed: 'Failed to cancel subscription',
+      cancelError: 'Error cancelling subscription',
+      paymentMethodUpdated: 'Payment method updated successfully!',
+      noActiveSubscription: 'No Active Subscription',
+      noActiveSubscriptionDesc: "You don't have an active subscription yet.",
+      viewPlans: 'View Plans',
+      currentPlan: 'Current Plan',
+      active: 'Active',
+      inactive: 'Inactive',
+      plan: 'Plan',
+      nextBillingDate: 'Next billing date',
+      updatePaymentMethod: 'Update Payment Method',
+      cancelSubscription: 'Cancel Subscription',
+      paymentMethods: 'Payment Methods',
+      expires: 'Expires',
+      default: 'Default',
+      noPaymentMethods: 'No payment methods on file.',
+      billingHistory: 'Billing History',
+      invoice: 'Invoice',
+      view: 'View →',
+      noInvoices: 'No invoices found.'
     },
     // Footer
     footer: {
@@ -413,6 +531,74 @@ export const translations = {
       proposalCopied: 'Proposal copied to clipboard!',
       pdfGenerationFailed: 'PDF generation failed. Using print dialog instead.'
     },
+    // Proposal Templates
+    proposalTemplates: {
+      title: 'Proposal Templates',
+      saveTimeDesc: 'Save time with pre-made templates',
+      upgradeDesc: 'Upgrade to Professional to create custom templates',
+      saveAsTemplate: '💾 Save as Template',
+      advancedTemplates: '⭐ Advanced Templates',
+      professional: 'Professional',
+      advanced: 'Advanced',
+      starterTemplates: 'Starter Templates',
+      free: 'Free',
+      yourTemplates: 'Your Templates',
+      proFeature: 'Pro Feature',
+      customTemplates: 'Custom Templates',
+      customTemplatesDesc: 'Save your best proposals as templates and reuse them for similar projects.',
+      upgradeToPro: '⭐ Upgrade to Professional',
+      noCustomTemplates: 'No custom templates yet',
+      noCustomTemplatesDesc: 'Generate a proposal first, then save it as a template',
+      created: 'Created',
+      deleteConfirm: 'Are you sure you want to delete this template?',
+      templateName: 'Template Name',
+      templateNamePlaceholder: 'e.g., Web Design Template',
+      cancel: 'Cancel',
+      saveTemplate: 'Save Template',
+      // Template names and descriptions
+      templates: {
+        enterpriseConsulting: {
+          name: 'Enterprise Consulting Package',
+          description: 'Comprehensive enterprise-level consulting and strategy development'
+        },
+        saasDevelopment: {
+          name: 'SaaS Platform Development',
+          description: 'Full-stack SaaS application with advanced features'
+        },
+        brandTransformation: {
+          name: 'Complete Brand Transformation',
+          description: 'Full brand overhaul with marketing strategy and implementation'
+        },
+        ecommercePlatform: {
+          name: 'Enterprise E-commerce Platform',
+          description: 'Advanced e-commerce solution with custom features'
+        },
+        dataAnalytics: {
+          name: 'Enterprise Data & Analytics',
+          description: 'Custom data platform with advanced analytics and reporting'
+        },
+        webDesign: {
+          name: 'Web Design Project',
+          description: 'Template for web design and development projects'
+        },
+        marketing: {
+          name: 'Marketing Campaign',
+          description: 'Template for marketing and advertising campaigns'
+        },
+        branding: {
+          name: 'Brand Identity Package',
+          description: 'Complete brand identity and logo design package'
+        },
+        appDevelopment: {
+          name: 'Mobile App Development',
+          description: 'Native or cross-platform mobile application'
+        },
+        consulting: {
+          name: 'Business Consulting',
+          description: 'Strategic business consulting and advisory services'
+        }
+      }
+    },
     // Proposal Revision Page
     proposalRevise: {
       reviseTitle: 'Revise',
@@ -430,6 +616,16 @@ export const translations = {
       failedToLoad: 'Failed to load proposal',
       backToDashboard: 'Back to Dashboard',
       revisionError: '❌ Error generating revision: '
+    },
+    // Proposal Status Manager
+    statusManager: {
+      statusLabel: 'Status:',
+      updateProposalStatus: 'Update Proposal Status',
+      statusUpdated: 'Proposal status updated to',
+      statusUpdateFailed: 'Failed to update proposal status. Please try again.',
+      unlockMoreStatuses: 'Unlock More Statuses',
+      trackMoreStatuses: 'Track "Accepted", "Won", "Rejected" and more with Professional',
+      upgradeNow: '⭐ Upgrade Now →'
     }
   },
 
@@ -470,7 +666,11 @@ export const translations = {
       tryItNow: 'Pruébalo Ahora - Crea Tu Primera Propuesta',
       everythingYouNeed: 'Todo lo Que Necesitas para',
       winClients: 'Ganar Clientes',
-      aiPoweredPlatform: 'Nuestra plataforma potenciada por IA maneja el trabajo pesado para que puedas enfocarte en lo que más importa: tu trabajo.'
+      aiPoweredPlatform: 'Nuestra plataforma potenciada por IA maneja el trabajo pesado para que puedas enfocarte en lo que más importa: tu trabajo.',
+      goToDashboard: 'Ir al Panel →',
+      currentPlan: 'Plan Actual',
+      switchToFree: 'Cambiar a Gratis',
+      upgradeNow: 'Actualizar Ahora'
     },
     // Features  
     features: {
@@ -657,7 +857,17 @@ export const translations = {
       expired: 'Expirado',
       withdrawn: 'Retirado',
       revision: 'Revisión',
-      hasRevisions: 'Tiene Revisiones'
+      hasRevisions: 'Tiene Revisiones',
+      // Status descriptions
+      draftDesc: 'Aún trabajando en esta propuesta',
+      sentDesc: 'La propuesta ha sido enviada al cliente',
+      viewedDesc: 'El cliente ha visto la propuesta',
+      underReviewDesc: 'El cliente está considerando la propuesta',
+      acceptedDesc: '¡El cliente aceptó la propuesta! 🎉',
+      wonDesc: '¡Contrato firmado y proyecto iniciado! 🚀',
+      rejectedDesc: 'El cliente rechazó la propuesta',
+      expiredDesc: 'La propuesta expiró sin respuesta',
+      withdrawnDesc: 'La propuesta fue retirada'
     },
     actions: {
       save: 'Guardar',
@@ -704,6 +914,110 @@ export const translations = {
       joinThousandsSuccessful: 'Únete a miles de freelancers exitosos que usan PITCHLY para crear propuestas ganadoras.',
       startCreatingBetter: 'Comienza a Crear Mejores Propuestas Hoy',
       noCreditCard: 'No se requiere tarjeta de crédito • 5 propuestas gratis para empezar'
+    },
+    // Profile Page
+    profile: {
+      pageTitle: 'Configuración del Perfil',
+      pageDescription: 'Gestiona tu perfil de PITCHLY y configuración de la cuenta',
+      loadingProfile: 'Cargando perfil...',
+      backToDashboard: '← Volver al Panel',
+      title: 'Configuración del Perfil',
+      subtitle: 'Gestiona la información de tu cuenta y preferencias',
+      saving: 'Guardando...',
+      saveChanges: 'Guardar Cambios',
+      advancedSettings: 'Configuración Avanzada →',
+      
+      // Messages
+      messages: {
+        profileUpdated: '¡Perfil actualizado exitosamente!',
+        updateFailed: 'No se pudo actualizar el perfil. Por favor intenta de nuevo.'
+      },
+
+      // Form fields
+      fields: {
+        fullName: 'Nombre Completo',
+        fullNamePlaceholder: 'Tu nombre completo',
+        emailAddress: 'Dirección de Email',
+        emailCannotChange: 'El email no se puede cambiar',
+        emailCannotChangeDesc: 'La dirección de email no se puede cambiar',
+        companyName: 'Nombre de la Empresa/Negocio',
+        companyNamePlaceholder: 'Nombre de tu empresa',
+        businessType: 'Tipo de Negocio',
+        selectBusinessType: 'Selecciona tu tipo de negocio'
+      },
+
+      // Business types
+      businessTypes: {
+        freelancer: 'Freelancer',
+        smallAgency: 'Agencia Pequeña',
+        consultant: 'Consultor',
+        creativeServices: 'Servicios Creativos',
+        marketingAgency: 'Agencia de Marketing',
+        webDevelopment: 'Desarrollo Web',
+        other: 'Otro'
+      },
+
+      // Goals
+      goals: {
+        winMoreClients: 'Ganar más clientes',
+        saveTime: 'Ahorrar tiempo en propuestas',
+        increaseValue: 'Aumentar el valor de propuestas',
+        improveRates: 'Mejorar tasas de éxito',
+        standardize: 'Estandarizar procesos',
+        scaleBusiness: 'Hacer crecer mi negocio'
+      },
+
+      // Sections
+      sections: {
+        businessInfo: 'Información del Negocio',
+        yourGoals: 'Tus Objetivos',
+        goalsDescription: 'Selecciona todos los que apliquen para ayudarnos a personalizar tu experiencia',
+        regionalPreferences: '🌍 Preferencias Regionales',
+        regionalDescription: 'Establece tu región, idioma y formato de moneda preferidos',
+        billing: 'Facturación y Suscripción',
+        accountActions: 'Acciones de la Cuenta'
+      },
+
+      // Actions
+      actions: {
+        exportData: {
+          title: 'Exportar Datos',
+          description: 'Descarga todas tus propuestas y datos de la cuenta',
+          button: 'Exportar'
+        },
+        deleteAccount: {
+          title: 'Eliminar Cuenta',
+          description: 'Eliminar permanentemente tu cuenta y todos los datos',
+          button: 'Eliminar',
+          comingSoon: 'Eliminación de cuenta próximamente. Contacta soporte para asistencia.'
+        }
+      }
+    },
+    // Billing Portal
+    billing: {
+      cancelConfirm: '¿Estás seguro de que quieres cancelar tu suscripción?',
+      subscriptionCancelled: 'Suscripción cancelada exitosamente',
+      cancelFailed: 'No se pudo cancelar la suscripción',
+      cancelError: 'Error al cancelar la suscripción',
+      paymentMethodUpdated: '¡Método de pago actualizado exitosamente!',
+      noActiveSubscription: 'Sin Suscripción Activa',
+      noActiveSubscriptionDesc: 'Aún no tienes una suscripción activa.',
+      viewPlans: 'Ver Planes',
+      currentPlan: 'Plan Actual',
+      active: 'Activa',
+      inactive: 'Inactiva',
+      plan: 'Plan',
+      nextBillingDate: 'Próxima fecha de facturación',
+      updatePaymentMethod: 'Actualizar Método de Pago',
+      cancelSubscription: 'Cancelar Suscripción',
+      paymentMethods: 'Métodos de Pago',
+      expires: 'Expira',
+      default: 'Predeterminado',
+      noPaymentMethods: 'No hay métodos de pago registrados.',
+      billingHistory: 'Historial de Facturación',
+      invoice: 'Factura',
+      view: 'Ver →',
+      noInvoices: 'No se encontraron facturas.'
     },
     // Footer
     footer: {
@@ -835,6 +1149,74 @@ export const translations = {
       proposalCopied: '¡Propuesta copiada al portapapeles!',
       pdfGenerationFailed: 'Error al generar PDF. Usando diálogo de impresión en su lugar.'
     },
+    // Proposal Templates
+    proposalTemplates: {
+      title: 'Plantillas de Propuestas',
+      saveTimeDesc: 'Ahorra tiempo con plantillas prediseñadas',
+      upgradeDesc: 'Actualiza a Profesional para crear plantillas personalizadas',
+      saveAsTemplate: '💾 Guardar como Plantilla',
+      advancedTemplates: '⭐ Plantillas Avanzadas',
+      professional: 'Profesional',
+      advanced: 'Avanzada',
+      starterTemplates: 'Plantillas Básicas',
+      free: 'Gratis',
+      yourTemplates: 'Tus Plantillas',
+      proFeature: 'Función Pro',
+      customTemplates: 'Plantillas Personalizadas',
+      customTemplatesDesc: 'Guarda tus mejores propuestas como plantillas y reutilízalas para proyectos similares.',
+      upgradeToPro: '⭐ Actualizar a Profesional',
+      noCustomTemplates: 'Aún no hay plantillas personalizadas',
+      noCustomTemplatesDesc: 'Genera una propuesta primero, luego guárdala como plantilla',
+      created: 'Creada',
+      deleteConfirm: '¿Estás seguro de que quieres eliminar esta plantilla?',
+      templateName: 'Nombre de la Plantilla',
+      templateNamePlaceholder: 'ej., Plantilla de Diseño Web',
+      cancel: 'Cancelar',
+      saveTemplate: 'Guardar Plantilla',
+      // Template names and descriptions
+      templates: {
+        enterpriseConsulting: {
+          name: 'Paquete de Consultoría Empresarial',
+          description: 'Consultoría integral a nivel empresarial y desarrollo estratégico'
+        },
+        saasDevelopment: {
+          name: 'Desarrollo de Plataforma SaaS',
+          description: 'Aplicación SaaS completa con características avanzadas'
+        },
+        brandTransformation: {
+          name: 'Transformación de Marca Completa',
+          description: 'Renovación completa de marca con estrategia e implementación de marketing'
+        },
+        ecommercePlatform: {
+          name: 'Plataforma de E-commerce Empresarial',
+          description: 'Solución avanzada de comercio electrónico con características personalizadas'
+        },
+        dataAnalytics: {
+          name: 'Datos y Análisis Empresariales',
+          description: 'Plataforma de datos personalizada con análisis avanzado e informes'
+        },
+        webDesign: {
+          name: 'Proyecto de Diseño Web',
+          description: 'Plantilla para proyectos de diseño y desarrollo web'
+        },
+        marketing: {
+          name: 'Campaña de Marketing',
+          description: 'Plantilla para campañas de marketing y publicidad'
+        },
+        branding: {
+          name: 'Paquete de Identidad de Marca',
+          description: 'Paquete completo de identidad de marca y diseño de logo'
+        },
+        appDevelopment: {
+          name: 'Desarrollo de Aplicación Móvil',
+          description: 'Aplicación móvil nativa o multiplataforma'
+        },
+        consulting: {
+          name: 'Consultoría de Negocios',
+          description: 'Servicios de consultoría y asesoría estratégica de negocios'
+        }
+      }
+    },
     // Proposal Revision Page
     proposalRevise: {
       reviseTitle: 'Revisar',
@@ -852,6 +1234,16 @@ export const translations = {
       failedToLoad: 'Error al cargar propuesta',
       backToDashboard: 'Volver al Panel',
       revisionError: '❌ Error al generar revisión: '
+    },
+    // Proposal Status Manager
+    statusManager: {
+      statusLabel: 'Estado:',
+      updateProposalStatus: 'Actualizar Estado de Propuesta',
+      statusUpdated: 'Estado de propuesta actualizado a',
+      statusUpdateFailed: 'Error al actualizar el estado de la propuesta. Inténtalo de nuevo.',
+      unlockMoreStatuses: 'Desbloquear Más Estados',
+      trackMoreStatuses: 'Rastrea "Aceptado", "Ganado", "Rechazado" y más con Profesional',
+      upgradeNow: '⭐ Actualizar Ahora →'
     }
   },
 
@@ -959,7 +1351,11 @@ export const translations = {
       tryItNow: 'Experimente Agora - Crie Sua Primeira Proposta',
       everythingYouNeed: 'Tudo que Você Precisa para',
       winClients: 'Conquistar Clientes',
-      aiPoweredPlatform: 'Nossa plataforma com IA cuida do trabalho pesado para que você possa focar no que mais importa: seu trabalho.'
+      aiPoweredPlatform: 'Nossa plataforma com IA cuida do trabalho pesado para que você possa focar no que mais importa: seu trabalho.',
+      goToDashboard: 'Ir ao Painel →',
+      currentPlan: 'Plano Atual',
+      switchToFree: 'Mudar para Gratuito',
+      upgradeNow: 'Atualizar Agora'
     },
     // Features  
     features: {
@@ -1146,7 +1542,17 @@ export const translations = {
       expired: 'Expirado',
       withdrawn: 'Retirado',
       revision: 'Revisão',
-      hasRevisions: 'Tem Revisões'
+      hasRevisions: 'Tem Revisões',
+      // Status descriptions
+      draftDesc: 'Ainda trabalhando nesta proposta',
+      sentDesc: 'Proposta foi enviada ao cliente',
+      viewedDesc: 'Cliente visualizou a proposta',
+      underReviewDesc: 'Cliente está considerando a proposta',
+      acceptedDesc: 'Cliente aceitou a proposta! 🎉',
+      wonDesc: 'Contrato assinado e projeto iniciado! 🚀',
+      rejectedDesc: 'Cliente rejeitou a proposta',
+      expiredDesc: 'Proposta expirou sem resposta',
+      withdrawnDesc: 'Proposta foi retirada'
     },
     actions: {
       save: 'Salvar',
@@ -1193,6 +1599,110 @@ export const translations = {
       joinThousandsSuccessful: 'Junte-se a milhares de freelancers bem-sucedidos que usam PITCHLY para criar propostas vencedoras.',
       startCreatingBetter: 'Comece a Criar Propostas Melhores Hoje',
       noCreditCard: 'Não é necessário cartão de crédito • 5 propostas grátis para começar'
+    },
+    // Profile Page
+    profile: {
+      pageTitle: 'Configurações do Perfil',
+      pageDescription: 'Gerencie seu perfil PITCHLY e configurações da conta',
+      loadingProfile: 'Carregando perfil...',
+      backToDashboard: '← Voltar ao Painel',
+      title: 'Configurações do Perfil',
+      subtitle: 'Gerencie suas informações de conta e preferências',
+      saving: 'Salvando...',
+      saveChanges: 'Salvar Alterações',
+      advancedSettings: 'Configurações Avançadas →',
+      
+      // Messages
+      messages: {
+        profileUpdated: 'Perfil atualizado com sucesso!',
+        updateFailed: 'Falha ao atualizar perfil. Por favor tente novamente.'
+      },
+
+      // Form fields
+      fields: {
+        fullName: 'Nome Completo',
+        fullNamePlaceholder: 'Seu nome completo',
+        emailAddress: 'Endereço de Email',
+        emailCannotChange: 'Email não pode ser alterado',
+        emailCannotChangeDesc: 'Endereço de email não pode ser alterado',
+        companyName: 'Nome da Empresa/Negócio',
+        companyNamePlaceholder: 'Nome da sua empresa',
+        businessType: 'Tipo de Negócio',
+        selectBusinessType: 'Selecione seu tipo de negócio'
+      },
+
+      // Business types
+      businessTypes: {
+        freelancer: 'Freelancer',
+        smallAgency: 'Agência Pequena',
+        consultant: 'Consultor',
+        creativeServices: 'Serviços Criativos',
+        marketingAgency: 'Agência de Marketing',
+        webDevelopment: 'Desenvolvimento Web',
+        other: 'Outro'
+      },
+
+      // Goals
+      goals: {
+        winMoreClients: 'Conquistar mais clientes',
+        saveTime: 'Economizar tempo em propostas',
+        increaseValue: 'Aumentar valor das propostas',
+        improveRates: 'Melhorar taxas de sucesso',
+        standardize: 'Padronizar processos',
+        scaleBusiness: 'Escalar meu negócio'
+      },
+
+      // Sections
+      sections: {
+        businessInfo: 'Informações do Negócio',
+        yourGoals: 'Seus Objetivos',
+        goalsDescription: 'Selecione todos que se aplicam para nos ajudar a personalizar sua experiência',
+        regionalPreferences: '🌍 Preferências Regionais',
+        regionalDescription: 'Defina sua região, idioma e formato de moeda preferidos',
+        billing: 'Faturamento e Assinatura',
+        accountActions: 'Ações da Conta'
+      },
+
+      // Actions
+      actions: {
+        exportData: {
+          title: 'Exportar Dados',
+          description: 'Baixe todas suas propostas e dados da conta',
+          button: 'Exportar'
+        },
+        deleteAccount: {
+          title: 'Excluir Conta',
+          description: 'Excluir permanentemente sua conta e todos os dados',
+          button: 'Excluir',
+          comingSoon: 'Exclusão de conta em breve. Entre em contato com o suporte para assistência.'
+        }
+      }
+    },
+    // Billing Portal
+    billing: {
+      cancelConfirm: 'Tem certeza de que deseja cancelar sua assinatura?',
+      subscriptionCancelled: 'Assinatura cancelada com sucesso',
+      cancelFailed: 'Falha ao cancelar assinatura',
+      cancelError: 'Erro ao cancelar assinatura',
+      paymentMethodUpdated: 'Método de pagamento atualizado com sucesso!',
+      noActiveSubscription: 'Nenhuma Assinatura Ativa',
+      noActiveSubscriptionDesc: 'Você ainda não tem uma assinatura ativa.',
+      viewPlans: 'Ver Planos',
+      currentPlan: 'Plano Atual',
+      active: 'Ativo',
+      inactive: 'Inativo',
+      plan: 'Plano',
+      nextBillingDate: 'Próxima data de cobrança',
+      updatePaymentMethod: 'Atualizar Método de Pagamento',
+      cancelSubscription: 'Cancelar Assinatura',
+      paymentMethods: 'Métodos de Pagamento',
+      expires: 'Expira',
+      default: 'Padrão',
+      noPaymentMethods: 'Nenhum método de pagamento registrado.',
+      billingHistory: 'Histórico de Cobrança',
+      invoice: 'Fatura',
+      view: 'Ver →',
+      noInvoices: 'Nenhuma fatura encontrada.'
     },
     // Footer
     footer: {
@@ -1324,6 +1834,74 @@ export const translations = {
       proposalCopied: 'Proposta copiada para a área de transferência!',
       pdfGenerationFailed: 'Falha na geração do PDF. Usando diálogo de impressão.'
     },
+    // Proposal Templates
+    proposalTemplates: {
+      title: 'Modelos de Propostas',
+      saveTimeDesc: 'Economize tempo com modelos pré-feitos',
+      upgradeDesc: 'Atualize para Profissional para criar modelos personalizados',
+      saveAsTemplate: '💾 Salvar como Modelo',
+      advancedTemplates: '⭐ Modelos Avançados',
+      professional: 'Profissional',
+      advanced: 'Avançado',
+      starterTemplates: 'Modelos Básicos',
+      free: 'Grátis',
+      yourTemplates: 'Seus Modelos',
+      proFeature: 'Recurso Pro',
+      customTemplates: 'Modelos Personalizados',
+      customTemplatesDesc: 'Salve suas melhores propostas como modelos e reutilize-as para projetos similares.',
+      upgradeToPro: '⭐ Atualizar para Profissional',
+      noCustomTemplates: 'Ainda não há modelos personalizados',
+      noCustomTemplatesDesc: 'Gere uma proposta primeiro, depois salve-a como modelo',
+      created: 'Criado',
+      deleteConfirm: 'Tem certeza de que deseja excluir este modelo?',
+      templateName: 'Nome do Modelo',
+      templateNamePlaceholder: 'ex., Modelo de Design Web',
+      cancel: 'Cancelar',
+      saveTemplate: 'Salvar Modelo',
+      // Template names and descriptions
+      templates: {
+        enterpriseConsulting: {
+          name: 'Pacote de Consultoria Empresarial',
+          description: 'Consultoria abrangente de nível empresarial e desenvolvimento estratégico'
+        },
+        saasDevelopment: {
+          name: 'Desenvolvimento de Plataforma SaaS',
+          description: 'Aplicação SaaS completa com recursos avançados'
+        },
+        brandTransformation: {
+          name: 'Transformação Completa da Marca',
+          description: 'Renovação completa da marca com estratégia e implementação de marketing'
+        },
+        ecommercePlatform: {
+          name: 'Plataforma de E-commerce Empresarial',
+          description: 'Solução avançada de e-commerce com recursos personalizados'
+        },
+        dataAnalytics: {
+          name: 'Dados e Análise Empresarial',
+          description: 'Plataforma de dados personalizada com análise avançada e relatórios'
+        },
+        webDesign: {
+          name: 'Projeto de Design Web',
+          description: 'Modelo para projetos de design e desenvolvimento web'
+        },
+        marketing: {
+          name: 'Campanha de Marketing',
+          description: 'Modelo para campanhas de marketing e publicidade'
+        },
+        branding: {
+          name: 'Pacote de Identidade da Marca',
+          description: 'Pacote completo de identidade da marca e design de logo'
+        },
+        appDevelopment: {
+          name: 'Desenvolvimento de Aplicativo Móvel',
+          description: 'Aplicativo móvel nativo ou multiplataforma'
+        },
+        consulting: {
+          name: 'Consultoria de Negócios',
+          description: 'Serviços de consultoria e assessoria estratégica de negócios'
+        }
+      }
+    },
     // Proposal Revision Page
     proposalRevise: {
       reviseTitle: 'Revisar',
@@ -1341,6 +1919,16 @@ export const translations = {
       failedToLoad: 'Falha ao carregar proposta',
       backToDashboard: 'Voltar ao Painel',
       revisionError: '❌ Erro ao gerar revisão: '
+    },
+    // Proposal Status Manager
+    statusManager: {
+      statusLabel: 'Status:',
+      updateProposalStatus: 'Atualizar Status da Proposta',
+      statusUpdated: 'Status da proposta atualizado para',
+      statusUpdateFailed: 'Falha ao atualizar o status da proposta. Tente novamente.',
+      unlockMoreStatuses: 'Desbloquear Mais Status',
+      trackMoreStatuses: 'Acompanhe "Aceito", "Ganho", "Rejeitado" e mais com Profissional',
+      upgradeNow: '⭐ Atualizar Agora →'
     }
   }
 };

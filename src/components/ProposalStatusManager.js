@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNotification } from './Notification';
+import { useI18n } from '../lib/i18n';
 
 export default function ProposalStatusManager({ proposal, onStatusUpdate, subscription }) {
+  const { t } = useI18n();
   const [isUpdating, setIsUpdating] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { showNotification, NotificationComponent } = useNotification();
@@ -10,22 +12,22 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
   
   // Basic statuses for free users
   const basicStatuses = [
-    { key: 'draft', label: 'Draft', color: 'gray', description: 'Still working on this proposal' },
-    { key: 'sent', label: 'Sent', color: 'blue', description: 'Proposal has been sent to client' },
-    { key: 'viewed', label: 'Viewed', color: 'purple', description: 'Client has viewed the proposal' }
+    { key: 'draft', label: t('status.draft'), color: 'gray', description: t('status.draftDesc') },
+    { key: 'sent', label: t('status.sent'), color: 'blue', description: t('status.sentDesc') },
+    { key: 'viewed', label: t('status.viewed'), color: 'purple', description: t('status.viewedDesc') }
   ];
 
   // Enhanced statuses for Professional+ users
   const enhancedStatuses = [
-    { key: 'draft', label: 'Draft', color: 'gray', description: 'Still working on this proposal' },
-    { key: 'sent', label: 'Sent', color: 'blue', description: 'Proposal has been sent to client' },
-    { key: 'viewed', label: 'Viewed', color: 'purple', description: 'Client has viewed the proposal' },
-    { key: 'under_review', label: 'Under Review', color: 'yellow', description: 'Client is considering the proposal' },
-    { key: 'accepted', label: 'Accepted', color: 'green', description: 'Client accepted the proposal! 🎉' },
-    { key: 'won', label: 'Won/Signed', color: 'emerald', description: 'Contract signed and project started! 🚀' },
-    { key: 'rejected', label: 'Rejected', color: 'red', description: 'Client declined the proposal' },
-    { key: 'expired', label: 'Expired', color: 'gray', description: 'Proposal expired without response' },
-    { key: 'withdrawn', label: 'Withdrawn', color: 'gray', description: 'Proposal was withdrawn' }
+    { key: 'draft', label: t('status.draft'), color: 'gray', description: t('status.draftDesc') },
+    { key: 'sent', label: t('status.sent'), color: 'blue', description: t('status.sentDesc') },
+    { key: 'viewed', label: t('status.viewed'), color: 'purple', description: t('status.viewedDesc') },
+    { key: 'under_review', label: t('status.underReview'), color: 'yellow', description: t('status.underReviewDesc') },
+    { key: 'accepted', label: t('status.accepted'), color: 'green', description: t('status.acceptedDesc') },
+    { key: 'won', label: t('status.won'), color: 'emerald', description: t('status.wonDesc') },
+    { key: 'rejected', label: t('status.rejected'), color: 'red', description: t('status.rejectedDesc') },
+    { key: 'expired', label: t('status.expired'), color: 'gray', description: t('status.expiredDesc') },
+    { key: 'withdrawn', label: t('status.withdrawn'), color: 'gray', description: t('status.withdrawnDesc') }
   ];
 
   const proposalStatuses = isProfessional ? enhancedStatuses : basicStatuses;
@@ -49,10 +51,10 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
 
       const updatedProposal = await response.json();
       onStatusUpdate?.(updatedProposal);
-      showNotification(`Proposal status updated to "${proposalStatuses.find(s => s.key === newStatus)?.label}"`, 'success');
+      showNotification(`${t('statusManager.statusUpdated')} "${proposalStatuses.find(s => s.key === newStatus)?.label}"`, 'success');
     } catch (error) {
       console.error('Error updating status:', error);
-      const errorMsg = error.message || 'Failed to update proposal status. Please try again.';
+      const errorMsg = error.message || t('statusManager.statusUpdateFailed');
       showNotification(errorMsg, 'error');
     } finally {
       setIsUpdating(false);
@@ -75,7 +77,7 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
   return (
     <div className="relative">
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Status:</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('statusManager.statusLabel')}</span>
         <div className="relative">
           <button
             onClick={() => setShowDropdown(!showDropdown)}
@@ -101,7 +103,7 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
             <div className="absolute top-full left-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
               <div className="p-2">
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2 px-2">
-                  Update Proposal Status
+                  {t('statusManager.updateProposalStatus')}
                 </h3>
                 <div className="space-y-1">
                   {proposalStatuses.map((status) => (
@@ -143,10 +145,10 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
                         </svg>
                         <div>
                           <p className="text-sm font-medium text-primary-800 dark:text-primary-200">
-                            Unlock More Statuses
+                            {t('statusManager.unlockMoreStatuses')}
                           </p>
                           <p className="text-xs text-primary-700 dark:text-primary-300 mt-1">
-                            Track "Accepted", "Won", "Rejected" and more with Professional
+                            {t('statusManager.trackMoreStatuses')}
                           </p>
                           <button 
                             onClick={() => {
@@ -155,7 +157,7 @@ export default function ProposalStatusManager({ proposal, onStatusUpdate, subscr
                             }}
                             className="text-xs text-primary-600 dark:text-primary-400 hover:underline mt-1 font-medium"
                           >
-                            ⭐ Upgrade Now →
+                            {t('statusManager.upgradeNow')}
                           </button>
                         </div>
                       </div>

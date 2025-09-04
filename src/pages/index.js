@@ -297,7 +297,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                 {session ? (
                   <Link href="/dashboard" className="btn-primary">
-                    Go to Dashboard →
+                    {t('landing.goToDashboard')}
                   </Link>
                 ) : (
                   <button
@@ -760,7 +760,7 @@ export default function Home() {
                             : 'btn-secondary'
                       }`}
                     >
-                      {isCurrentPlan(plan.name) ? 'Current Plan' : session ? (plan.name === 'Starter' ? 'Switch to Free' : 'Upgrade Now') : plan.cta}
+                      {isCurrentPlan(plan.name) ? t('landing.currentPlan') : session ? (plan.name === 'Starter' ? t('landing.switchToFree') : t('landing.upgradeNow')) : plan.cta}
                     </button>
                   </div>
                 </div>

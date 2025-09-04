@@ -97,7 +97,7 @@ export default function Navbar() {
                   onClick={() => signOut()}
                   className="btn-ghost text-sm"
                 >
-                  Sign Out
+                  {t('nav.signOut')}
                 </button>
               </div>
             ) : (

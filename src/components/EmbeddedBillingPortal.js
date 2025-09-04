@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import EmbeddedPaymentMethodUpdate from './EmbeddedPaymentMethodUpdate';
+import { useI18n } from '../lib/i18n';
 
 // Simple dark mode detection (fallback)
 const useDarkMode = () => {
@@ -40,6 +41,7 @@ const useDarkMode = () => {
 };
 
 export default function EmbeddedBillingPortal() {
+  const { t } = useI18n();
   const { data: session } = useSession();
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -72,7 +74,7 @@ export default function EmbeddedBillingPortal() {
   };
 
   const handleCancelSubscription = async () => {
-    if (!confirm('Are you sure you want to cancel your subscription?')) {
+    if (!confirm(t('billing.cancelConfirm'))) {
       return;
     }
 
@@ -83,12 +85,12 @@ export default function EmbeddedBillingPortal() {
       
       if (response.ok) {
         await fetchBillingData();
-        alert('Subscription cancelled successfully');
+        alert(t('billing.subscriptionCancelled'));
       } else {
-        alert('Failed to cancel subscription');
+        alert(t('billing.cancelFailed'));
       }
     } catch (error) {
-      alert('Error cancelling subscription');
+      alert(t('billing.cancelError'));
     }
   };
 
@@ -100,7 +102,7 @@ export default function EmbeddedBillingPortal() {
   const handlePaymentMethodSuccess = async () => {
     setShowPaymentMethodUpdate(false);
     await fetchBillingData(); // Refresh billing data
-    alert('Payment method updated successfully!');
+    alert(t('billing.paymentMethodUpdated'));
   };
 
   const handlePaymentMethodCancel = () => {
@@ -121,16 +123,16 @@ export default function EmbeddedBillingPortal() {
     return (
       <div className="text-center py-12">
         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-          No Active Subscription
+          {t('billing.noActiveSubscription')}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          You don't have an active subscription yet.
+          {t('billing.noActiveSubscriptionDesc')}
         </p>
         <button 
           onClick={() => window.location.href = '/upgrade'}
           className="btn-primary"
         >
-          View Plans
+          {t('billing.viewPlans')}
         </button>
       </div>
     );
@@ -154,26 +156,26 @@ export default function EmbeddedBillingPortal() {
       <div className="card-premium p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-            Current Plan
+            {t('billing.currentPlan')}
           </h3>
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${
             subscription.status === 'active' 
               ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
               : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
           }`}>
-            {subscription.status === 'active' ? 'Active' : 'Inactive'}
+            {subscription.status === 'active' ? t('billing.active') : t('billing.inactive')}
           </span>
         </div>
         
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Plan</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('billing.plan')}</p>
             <p className="text-lg font-medium text-gray-900 dark:text-gray-100 capitalize">
-              {subscription.tier} Plan
+              {subscription.tier} {t('billing.plan')}
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Next billing date</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('billing.nextBillingDate')}</p>
             <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
               {new Date(subscription.current_period_end).toLocaleDateString()}
             </p>
@@ -185,13 +187,13 @@ export default function EmbeddedBillingPortal() {
             onClick={handleUpdatePaymentMethod}
             className="btn-secondary flex-1"
           >
-            Update Payment Method
+            {t('billing.updatePaymentMethod')}
           </button>
           <button 
             onClick={handleCancelSubscription}
             className="btn-danger flex-1"
           >
-            Cancel Subscription
+            {t('billing.cancelSubscription')}
           </button>
         </div>
       </div>
@@ -199,7 +201,7 @@ export default function EmbeddedBillingPortal() {
       {/* Payment Methods */}
       <div className="card-premium p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Payment Methods
+          {t('billing.paymentMethods')}
         </h3>
         
         {paymentMethods.length > 0 ? (
@@ -217,27 +219,27 @@ export default function EmbeddedBillingPortal() {
                       **** **** **** {method.card?.last4}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Expires {method.card?.exp_month}/{method.card?.exp_year}
+                      {t('billing.expires')} {method.card?.exp_month}/{method.card?.exp_year}
                     </p>
                   </div>
                 </div>
                 {method.isDefault && (
                   <span className="text-xs bg-primary-100 text-primary-800 dark:bg-primary-900/20 dark:text-primary-400 px-2 py-1 rounded">
-                    Default
+                    {t('billing.default')}
                   </span>
                 )}
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-600 dark:text-gray-400">No payment methods on file.</p>
+          <p className="text-gray-600 dark:text-gray-400">{t('billing.noPaymentMethods')}</p>
         )}
       </div>
 
       {/* Invoices */}
       <div className="card-premium p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Billing History
+          {t('billing.billingHistory')}
         </h3>
         
         {invoices.length > 0 ? (
@@ -249,7 +251,7 @@ export default function EmbeddedBillingPortal() {
                     {new Date(invoice.created * 1000).toLocaleDateString()}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Invoice #{invoice.number}
+                    {t('billing.invoice')} #{invoice.number}
                   </p>
                 </div>
                 <div className="text-right">
@@ -270,13 +272,13 @@ export default function EmbeddedBillingPortal() {
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 dark:text-primary-400 text-sm"
                 >
-                  View →
+                  {t('billing.view')}
                 </a>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-600 dark:text-gray-400">No invoices found.</p>
+          <p className="text-gray-600 dark:text-gray-400">{t('billing.noInvoices')}</p>
         )}
       </div>
     </div>
