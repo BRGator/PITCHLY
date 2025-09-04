@@ -9,6 +9,7 @@ export const translations = {
     nav: {
       pricing: 'Pricing',
       features: 'Features',
+      testimonials: 'Testimonials',
       aboutUs: 'About Us',
       signIn: 'Sign In',
       getStarted: 'Get Started',
@@ -47,11 +48,33 @@ export const translations = {
       currentPlan: 'Current Plan',
       upgradeText: 'Upgrade to',
       getStartedFree: 'Get Started Free',
+      startFreeTrial: 'Start Free Trial',
+      contactSales: 'Contact Sales',
+      getStarted: 'Get Started',
+      simpleTransparent: 'Simple, Transparent Pricing',
+      startFreeScale: 'Start free and scale as you grow. No hidden fees, no long-term contracts.',
+      planStarter: 'Starter',
+      planProfessional: 'Professional',
+      planAgency: 'Agency',
+      perMonth: 'per month',
       // Features
       proposalsPerMonth: 'proposals per month',
       basicAI: 'Basic AI generation',
       standardTemplates: 'Standard templates',
       emailSupport: 'Email support',
+      // Plan features
+      basicFeatures: '3 proposals per month, Basic AI templates, Email support',
+      professionalFeatures: 'Unlimited proposals, Advanced AI templates, Priority support, Analytics dashboard, Custom branding',
+      agencyFeatures: 'Everything in Professional, Team collaboration, API access, Custom integrations, Dedicated account manager',
+      basicAITemplates: 'Basic AI templates',
+      advancedAITemplates: 'Advanced AI templates',
+      analyticsDeclaration: 'Analytics dashboard',
+      customBranding: 'Custom branding',
+      everythingProfessional: 'Everything in Professional',
+      teamCollaboration: 'Team collaboration',
+      apiAccess: 'API access',
+      customIntegrations: 'Custom integrations',
+      dedicatedAccountManager: 'Dedicated account manager',
       customTemplates: 'Custom template creation',
       advancedAnalytics: 'Advanced analytics & insights',
       priorityAI: 'Priority AI processing',
@@ -59,6 +82,7 @@ export const translations = {
       prioritySupport: 'Priority support',
       teamCollaboration: 'Team collaboration tools',
       unlimitedProposals: 'Unlimited proposals',
+      emailSupport: 'Email support',
       whiteLabelBranding: 'White-label branding',
       apiAccess: 'API access',
       customIntegrations: 'Custom integrations',
@@ -122,6 +146,12 @@ export const translations = {
       businessStyle: 'Business Style',
       whatAffects: 'What This Affects',
       comingSoon: 'Coming Soon'
+    },
+    // Testimonials
+    testimonials: {
+      trustedBy: 'Trusted by Successful Freelancers',
+      joinThousands: 'Join thousands of freelancers who\'ve transformed their proposal process',
+      verifiedCustomer: 'Verified Customer'
     }
   },
 
@@ -130,6 +160,7 @@ export const translations = {
     nav: {
       pricing: 'Precios',
       features: 'Características',
+      testimonials: 'Testimonios',
       aboutUs: 'Acerca de',
       signIn: 'Iniciar Sesión',
       getStarted: 'Comenzar',
@@ -166,6 +197,28 @@ export const translations = {
       currentPlan: 'Plan Actual',
       upgradeText: 'Actualizar a',
       getStartedFree: 'Comenzar Gratis',
+      startFreeTrial: 'Iniciar Prueba Gratis',
+      contactSales: 'Contactar Ventas',
+      getStarted: 'Comenzar',
+      simpleTransparent: 'Precios Simples y Transparentes',
+      startFreeScale: 'Comienza gratis y escala conforme creces. Sin tarifas ocultas, sin contratos a largo plazo.',
+      planStarter: 'Inicial',
+      planProfessional: 'Profesional',
+      planAgency: 'Agencia',
+      perMonth: 'por mes',
+      // Plan features
+      basicFeatures: '3 propuestas por mes, Plantillas básicas de IA, Soporte por email',
+      professionalFeatures: 'Propuestas ilimitadas, Plantillas avanzadas de IA, Soporte prioritario, Panel de analíticas, Marca personalizada',
+      agencyFeatures: 'Todo lo Profesional, Colaboración en equipo, Acceso API, Integraciones personalizadas, Gerente de cuenta dedicado',
+      basicAITemplates: 'Plantillas básicas de IA',
+      advancedAITemplates: 'Plantillas avanzadas de IA',
+      analyticsDeclaration: 'Panel de analíticas',
+      customBranding: 'Marca personalizada',
+      everythingProfessional: 'Todo lo Profesional',
+      teamCollaboration: 'Colaboración en equipo',
+      apiAccess: 'Acceso API',
+      customIntegrations: 'Integraciones personalizadas',
+      dedicatedAccountManager: 'Gerente de cuenta dedicado',
       proposalsPerMonth: 'propuestas por mes',
       basicAI: 'Generación básica de IA',
       standardTemplates: 'Plantillas estándar',
@@ -177,6 +230,7 @@ export const translations = {
       prioritySupport: 'Soporte prioritario',
       teamCollaboration: 'Herramientas de colaboración en equipo',
       unlimitedProposals: 'Propuestas ilimitadas',
+      emailSupport: 'Soporte por email',
       whiteLabelBranding: 'Marca blanca',
       apiAccess: 'Acceso a API',
       customIntegrations: 'Integraciones personalizadas',
@@ -236,6 +290,12 @@ export const translations = {
       businessStyle: 'Estilo de Negocio',
       whatAffects: 'Lo Que Esto Afecta',
       comingSoon: 'Próximamente'
+    },
+    // Testimonials
+    testimonials: {
+      trustedBy: 'Confiado por Freelancers Exitosos',
+      joinThousands: 'Únete a miles de freelancers que han transformado su proceso de propuestas',
+      verifiedCustomer: 'Cliente Verificado'
     }
   },
 
@@ -311,6 +371,7 @@ export const translations = {
     nav: {
       pricing: 'Preços',
       features: 'Recursos',
+      testimonials: 'Depoimentos',
       aboutUs: 'Sobre Nós',
       signIn: 'Entrar',
       getStarted: 'Começar',
@@ -347,6 +408,28 @@ export const translations = {
       currentPlan: 'Plano Atual',
       upgradeText: 'Atualizar para',
       getStartedFree: 'Começar Grátis',
+      startFreeTrial: 'Iniciar Teste Grátis',
+      contactSales: 'Contatar Vendas',
+      getStarted: 'Começar',
+      simpleTransparent: 'Preços Simples e Transparentes',
+      startFreeScale: 'Comece grátis e escale conforme cresce. Sem taxas ocultas, sem contratos de longo prazo.',
+      planStarter: 'Inicial',
+      planProfessional: 'Profissional',
+      planAgency: 'Agência',
+      perMonth: 'por mês',
+      // Plan features
+      basicFeatures: '3 propostas por mês, Modelos básicos de IA, Suporte por email',
+      professionalFeatures: 'Propostas ilimitadas, Modelos avançados de IA, Suporte prioritário, Painel de análises, Marca personalizada',
+      agencyFeatures: 'Tudo do Profissional, Colaboração em equipe, Acesso à API, Integrações personalizadas, Gerente de conta dedicado',
+      basicAITemplates: 'Modelos básicos de IA',
+      advancedAITemplates: 'Modelos avançados de IA',
+      analyticsDeclaration: 'Painel de análises',
+      customBranding: 'Marca personalizada',
+      everythingProfessional: 'Tudo do Profissional',
+      teamCollaboration: 'Colaboração em equipe',
+      apiAccess: 'Acesso à API',
+      customIntegrations: 'Integrações personalizadas',
+      dedicatedAccountManager: 'Gerente de conta dedicado',
       proposalsPerMonth: 'propostas por mês',
       basicAI: 'Geração básica de IA',
       standardTemplates: 'Modelos padrão',
@@ -358,6 +441,7 @@ export const translations = {
       prioritySupport: 'Suporte prioritário',
       teamCollaboration: 'Ferramentas de colaboração em equipe',
       unlimitedProposals: 'Propostas ilimitadas',
+      emailSupport: 'Suporte por email',
       whiteLabelBranding: 'Marca branca',
       apiAccess: 'Acesso à API',
       customIntegrations: 'Integrações personalizadas',
@@ -417,6 +501,12 @@ export const translations = {
       businessStyle: 'Estilo de Negócio',
       whatAffects: 'O Que Isso Afeta',
       comingSoon: 'Em Breve'
+    },
+    // Testimonials
+    testimonials: {
+      trustedBy: 'Confiado por Freelancers de Sucesso',
+      joinThousands: 'Junte-se a milhares de freelancers que transformaram seu processo de propostas',
+      verifiedCustomer: 'Cliente Verificado'
     }
   }
 };

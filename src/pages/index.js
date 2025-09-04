@@ -605,10 +605,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-                Trusted by <span className="text-gradient">Successful Freelancers</span>
+                {t('testimonials.trustedBy')}
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-400">
-                Join thousands of freelancers who've transformed their proposal process
+                {t('testimonials.joinThousands')}
               </p>
             </div>
 
@@ -659,7 +659,7 @@ export default function Home() {
                     <div>
                       <div className="font-bold text-gray-900 dark:text-gray-100 text-lg">{testimonial.name}</div>
                       <div className="text-primary-600 dark:text-primary-400 font-medium">{testimonial.role}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Verified Customer</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">{t('testimonials.verifiedCustomer')}</div>
                     </div>
                   </div>
                   
@@ -683,36 +683,36 @@ export default function Home() {
         <section id="pricing" className="py-20 px-4 bg-white dark:bg-gray-900">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-              Simple, <span className="text-gradient">Transparent Pricing</span>
+              {t('pricing.simpleTransparent')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-              Start free and scale as you grow. No hidden fees, no long-term contracts.
+              {t('pricing.startFreeScale')}
             </p>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
               {[
                 {
-                  name: "Starter",
-                  price: "Free",
-                  period: "forever",
-                  features: ["3 proposals per month", "Basic AI templates", "Email support"],
-                  cta: "Get Started",
+                  name: t('pricing.planStarter'),
+                  price: t('pricing.free'),
+                  period: t('pricing.forever'),
+                  features: ["3 " + t('pricing.proposalsPerMonth'), t('pricing.basicAITemplates'), t('pricing.emailSupport')],
+                  cta: t('pricing.getStarted'),
                   popular: false
                 },
                 {
-                  name: "Professional",
+                  name: t('pricing.planProfessional'),
                   price: "$29",
-                  period: "per month",
-                  features: ["Unlimited proposals", "Advanced AI templates", "Priority support", "Analytics dashboard", "Custom branding"],
-                  cta: "Start Free Trial",
+                  period: t('pricing.perMonth'),
+                  features: [t('pricing.unlimitedProposals'), t('pricing.advancedAITemplates'), t('pricing.prioritySupport'), t('pricing.analyticsDeclaration'), t('pricing.customBranding')],
+                  cta: t('pricing.startFreeTrial'),
                   popular: true
                 },
                 {
-                  name: "Agency",
+                  name: t('pricing.planAgency'),
                   price: "$99",
-                  period: "per month",
-                  features: ["Everything in Professional", "Team collaboration", "API access", "Custom integrations", "Dedicated account manager"],
-                  cta: "Contact Sales",
+                  period: t('pricing.perMonth'),
+                  features: [t('pricing.everythingProfessional'), t('pricing.teamCollaboration'), t('pricing.apiAccess'), t('pricing.customIntegrations'), t('pricing.dedicatedAccountManager')],
+                  cta: t('pricing.contactSales'),
                   popular: false
                 }
               ].map((plan, index) => (
@@ -725,12 +725,12 @@ export default function Home() {
                 } flex flex-col h-full`}>
                   {isCurrentPlan(plan.name) && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Current Plan
+                      {t('pricing.currentPlan')}
                     </div>
                   )}
                   {plan.popular && !isCurrentPlan(plan.name) && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                      Most Popular
+                      {t('pricing.mostPopular')}
                     </div>
                   )}
                   <div className="text-center flex-grow flex flex-col">

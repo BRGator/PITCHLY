@@ -53,17 +53,17 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/#features" className="btn-ghost">
-              Features
+              {t('nav.features')}
             </Link>
             <Link href="/#pricing" className="btn-ghost">
-              Pricing
+              {t('nav.pricing')}
             </Link>
             <Link href="/#testimonials" className="btn-ghost">
-              Testimonials
+              {t('nav.testimonials')}
             </Link>
             {session && (
               <Link href="/dashboard" className="btn-ghost">
-                Dashboard
+                {t('nav.dashboard')}
               </Link>
             )}
           </div>
@@ -106,13 +106,13 @@ export default function Navbar() {
                   href="/auth/signin?from=signin"
                   className="btn-ghost"
                 >
-                  Sign In
+                  {t('nav.signIn')}
                 </Link>
                 <Link
                   href="/auth/signin?from=getstarted"
                   className="btn-primary"
                 >
-                  Get Started
+                  {t('nav.getStarted')}
                 </Link>
               </div>
             )}
@@ -138,17 +138,17 @@ export default function Navbar() {
           <div className="md:hidden absolute top-16 left-0 right-0 glass-effect border-t border-gray-200 dark:border-gray-700 shadow-lg">
             <div className="px-4 py-6 space-y-4">
               <Link href="/#features" className="block btn-ghost text-left w-full">
-                Features
+                {t('nav.features')}
               </Link>
               <Link href="/#pricing" className="block btn-ghost text-left w-full">
-                Pricing
+                {t('nav.pricing')}
               </Link>
               <Link href="/#testimonials" className="block btn-ghost text-left w-full">
-                Testimonials
+                {t('nav.testimonials')}
               </Link>
               {session && (
                 <Link href="/dashboard" className="block btn-ghost text-left w-full">
-                  Dashboard
+                  {t('nav.dashboard')}
                 </Link>
               )}
               {!session && (
@@ -157,13 +157,13 @@ export default function Navbar() {
                     onClick={() => signIn()}
                     className="btn-primary w-full mb-2"
                   >
-                    Get Started
+                    {t('nav.getStarted')}
                   </button>
                   <button
                     onClick={() => signIn()}
                     className="btn-secondary w-full"
                   >
-                    Sign In
+                    {t('nav.signIn')}
                   </button>
                 </div>
               )}
