@@ -81,21 +81,23 @@ export default function RegionSelector({ variant = 'full' }) {
       {activeTab === 'region' && (
         <RegionTab 
           currentRegion={region} 
-          onRegionChange={setRegion} 
+          onRegionChange={setRegion}
+          t={t}
         />
       )}
 
       {activeTab === 'language' && (
         <LanguageTab 
           currentLanguage={language} 
-          onLanguageChange={setLanguage} 
+          onLanguageChange={setLanguage}
+          t={t}
         />
       )}
     </div>
   );
 }
 
-function RegionTab({ currentRegion, onRegionChange }) {
+function RegionTab({ currentRegion, onRegionChange, t }) {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -134,7 +136,7 @@ function RegionTab({ currentRegion, onRegionChange }) {
   );
 }
 
-function LanguageTab({ currentLanguage, onLanguageChange }) {
+function LanguageTab({ currentLanguage, onLanguageChange, t }) {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
