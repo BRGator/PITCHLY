@@ -60,6 +60,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
 
   const pricingTiers = [
     {
+      id: 'professional',
       name: t('upgradeModal.plans.professional.name'),
       price: '$29',
       period: t('upgradeModal.plans.professional.period'),
@@ -74,6 +75,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
       ]
     },
     {
+      id: 'agency',
       name: t('upgradeModal.plans.agency.name'),
       price: '$99',
       period: t('upgradeModal.plans.agency.period'),
@@ -199,7 +201,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
                 </ul>
 
                 <button
-                  onClick={() => handleUpgrade(tier.name.toLowerCase())}
+                  onClick={() => handleUpgrade(tier.id)}
                   disabled={loading}
                   className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
                     tier.popular

@@ -30,7 +30,7 @@ export default function RegionalProvider({ children }) {
   const [language, setLanguage] = useState('en');
   const [loading, setLoading] = useState(true);
   // Create translation function for current language
-  const t = (key) => {
+  const t = (key, params = {}) => {
     const keys = key.split('.');
     let value = translations[language] || translations.en;
     
@@ -46,6 +46,13 @@ export default function RegionalProvider({ children }) {
         value = value?.[k];
         if (!value) break;
       }
+    }
+    
+    // Handle string interpolation
+    if (value && typeof value === 'string' && Object.keys(params).length > 0) {
+      return value.replace(/\{\{(\w+)\}\}/g, (match, param) => {
+        return params[param] !== undefined ? params[param] : match;
+      });
     }
     
     return value || key;

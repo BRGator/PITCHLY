@@ -82,6 +82,7 @@ export default function UpgradePage() {
 
   const pricingTiers = [
     {
+      id: 'free',
       name: t('upgrade.plans.free.name'),
       price: '$0',
       period: t('upgrade.plans.free.period'),
@@ -100,6 +101,7 @@ export default function UpgradePage() {
       ]
     },
     {
+      id: 'professional',
       name: t('upgrade.plans.professional.name'),
       price: '$29',
       period: t('upgrade.plans.professional.period'),
@@ -116,6 +118,7 @@ export default function UpgradePage() {
       ]
     },
     {
+      id: 'agency',
       name: t('upgrade.plans.agency.name'),
       price: '$99',
       period: t('upgrade.plans.agency.period'),
@@ -278,7 +281,7 @@ export default function UpgradePage() {
                 )}
 
                 <button
-                  onClick={() => handleUpgrade(tier.name.toLowerCase())}
+                  onClick={() => handleUpgrade(tier.id)}
                   disabled={loading || isCurrentPlan(tier.name)}
                   className={`w-full py-4 px-6 rounded-lg font-semibold transition-colors ${
                     isCurrentPlan(tier.name)
