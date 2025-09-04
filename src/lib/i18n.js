@@ -196,6 +196,31 @@ export const translations = {
       nextBillingPeriod: 'Next billing period',
       billingManagement: 'Billing Management'
     },
+    // Analytics
+    analytics: {
+      proposalAnalytics: 'Proposal Analytics',
+      insightsPerformance: 'Insights into your proposal performance and trends',
+      totalProposals: 'Total Proposals',
+      totalProposalValue: 'Total Proposal Value',
+      averageValue: 'Average Value',
+      winRate: 'Win Rate',
+      proposalStatusBreakdown: 'Proposal Status Breakdown',
+      pricingStructureBreakdown: 'Pricing Structure Breakdown',
+      projectTimelineDistribution: 'Project Timeline Distribution',
+      monthlyProposalTrends: 'Monthly Proposal Trends',
+      month: 'Month',
+      proposals: 'Proposals',
+      totalValue: 'Total Value',
+      avgValue: 'Avg Value',
+      avg: 'avg',
+      avgValue2: 'avg value',
+      insightsAndTips: '💡 Insights & Tips',
+      mostPopularPricing: '• Your most popular pricing structure: ',
+      mostCommonTimeline: '• Most common timeline: ',
+      considerRaisingRates: '• Consider raising rates if win rate > 80%',
+      trackConversionRates: '• Track conversion rates to optimize pricing',
+      createFirstProposal: 'Create your first proposal to start seeing analytics insights!'
+    },
     // Proposal statuses
     status: {
       draft: 'Draft',
@@ -466,6 +491,31 @@ export const translations = {
       usageResets: 'El uso se restablece',
       nextBillingPeriod: 'Próximo período de facturación',
       billingManagement: 'Gestión de Facturación'
+    },
+    // Analytics
+    analytics: {
+      proposalAnalytics: 'Analíticas de Propuestas',
+      insightsPerformance: 'Insights sobre el rendimiento y tendencias de tus propuestas',
+      totalProposals: 'Propuestas Totales',
+      totalProposalValue: 'Valor Total de Propuestas',
+      averageValue: 'Valor Promedio',
+      winRate: 'Tasa de Éxito',
+      proposalStatusBreakdown: 'Desglose de Estado de Propuestas',
+      pricingStructureBreakdown: 'Desglose de Estructura de Precios',
+      projectTimelineDistribution: 'Distribución de Cronograma de Proyectos',
+      monthlyProposalTrends: 'Tendencias Mensuales de Propuestas',
+      month: 'Mes',
+      proposals: 'Propuestas',
+      totalValue: 'Valor Total',
+      avgValue: 'Valor Prom',
+      avg: 'prom',
+      avgValue2: 'valor prom',
+      insightsAndTips: '💡 Insights y Consejos',
+      mostPopularPricing: '• Tu estructura de precios más popular: ',
+      mostCommonTimeline: '• Cronograma más común: ',
+      considerRaisingRates: '• Considera aumentar tarifas si la tasa de éxito > 80%',
+      trackConversionRates: '• Rastrea tasas de conversión para optimizar precios',
+      createFirstProposal: '¡Crea tu primera propuesta para comenzar a ver insights de analíticas!'
     },
     status: {
       draft: 'Borrador',
@@ -801,6 +851,31 @@ export const translations = {
       usageResets: 'O uso é redefinido',
       nextBillingPeriod: 'Próximo período de cobrança',
       billingManagement: 'Gerenciamento de Cobrança'
+    },
+    // Analytics
+    analytics: {
+      proposalAnalytics: 'Análises de Propostas',
+      insightsPerformance: 'Insights sobre o desempenho e tendências de suas propostas',
+      totalProposals: 'Total de Propostas',
+      totalProposalValue: 'Valor Total das Propostas',
+      averageValue: 'Valor Médio',
+      winRate: 'Taxa de Sucesso',
+      proposalStatusBreakdown: 'Divisão por Status de Proposta',
+      pricingStructureBreakdown: 'Divisão por Estrutura de Preços',
+      projectTimelineDistribution: 'Distribuição de Cronograma do Projeto',
+      monthlyProposalTrends: 'Tendências Mensais de Propostas',
+      month: 'Mês',
+      proposals: 'Propostas',
+      totalValue: 'Valor Total',
+      avgValue: 'Valor Méd',
+      avg: 'méd',
+      avgValue2: 'valor méd',
+      insightsAndTips: '💡 Insights e Dicas',
+      mostPopularPricing: '• Sua estrutura de preços mais popular: ',
+      mostCommonTimeline: '• Cronograma mais comum: ',
+      considerRaisingRates: '• Considere aumentar as taxas se a taxa de sucesso > 80%',
+      trackConversionRates: '• Acompanhe as taxas de conversão para otimizar preços',
+      createFirstProposal: 'Crie sua primeira proposta para começar a ver insights de análises!'
     },
     status: {
       draft: 'Rascunho',

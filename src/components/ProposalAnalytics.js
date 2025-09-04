@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRegional } from './RegionalProvider';
 import { formatCurrency } from '../lib/regionalization';
+import { useI18n } from '../lib/i18n';
 
 export default function ProposalAnalytics() {
   const { data: session } = useSession();
   const { region } = useRegional();
+  const { t } = useI18n();
   const [analytics, setAnalytics] = useState({
     totalProposals: 0,
     totalValue: 0,
@@ -61,10 +63,10 @@ export default function ProposalAnalytics() {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Proposal Analytics
+          {t('analytics.proposalAnalytics')}
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
-          Insights into your proposal performance and trends
+          {t('analytics.insightsPerformance')}
         </p>
       </div>
 
@@ -75,7 +77,7 @@ export default function ProposalAnalytics() {
             {analytics.totalProposals}
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Total Proposals
+            {t('analytics.totalProposals')}
           </div>
         </div>
 
@@ -84,7 +86,7 @@ export default function ProposalAnalytics() {
             {formatRegionalCurrency(analytics.totalValue)}
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Total Proposal Value
+            {t('analytics.totalProposalValue')}
           </div>
         </div>
 
@@ -93,7 +95,7 @@ export default function ProposalAnalytics() {
             {formatRegionalCurrency(analytics.averageValue)}
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Average Value
+            {t('analytics.averageValue')}
           </div>
         </div>
 
@@ -102,7 +104,7 @@ export default function ProposalAnalytics() {
             {analytics.conversionRate || 0}%
           </div>
           <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Win Rate
+            {t('analytics.winRate')}
           </div>
         </div>
       </div>
@@ -112,7 +114,7 @@ export default function ProposalAnalytics() {
         {/* Proposal Status Breakdown */}
         <div className="card-premium p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            Proposal Status Breakdown
+            {t('analytics.proposalStatusBreakdown')}
           </h3>
           <div className="space-y-3">
             {Object.entries(analytics.statusBreakdown || {}).map(([status, data]) => {
@@ -131,7 +133,7 @@ export default function ProposalAnalytics() {
               };
               
               const colors = statusColors[status] || statusColors.draft;
-              const statusLabel = status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+              const statusLabel = t(`status.${status === 'under_review' ? 'underReview' : status}`);
               
               return (
                 <div key={status} className="flex items-center justify-between">
@@ -147,7 +149,7 @@ export default function ProposalAnalytics() {
                       {data.count} ({data.percentage}%)
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {formatRegionalCurrency(data.avgValue)} avg
+                      {formatRegionalCurrency(data.avgValue)} {t('analytics.avg')}
                     </div>
                   </div>
                 </div>
@@ -158,7 +160,7 @@ export default function ProposalAnalytics() {
         {/* Budget Breakdown */}
         <div className="card-premium p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            Pricing Structure Breakdown
+            {t('analytics.pricingStructureBreakdown')}
           </h3>
           <div className="space-y-3">
             {Object.entries(analytics.budgetBreakdown).map(([unit, data]) => (
@@ -177,7 +179,7 @@ export default function ProposalAnalytics() {
                     {data.count} ({data.percentage}%)
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {formatRegionalCurrency(data.avgValue)} avg
+                    {formatRegionalCurrency(data.avgValue)} {t('analytics.avg')}
                   </div>
                 </div>
               </div>
@@ -188,7 +190,7 @@ export default function ProposalAnalytics() {
         {/* Timeline Breakdown */}
         <div className="card-premium p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            Project Timeline Distribution
+            {t('analytics.projectTimelineDistribution')}
           </h3>
           <div className="space-y-3">
             {Object.entries(analytics.timelineBreakdown).map(([timeline, data]) => (
@@ -207,7 +209,7 @@ export default function ProposalAnalytics() {
                     {data.count} ({data.percentage}%)
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {formatRegionalCurrency(data.avgValue)} avg value
+                    {formatRegionalCurrency(data.avgValue)} {t('analytics.avg')}
                   </div>
                 </div>
               </div>
@@ -219,23 +221,23 @@ export default function ProposalAnalytics() {
       {/* Monthly Trends */}
       <div className="card-premium p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Monthly Proposal Trends
+          {t('analytics.monthlyProposalTrends')}
         </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Month
+                  {t('analytics.month')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Proposals
+                  {t('analytics.proposals')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Total Value
+                  {t('analytics.totalValue')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Avg Value
+                  {t('analytics.avgValue')}
                 </th>
               </tr>
             </thead>
@@ -264,30 +266,30 @@ export default function ProposalAnalytics() {
       {/* Tips Section */}
       <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-primary-800 dark:text-primary-200 mb-3">
-          💡 Insights & Tips
+          {t('analytics.insightsAndTips')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-primary-700 dark:text-primary-300">
           {analytics.totalProposals > 0 && (
             <>
               <div>
-                • Your most popular pricing structure: <strong>{analytics.topPricingUnit}</strong>
+                {t('analytics.mostPopularPricing')}<strong>{analytics.topPricingUnit}</strong>
               </div>
               <div>
-                • Most common timeline: <strong>{analytics.topTimeline}</strong>
+                {t('analytics.mostCommonTimeline')}<strong>{analytics.topTimeline}</strong>
               </div>
               {analytics.averageValue > 0 && (
                 <div>
-                  • Consider raising rates if win rate {">"} 80%
+                  {t('analytics.considerRaisingRates')}
                 </div>
               )}
               <div>
-                • Track conversion rates to optimize pricing
+                {t('analytics.trackConversionRates')}
               </div>
             </>
           )}
           {analytics.totalProposals === 0 && (
             <div>
-              Create your first proposal to start seeing analytics insights!
+              {t('analytics.createFirstProposal')}
             </div>
           )}
         </div>
