@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Allow crawling of main pages
+Allow: /about
+Allow: /pricing
+Allow: /contact
+Allow: /auth/signin
+Allow: /privacy
+Allow: /terms
+
+# Disallow private user areas
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /proposals/
+Disallow: /onboarding
+Disallow: /upgrade
+Disallow: /api/
+
+# Disallow authentication pages except signin
+Disallow: /auth/
+Allow: /auth/signin
+
+# Sitemap location
+Sitemap: https://usepitchly.com/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1

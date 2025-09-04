@@ -3,7 +3,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { supabase } from '../lib/supabase';
 import { REGIONS, LANGUAGES, detectRegionFromBrowser } from '../lib/regionalization';
-import { useTranslation, I18nContext } from '../lib/i18n';
+import { translations, I18nContext } from '../lib/i18n';
 
 // Regional Context
 const RegionalContext = createContext({
@@ -29,7 +29,27 @@ export default function RegionalProvider({ children }) {
   const [region, setRegion] = useState('US');
   const [language, setLanguage] = useState('en');
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation(language);
+  // Create translation function for current language
+  const t = (key) => {
+    const keys = key.split('.');
+    let value = translations[language] || translations.en;
+    
+    for (const k of keys) {
+      value = value?.[k];
+      if (!value) break;
+    }
+    
+    // Fallback to English if translation not found
+    if (!value && language !== 'en') {
+      value = translations.en;
+      for (const k of keys) {
+        value = value?.[k];
+        if (!value) break;
+      }
+    }
+    
+    return value || key;
+  };
 
   // Initialize region and language on mount
   useEffect(() => {

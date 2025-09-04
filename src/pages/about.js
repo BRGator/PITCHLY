@@ -1,17 +1,15 @@
-import Head from 'next/head';
 import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 import Navbar from '../components/Navbar';
 import { useI18n } from '../lib/i18n';
+import { pageSEO } from '../lib/seo-config';
 
 export default function About() {
   const { t } = useI18n();
   
   return (
     <>
-      <Head>
-        <title>About Us - PITCHLY</title>
-        <meta name="description" content="Learn about PITCHLY's mission to revolutionize business proposal creation with AI-powered tools" />
-      </Head>
+      <NextSeo {...pageSEO.about} />
 
       <Navbar />
 

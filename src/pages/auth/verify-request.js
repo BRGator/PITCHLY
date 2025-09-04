@@ -2,8 +2,11 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import DarkModeToggle from '../../components/DarkModeToggle';
+import { useI18n } from '../../lib/i18n';
 
 export default function VerifyRequest() {
+  const { t } = useI18n();
+  
   useEffect(() => {
     // Add same-tab behavior instructions for email clients
     if (typeof window !== 'undefined') {
@@ -28,8 +31,8 @@ export default function VerifyRequest() {
   return (
     <>
       <Head>
-        <title>Check Your Email - PITCHLY</title>
-        <meta name="description" content="Check your email for your sign-in link" />
+        <title>{t('auth.checkEmail')} - PITCHLY</title>
+        <meta name="description" content={t('auth.checkEmailDesc')} />
         <script dangerouslySetInnerHTML={{
           __html: `
             // Global function to handle email link clicks
@@ -72,10 +75,10 @@ export default function VerifyRequest() {
             </Link>
             
             <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Check Your Email
+              {t('auth.checkEmail')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              We've sent a secure sign-in link to your email address
+              {t('auth.emailSentDesc')}
             </p>
           </div>
 
@@ -88,30 +91,28 @@ export default function VerifyRequest() {
             </div>
 
             <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Sign-in Link Sent!
+              {t('auth.signInLinkSent')}
             </h3>
             
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Click the link in your email to securely sign in to your PITCHLY account. 
-              The link will expire in 24 hours for security.
+              {t('auth.clickLinkDesc')}
             </p>
             
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
               <p className="text-sm text-blue-700 dark:text-blue-300">
-                💡 <strong>Tip:</strong> When clicking the email link, make sure to click "Open in browser" or "Open in app" 
-                if your email client asks, to avoid opening in a new tab.
+                💡 <strong>{t('auth.emailTip')}</strong>
               </p>
             </div>
 
             <div className="space-y-3">
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Didn't receive the email? Check your spam folder or
+                {t('auth.didntReceive')}
               </p>
               <Link 
                 href="/auth/signin" 
                 className="btn-ghost inline-block"
               >
-                Try Again
+                {t('auth.tryAgain')}
               </Link>
             </div>
           </div>
@@ -119,7 +120,7 @@ export default function VerifyRequest() {
           {/* Back to Home */}
           <div className="mt-6 text-center">
             <Link href="/" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              ← Back to home
+              {t('auth.backToHome')}
             </Link>
           </div>
         </div>

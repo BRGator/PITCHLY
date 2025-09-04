@@ -4,6 +4,12 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* Performance & SEO optimizations */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://api.openai.com" />
+        <link rel="preconnect" href="https://supabase.co" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
         {/* Viewport for mobile optimization */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         

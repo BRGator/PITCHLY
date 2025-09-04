@@ -1,0 +1,16 @@
+NEEDED: Open Graph Images for SEO
+
+Create the following image files for social media sharing:
+
+1. og-image.jpg (1200x630px) - Main Open Graph image
+2. og-image-square.jpg (1200x1200px) - Square version for some platforms
+3. app-screenshot.jpg - Screenshot of the app interface
+
+Recommended content:
+- PITCHLY branding/logo
+- "AI-Powered Proposal Generation" tagline
+- Clean, professional design
+- High contrast for readability
+- Brand colors matching the website
+
+These images are referenced in the SEO configuration but need to be created by a designer.

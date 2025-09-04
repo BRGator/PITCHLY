@@ -28,6 +28,7 @@ export const translations = {
       viewPricing: 'View Pricing',
       trustedBy: 'Trusted by freelancers and agencies worldwide',
       howItWorks: 'See How It Works',
+      hideDemo: 'Hide Demo',
       step1Title: 'Describe Your Project',
       step1Desc: 'Tell us about your client and project requirements',
       step2Title: 'AI Generates Proposal', 
@@ -748,21 +749,16 @@ export const translations = {
       continueWithApple: 'Continue with Apple',
       noAccount: 'Don\'t have an account?',
       autoSignUp: 'Sign up automatically on first sign-in',
-      backToHome: '← Back to home'
-    },
-    // Proposals List Page
-    proposalsList: {
-      yourProposals: 'Your Proposals',
-      loadingProposals: 'Loading proposals...',
-      noProposalsFound: 'No proposals found.',
-      untitledProposal: 'Untitled Proposal',
-      toClient: 'To',
-      fromSender: 'From',
-      view: 'View',
-      edit: 'Edit',
-      delete: 'Delete',
-      confirmDelete: 'Are you sure you want to delete this proposal?',
-      deleteFailed: 'Failed to delete'
+      backToHome: '← Back to home',
+      // Verify Request Page
+      checkEmail: 'Check Your Email',
+      checkEmailDesc: 'Check your email for your sign-in link',
+      emailSentDesc: 'We\'ve sent a secure sign-in link to your email address',
+      signInLinkSent: 'Sign-in Link Sent!',
+      clickLinkDesc: 'Click the link in your email to securely sign in to your PITCHLY account. The link will expire in 24 hours for security.',
+      emailTip: 'Tip: When clicking the email link, make sure to click "Open in browser" or "Open in app" if your email client asks, to avoid opening in a new tab.',
+      didntReceive: 'Didn\'t receive the email? Check your spam folder or',
+      tryAgain: 'Try Again'
     },
     // Error Pages
     errors: {
@@ -917,6 +913,7 @@ export const translations = {
       viewPricing: 'Ver Precios',
       trustedBy: 'Confiado por freelancers y agencias en todo el mundo',
       howItWorks: 'Ver Cómo Funciona',
+      hideDemo: 'Ocultar Demo',
       step1Title: 'Describe Tu Proyecto',
       step1Desc: 'Cuéntanos sobre tu cliente y los requisitos del proyecto',
       step2Title: 'IA Genera la Propuesta',
@@ -1631,21 +1628,16 @@ export const translations = {
       continueWithApple: 'Continuar con Apple',
       noAccount: '¿No tienes una cuenta?',
       autoSignUp: 'Regístrate automáticamente en el primer inicio de sesión',
-      backToHome: '← Volver al inicio'
-    },
-    // Proposals List Page
-    proposalsList: {
-      yourProposals: 'Tus Propuestas',
-      loadingProposals: 'Cargando propuestas...',
-      noProposalsFound: 'No se encontraron propuestas.',
-      untitledProposal: 'Propuesta Sin Título',
-      toClient: 'Para',
-      fromSender: 'De',
-      view: 'Ver',
-      edit: 'Editar',
-      delete: 'Eliminar',
-      confirmDelete: '¿Estás seguro de que quieres eliminar esta propuesta?',
-      deleteFailed: 'Error al eliminar'
+      backToHome: '← Volver al inicio',
+      // Verify Request Page
+      checkEmail: 'Revisa tu Email',
+      checkEmailDesc: 'Revisa tu email para encontrar tu enlace de inicio de sesión',
+      emailSentDesc: 'Hemos enviado un enlace seguro de inicio de sesión a tu dirección de email',
+      signInLinkSent: '¡Enlace de Inicio de Sesión Enviado!',
+      clickLinkDesc: 'Haz clic en el enlace de tu email para iniciar sesión de forma segura en tu cuenta PITCHLY. El enlace expirará en 24 horas por seguridad.',
+      emailTip: 'Consejo: Al hacer clic en el enlace del email, asegúrate de hacer clic en "Abrir en navegador" o "Abrir en app" si tu cliente de email lo pregunta, para evitar abrir en una nueva pestaña.',
+      didntReceive: '¿No recibiste el email? Revisa tu carpeta de spam o',
+      tryAgain: 'Inténtalo de Nuevo'
     },
     // Error Pages
     errors: {
@@ -1799,6 +1791,7 @@ export const translations = {
       viewPricing: 'Voir les Tarifs',
       trustedBy: 'Approuvé par les freelancers et agences du monde entier',
       howItWorks: 'Comment Ça Marche',
+      hideDemo: 'Masquer la Démo',
       step1Title: 'Décrivez Votre Projet',
       step1Desc: 'Parlez-nous de votre client et des exigences du projet',
       step2Title: 'L\'IA Génère la Proposition',
@@ -1833,6 +1826,7 @@ export const translations = {
       viewPricing: 'Preise Ansehen',
       trustedBy: 'Vertraut von Freelancern und Agenturen weltweit',
       howItWorks: 'So Funktioniert Es',
+      hideDemo: 'Demo Ausblenden',
       step1Title: 'Beschreiben Sie Ihr Projekt',
       step1Desc: 'Erzählen Sie uns über Ihren Kunden und die Projektanforderungen',
       step2Title: 'KI Erstellt das Angebot',
@@ -1867,6 +1861,7 @@ export const translations = {
       viewPricing: 'Ver Preços',
       trustedBy: 'Confiado por freelancers e agências no mundo todo',
       howItWorks: 'Ver Como Funciona',
+      hideDemo: 'Ocultar Demo',
       step1Title: 'Descreva Seu Projeto',
       step1Desc: 'Nos conte sobre seu cliente e os requisitos do projeto',
       step2Title: 'IA Gera a Proposta',
@@ -2581,21 +2576,16 @@ export const translations = {
       continueWithApple: 'Continuar com Apple',
       noAccount: 'Não tem uma conta?',
       autoSignUp: 'Cadastre-se automaticamente no primeiro login',
-      backToHome: '← Voltar ao início'
-    },
-    // Proposals List Page
-    proposalsList: {
-      yourProposals: 'Suas Propostas',
-      loadingProposals: 'Carregando propostas...',
-      noProposalsFound: 'Nenhuma proposta encontrada.',
-      untitledProposal: 'Proposta Sem Título',
-      toClient: 'Para',
-      fromSender: 'De',
-      view: 'Ver',
-      edit: 'Editar',
-      delete: 'Excluir',
-      confirmDelete: 'Tem certeza de que deseja excluir esta proposta?',
-      deleteFailed: 'Falha ao excluir'
+      backToHome: '← Voltar ao início',
+      // Verify Request Page
+      checkEmail: 'Verifique seu Email',
+      checkEmailDesc: 'Verifique seu email para encontrar seu link de login',
+      emailSentDesc: 'Enviamos um link seguro de login para seu endereço de email',
+      signInLinkSent: 'Link de Login Enviado!',
+      clickLinkDesc: 'Clique no link do seu email para entrar com segurança em sua conta PITCHLY. O link expirará em 24 horas por segurança.',
+      emailTip: 'Dica: Ao clicar no link do email, certifique-se de clicar em "Abrir no navegador" ou "Abrir no app" se seu cliente de email perguntar, para evitar abrir em uma nova aba.',
+      didntReceive: 'Não recebeu o email? Verifique sua pasta de spam ou',
+      tryAgain: 'Tente Novamente'
     },
     // Error Pages
     errors: {

@@ -1,11 +1,12 @@
-import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 import Navbar from '../components/Navbar';
 import ProposalForm from '../components/ProposalForm';
 import EmbeddedCheckout from '../components/EmbeddedCheckout';
 import { useI18n } from '../lib/i18n';
+import { structuredData } from '../lib/seo-config';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -270,16 +271,44 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>PITCHLY - AI-Powered Proposal Generation | Win More Clients</title>
-        <meta name="description" content="Create winning proposals in minutes with AI. Professional, personalized proposals that convert prospects into clients. Trusted by freelancers and agencies worldwide." />
-        <meta name="keywords" content="AI proposals, proposal generator, freelance proposals, client proposals, business proposals" />
-        <meta property="og:title" content="PITCHLY - AI-Powered Proposal Generation" />
-        <meta property="og:description" content="Create winning proposals in minutes with AI. Professional, personalized proposals that convert prospects into clients." />
-        <meta property="og:url" content="https://usepitchly.com" />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://usepitchly.com" />
-      </Head>
+      <NextSeo
+        title="PITCHLY - AI-Powered Proposal Generation | Win More Clients"
+        description="Create winning proposals in minutes with AI. Professional, personalized proposals that convert prospects into clients. Trusted by freelancers and agencies worldwide."
+        canonical="https://usepitchly.com"
+        openGraph={{
+          url: 'https://usepitchly.com',
+          title: 'PITCHLY - AI-Powered Proposal Generation | Win More Clients',
+          description: 'Create winning proposals in minutes with AI. Professional, personalized proposals that convert prospects into clients. Trusted by freelancers and agencies worldwide.',
+          images: [
+            {
+              url: 'https://usepitchly.com/og-image.jpg',
+              width: 1200,
+              height: 630,
+              alt: 'PITCHLY - AI-Powered Proposal Generation Platform',
+              type: 'image/jpeg',
+            }
+          ],
+          site_name: 'PITCHLY',
+        }}
+        twitter={{
+          handle: '@usepitchly',
+          site: '@usepitchly',
+          cardType: 'summary_large_image',
+        }}
+      />
+      
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            structuredData.organization,
+            structuredData.website,
+            structuredData.service,
+            structuredData.softwareApplication
+          ])
+        }}
+      />
 
       <Navbar />
 
@@ -311,7 +340,7 @@ export default function Home() {
                   onClick={() => setShowDemo(!showDemo)}
                   className="btn-secondary"
                 >
-                  {showDemo ? 'Hide Demo' : t('landing.howItWorks')}
+                  {showDemo ? t('landing.hideDemo') : t('landing.howItWorks')}
                 </button>
               </div>
               

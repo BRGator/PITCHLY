@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 import Navbar from '../components/Navbar';
 import { useI18n } from '../lib/i18n';
+import { pageSEO } from '../lib/seo-config';
 
 export default function Contact() {
   const { t } = useI18n();
@@ -47,10 +48,11 @@ export default function Contact() {
 
   return (
     <>
-      <Head>
-        <title>{t('contact.pageTitle')} - PITCHLY</title>
-        <meta name="description" content={t('contact.pageDescription')} />
-      </Head>
+      <NextSeo
+        title={t('contact.pageTitle')}
+        description={t('contact.pageDescription')}
+        canonical={pageSEO.contact.canonical}
+      />
 
       <Navbar />
 
