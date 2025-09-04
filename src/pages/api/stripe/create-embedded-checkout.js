@@ -7,6 +7,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
+// Map our language codes to Stripe's supported locales
+function mapLanguageToStripeLocale(language) {
+  const localeMap = {
+    'en': 'en', // English
+    'es': 'es', // Spanish
+    'pt': 'pt-BR', // Portuguese (Brazil)
+  };
+  return localeMap[language] || 'auto'; // Fallback to 'auto' for unsupported languages
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -19,8 +29,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { tier } = req.body;
-    console.log('Creating embedded checkout for tier:', tier);
+    const { tier, language } = req.body;
+    console.log('Creating embedded checkout for tier:', tier, 'language:', language);
     
     // Get the price ID based on tier
     let priceId;
@@ -41,16 +51,21 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Price ID not configured for tier: ' + tier });
     }
 
+    // Map language to Stripe locale
+    const stripeLocale = mapLanguageToStripeLocale(language);
+    
     // Create embedded checkout session
     console.log('Creating Stripe checkout session with:', {
       priceId,
       userId: session.user.id,
       email: session.user.email,
-      tier
+      tier,
+      locale: stripeLocale
     });
 
     const checkoutSession = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
+      locale: stripeLocale,
       line_items: [
         {
           price: priceId,

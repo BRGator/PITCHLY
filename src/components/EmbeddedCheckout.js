@@ -5,11 +5,13 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
+import { useRegional } from './RegionalProvider';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 
 export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel }) {
+  const { language } = useRegional();
   const [clientSecret, setClientSecret] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,7 +38,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ tier }),
+          body: JSON.stringify({ tier, language }),
         });
 
         if (!response.ok) {
@@ -93,7 +95,7 @@ export default function EmbeddedCheckoutComponent({ tier, onSuccess, onCancel })
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier, language }),
       });
 
       const data = await response.json();
