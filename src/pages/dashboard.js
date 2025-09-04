@@ -10,10 +10,12 @@ import Navbar from '../components/Navbar';
 import UsageDashboard from '../components/UsageDashboard';
 import ProposalAnalytics from '../components/ProposalAnalytics';
 import { FeatureButton } from '../components/FeatureGate';
+import { useI18n } from '../lib/i18n';
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { t } = useI18n();
   const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [originalProposalIds, setOriginalProposalIds] = useState(new Set());
@@ -84,7 +86,7 @@ export default function Dashboard() {
   }, [session, status]);
 
   if (status === 'loading' || loading) {
-    return <div className="p-6 text-gray-900 dark:text-gray-100">Loading...</div>;
+    return <div className="p-6 text-gray-900 dark:text-gray-100">{t('dashboard.loading')}</div>;
   }
 
   return (
@@ -102,7 +104,7 @@ export default function Dashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6 sticky top-20 z-40">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-              Your Dashboard
+              {t('dashboard.yourDashboard')}
             </h2>
             <div className="flex items-center space-x-3">
               <FeatureButton
@@ -117,13 +119,13 @@ export default function Dashboard() {
                   }
                 }}
               >
-                📊 Analytics
+                📊 {t('dashboard.analytics')}
               </FeatureButton>
               <Link 
                 href="/proposals/new" 
                 className="btn-primary"
               >
-                ✨ Create New Proposal
+                ✨ {t('dashboard.createNewProposal')}
               </Link>
             </div>
           </div>
@@ -148,7 +150,7 @@ export default function Dashboard() {
             )}
             <div>
               <h1 className="text-2xl font-bold">
-                Welcome back{session.user.name ? `, ${session.user.name}` : ''}!
+                {t('dashboard.welcome')}{session.user.name ? `, ${session.user.name}` : ''}!
               </h1>
               <p className="text-gray-600 dark:text-gray-400">{session.user.email}</p>
             </div>
@@ -169,23 +171,23 @@ export default function Dashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Recent Proposals
+              {t('dashboard.recentProposals')}
             </h3>
             <Link href="/proposals" className="text-primary-600 dark:text-primary-400 hover:underline text-sm">
-              View All →
+              {t('dashboard.viewAll')} →
             </Link>
           </div>
 
           {proposals.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                You haven't generated any proposals yet.
+                {t('dashboard.noProposals')}
               </p>
               <Link 
                 href="/proposals/new" 
                 className="btn-primary inline-block"
               >
-                ✨ Create Your First Proposal
+                ✨ {t('dashboard.createFirst')}
               </Link>
             </div>
           ) : (
@@ -197,10 +199,10 @@ export default function Dashboard() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h2 className="text-lg font-semibold">{proposal.title || 'Untitled Proposal'}</h2>
+                  <h2 className="text-lg font-semibold">{proposal.title || t('dashboard.untitledProposal')}</h2>
                   {proposal.client_name && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                      Client: {proposal.client_name}
+                      {t('dashboard.client')}: {proposal.client_name}
                     </p>
                   )}
                   <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -212,16 +214,16 @@ export default function Dashboard() {
                   {(() => {
                     const status = proposal.status || 'draft';
                     const statusConfig = {
-                      draft: { label: 'Draft', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
-                      sent: { label: 'Sent', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' },
-                      viewed: { label: 'Viewed', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300' },
-                      under_review: { label: 'Under Review', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' },
-                      accepted: { label: 'Accepted', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' },
-                      won: { label: 'Won', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300' },
-                      rejected: { label: 'Rejected', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' },
-                      expired: { label: 'Expired', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
-                      withdrawn: { label: 'Withdrawn', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
-                      revision: { label: 'Revision', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' }
+                      draft: { label: t('status.draft'), color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      sent: { label: t('status.sent'), color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' },
+                      viewed: { label: t('status.viewed'), color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300' },
+                      under_review: { label: t('status.underReview'), color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' },
+                      accepted: { label: t('status.accepted'), color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' },
+                      won: { label: t('status.won'), color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300' },
+                      rejected: { label: t('status.rejected'), color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' },
+                      expired: { label: t('status.expired'), color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      withdrawn: { label: t('status.withdrawn'), color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' },
+                      revision: { label: t('status.revision'), color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' }
                     };
                     const config = statusConfig[status] || statusConfig.draft;
                     
@@ -236,7 +238,7 @@ export default function Dashboard() {
                   
                   {originalProposalIds.has(proposal.id) && (
                     <span className="px-2 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs">
-                      Has Revisions
+                      {t('status.hasRevisions')}
                     </span>
                   )}
                 </div>
@@ -245,7 +247,7 @@ export default function Dashboard() {
                 href={`/proposals/${proposal.id}`}
                 className="text-blue-600 hover:underline block mt-2"
               >
-                View Full Proposal →
+                {t('dashboard.viewFullProposal')} →
               </Link>
             </li>
           ))}
