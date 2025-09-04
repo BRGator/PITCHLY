@@ -773,19 +773,19 @@ export default function Home() {
         <section className="py-20 px-4 gradient-bg text-center">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-              Ready to <span className="text-gradient">Win More Clients?</span>
+              {t('cta.readyToWin')} <span className="text-gradient">{t('cta.winMoreClients')}</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-              Join thousands of successful freelancers using PITCHLY to create winning proposals.
+              {t('cta.joinThousandsSuccessful')}
             </p>
             <button
               onClick={() => signIn()}
               className="btn-primary text-lg px-12 py-4 animate-bounce-subtle"
             >
-              Start Creating Better Proposals Today
+              {t('cta.startCreatingBetter')}
             </button>
             <p className="text-sm text-gray-500 dark:text-gray-500 mt-4">
-              No credit card required • 5 free proposals to get started
+              {t('cta.noCreditCard')}
             </p>
           </div>
         </section>
@@ -806,30 +806,29 @@ export default function Home() {
                 <span className="text-2xl font-bold">PITCHLY</span>
               </div>
               <p className="text-gray-400 max-w-md leading-relaxed">
-                The AI-powered proposal platform trusted by thousands of freelancers and agencies worldwide. 
-                Win more clients with professional proposals that convert.
+                {t('footer.description')}
               </p>
             </div>
 
             {/* Product */}
             <div>
-              <h3 className="font-bold mb-4 text-lg">Product</h3>
+              <h3 className="font-bold mb-4 text-lg">{t('footer.product')}</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a></li>
-                <li><a href="/dashboard" className="hover:text-white transition-colors">Dashboard</a></li>
+                <li><a href="#features" className="hover:text-white transition-colors">{t('footer.features')}</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">{t('footer.pricing')}</a></li>
+                <li><a href="#testimonials" className="hover:text-white transition-colors">{t('footer.testimonials')}</a></li>
+                <li><a href="/dashboard" className="hover:text-white transition-colors">{t('footer.dashboard')}</a></li>
               </ul>
             </div>
 
             {/* Company */}
             <div>
-              <h3 className="font-bold mb-4 text-lg">Company</h3>
+              <h3 className="font-bold mb-4 text-lg">{t('footer.company')}</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">{t('footer.aboutUs')}</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">{t('footer.privacyPolicy')}</Link></li>
+                <li><Link href="/terms" className="hover:text-white transition-colors">{t('footer.termsOfService')}</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition-colors">{t('footer.contact')}</Link></li>
               </ul>
             </div>
           </div>
@@ -837,7 +836,7 @@ export default function Home() {
           {/* Bottom Bar */}
           <div className="border-t border-gray-800 pt-8 text-center">
             <p className="text-gray-400 text-sm">
-              © 2024 PITCHLY. All rights reserved. | Made with ❤️ for freelancers worldwide.
+              {t('footer.copyright')}
             </p>
           </div>
         </div>
@@ -850,7 +849,7 @@ export default function Home() {
             <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                  Upgrade to {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}
+                  {t('checkout.upgradeTo')} {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}
                 </h2>
                 <button 
                   onClick={handleCheckoutCancel}
