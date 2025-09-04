@@ -3,8 +3,10 @@ import { getProviders, signIn, getSession, getCsrfToken } from 'next-auth/react'
 import Head from 'next/head';
 import Link from 'next/link';
 import DarkModeToggle from '../../components/DarkModeToggle';
+import { useI18n } from '../../lib/i18n';
 
 export default function SignIn({ providers, csrfToken }) {
+  const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [isReturningUser, setIsReturningUser] = useState(false);
@@ -49,8 +51,8 @@ export default function SignIn({ providers, csrfToken }) {
   return (
     <>
       <Head>
-        <title>Sign In - PITCHLY</title>
-        <meta name="description" content="Sign in to your PITCHLY account to create winning AI-powered proposals." />
+        <title>{t('auth.signIn')} - PITCHLY</title>
+        <meta name="description" content={t('auth.signInSubtitle')} />
       </Head>
 
       <div className="min-h-screen gradient-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -74,12 +76,12 @@ export default function SignIn({ providers, csrfToken }) {
             </Link>
             
             <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              {isReturningUser ? 'Welcome Back' : 'Get Started Today'}
+              {isReturningUser ? t('auth.welcomeBack') : t('auth.getStartedToday')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               {isReturningUser 
-                ? 'Sign in to create winning proposals with AI'
-                : 'Join thousands creating winning proposals with AI'
+                ? t('auth.signInSubtitle')
+                : t('auth.joinThousands')
               }
             </p>
           </div>
@@ -91,7 +93,7 @@ export default function SignIn({ providers, csrfToken }) {
               
               <div className="mb-6">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Email address
+                  {t('auth.emailAddress')}
                 </label>
                 <input
                   id="email"
@@ -100,7 +102,7 @@ export default function SignIn({ providers, csrfToken }) {
                   autoComplete="email"
                   required
                   className="input-field"
-                  placeholder="Enter your email"
+                  placeholder={t('auth.enterEmail')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
@@ -119,7 +121,7 @@ export default function SignIn({ providers, csrfToken }) {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <span>Continue with Email</span>
+                    <span>{t('auth.continueWithEmail')}</span>
                   </>
                 )}
               </button>
@@ -132,7 +134,7 @@ export default function SignIn({ providers, csrfToken }) {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  Or continue with
+                  {t('auth.orContinueWith')}
                 </span>
               </div>
             </div>
@@ -151,7 +153,7 @@ export default function SignIn({ providers, csrfToken }) {
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                   </svg>
-                  <span className="font-medium">Continue with Google</span>
+                  <span className="font-medium">{t('auth.continueWithGoogle')}</span>
                 </button>
               )}
 
@@ -164,7 +166,7 @@ export default function SignIn({ providers, csrfToken }) {
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                   </svg>
-                  <span className="font-medium">Continue with Apple</span>
+                  <span className="font-medium">{t('auth.continueWithApple')}</span>
                 </button>
               )}
             </div>
@@ -172,9 +174,9 @@ export default function SignIn({ providers, csrfToken }) {
             {/* Footer */}
             <div className="mt-8 text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account?{' '}
+                {t('auth.noAccount')}{' '}
                 <span className="text-gray-700 dark:text-gray-300 font-medium">
-                  Sign up automatically on first sign-in
+                  {t('auth.autoSignUp')}
                 </span>
               </p>
             </div>
@@ -183,7 +185,7 @@ export default function SignIn({ providers, csrfToken }) {
           {/* Back to Home */}
           <div className="mt-6 text-center">
             <Link href="/" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              ← Back to home
+              {t('auth.backToHome')}
             </Link>
           </div>
         </div>

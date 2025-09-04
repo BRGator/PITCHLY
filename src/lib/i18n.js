@@ -349,6 +349,37 @@ export const translations = {
       projectTitlePlaceholder: 'Website redesign, Mobile app, etc.',
       projectDescPlaceholder: 'Describe the project requirements, goals, and key deliverables...',
       budgetPlaceholder: '5000'
+    },
+    // Authentication Pages
+    auth: {
+      signIn: 'Sign In',
+      welcomeBack: 'Welcome Back',
+      getStartedToday: 'Get Started Today',
+      signInSubtitle: 'Sign in to create winning proposals with AI',
+      joinThousands: 'Join thousands creating winning proposals with AI',
+      emailAddress: 'Email address',
+      enterEmail: 'Enter your email',
+      continueWithEmail: 'Continue with Email',
+      orContinueWith: 'Or continue with',
+      continueWithGoogle: 'Continue with Google',
+      continueWithApple: 'Continue with Apple',
+      noAccount: 'Don\'t have an account?',
+      autoSignUp: 'Sign up automatically on first sign-in',
+      backToHome: '← Back to home'
+    },
+    // Proposals List Page
+    proposalsList: {
+      yourProposals: 'Your Proposals',
+      loadingProposals: 'Loading proposals...',
+      noProposalsFound: 'No proposals found.',
+      untitledProposal: 'Untitled Proposal',
+      toClient: 'To',
+      fromSender: 'From',
+      view: 'View',
+      edit: 'Edit',
+      delete: 'Delete',
+      confirmDelete: 'Are you sure you want to delete this proposal?',
+      deleteFailed: 'Failed to delete'
     }
   },
 
@@ -690,6 +721,37 @@ export const translations = {
       projectTitlePlaceholder: 'Rediseño de sitio web, App móvil, etc.',
       projectDescPlaceholder: 'Describe los requisitos del proyecto, objetivos y entregables clave...',
       budgetPlaceholder: '5000'
+    },
+    // Authentication Pages
+    auth: {
+      signIn: 'Iniciar Sesión',
+      welcomeBack: 'Bienvenido de Vuelta',
+      getStartedToday: 'Comenzar Hoy',
+      signInSubtitle: 'Inicia sesión para crear propuestas ganadoras con IA',
+      joinThousands: 'Únete a miles creando propuestas ganadoras con IA',
+      emailAddress: 'Dirección de email',
+      enterEmail: 'Ingresa tu email',
+      continueWithEmail: 'Continuar con Email',
+      orContinueWith: 'O continuar con',
+      continueWithGoogle: 'Continuar con Google',
+      continueWithApple: 'Continuar con Apple',
+      noAccount: '¿No tienes una cuenta?',
+      autoSignUp: 'Regístrate automáticamente en el primer inicio de sesión',
+      backToHome: '← Volver al inicio'
+    },
+    // Proposals List Page
+    proposalsList: {
+      yourProposals: 'Tus Propuestas',
+      loadingProposals: 'Cargando propuestas...',
+      noProposalsFound: 'No se encontraron propuestas.',
+      untitledProposal: 'Propuesta Sin Título',
+      toClient: 'Para',
+      fromSender: 'De',
+      view: 'Ver',
+      edit: 'Editar',
+      delete: 'Eliminar',
+      confirmDelete: '¿Estás seguro de que quieres eliminar esta propuesta?',
+      deleteFailed: 'Error al eliminar'
     }
   },
 
@@ -1098,6 +1160,37 @@ export const translations = {
       projectTitlePlaceholder: 'Redesign de site, App móvel, etc.',
       projectDescPlaceholder: 'Descreva os requisitos do projeto, objetivos e entregas principais...',
       budgetPlaceholder: '5000'
+    },
+    // Authentication Pages
+    auth: {
+      signIn: 'Entrar',
+      welcomeBack: 'Bem-vindo de Volta',
+      getStartedToday: 'Comece Hoje',
+      signInSubtitle: 'Entre para criar propostas vencedoras com IA',
+      joinThousands: 'Junte-se a milhares criando propostas vencedoras com IA',
+      emailAddress: 'Endereço de email',
+      enterEmail: 'Digite seu email',
+      continueWithEmail: 'Continuar com Email',
+      orContinueWith: 'Ou continue com',
+      continueWithGoogle: 'Continuar com Google',
+      continueWithApple: 'Continuar com Apple',
+      noAccount: 'Não tem uma conta?',
+      autoSignUp: 'Cadastre-se automaticamente no primeiro login',
+      backToHome: '← Voltar ao início'
+    },
+    // Proposals List Page
+    proposalsList: {
+      yourProposals: 'Suas Propostas',
+      loadingProposals: 'Carregando propostas...',
+      noProposalsFound: 'Nenhuma proposta encontrada.',
+      untitledProposal: 'Proposta Sem Título',
+      toClient: 'Para',
+      fromSender: 'De',
+      view: 'Ver',
+      edit: 'Editar',
+      delete: 'Excluir',
+      confirmDelete: 'Tem certeza de que deseja excluir esta proposta?',
+      deleteFailed: 'Falha ao excluir'
     }
   }
 };
