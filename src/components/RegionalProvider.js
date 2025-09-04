@@ -84,8 +84,8 @@ export default function RegionalProvider({ children }) {
           }
         } else {
           // Not logged in, detect from browser and save to localStorage
-          const savedRegion = localStorage.getItem('pitchly-region');
-          const savedLanguage = localStorage.getItem('pitchly-language');
+          const savedRegion = typeof window !== 'undefined' ? localStorage.getItem('pitchly-region') : null;
+          const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('pitchly-language') : null;
           
           if (savedRegion && REGIONS[savedRegion]) {
             setRegion(savedRegion);
@@ -96,8 +96,10 @@ export default function RegionalProvider({ children }) {
             setLanguage(REGIONS[detectedRegion].language);
             
             // Save to localStorage for next visit
-            localStorage.setItem('pitchly-region', detectedRegion);
-            localStorage.setItem('pitchly-language', REGIONS[detectedRegion].language);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('pitchly-region', detectedRegion);
+              localStorage.setItem('pitchly-language', REGIONS[detectedRegion].language);
+            }
           }
         }
       } catch (error) {
@@ -139,8 +141,10 @@ export default function RegionalProvider({ children }) {
           .eq('id', session.user.id);
       } else {
         // Save to localStorage if not logged in
-        localStorage.setItem('pitchly-region', newRegion);
-        localStorage.setItem('pitchly-language', regionConfig.language);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('pitchly-region', newRegion);
+          localStorage.setItem('pitchly-language', regionConfig.language);
+        }
       }
     } catch (error) {
       console.error('Error saving region preference:', error);
@@ -165,7 +169,9 @@ export default function RegionalProvider({ children }) {
           .eq('id', session.user.id);
       } else {
         // Save to localStorage if not logged in
-        localStorage.setItem('pitchly-language', newLanguage);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('pitchly-language', newLanguage);
+        }
       }
     } catch (error) {
       console.error('Error saving language preference:', error);

@@ -49,6 +49,49 @@ export const translations = {
       switchToFree: 'Switch to Free',
       upgradeNow: 'Upgrade Now'
     },
+    // Demo Proposal Form
+    demoForm: {
+      title: 'Create Your Winning Proposal',
+      subtitle: 'Fill in the details below and let our AI craft a compelling proposal for you.',
+      clientName: 'Client Name',
+      clientNamePlaceholder: 'e.g., Sarah Johnson',
+      clientEmail: 'Client Email',
+      clientEmailPlaceholder: 'e.g., sarah@company.com',
+      projectTitle: 'Project Title',
+      projectTitlePlaceholder: 'e.g., Website Redesign & Development',
+      projectDescription: 'Project Description',
+      projectDescriptionPlaceholder: 'Describe the project requirements, goals, and key deliverables...',
+      projectBudget: 'Project Budget',
+      budgetAmount: 'Amount',
+      budgetAmountPlaceholder: '5000',
+      budgetUnit: 'Billing Structure',
+      projectTimeline: 'Project Timeline',
+      timelineDuration: 'Expected Duration',
+      budgetUnits: {
+        lumpSum: 'Lump Sum (Total Project)',
+        perHour: 'Per Hour',
+        perDay: 'Per Day', 
+        perWeek: 'Per Week',
+        perMonth: 'Per Month'
+      },
+      durations: {
+        oneWeek: '1 Week',
+        twoWeeks: '2 Weeks', 
+        oneMonth: '1 Month',
+        twoMonths: '2 Months',
+        threeMonths: '3 Months',
+        sixMonths: '6 Months'
+      },
+      selectDuration: 'Select expected duration...',
+      projectBriefExample: 'We\'re a boutique coffee shop looking to establish a stronger online presence. Our target customers are young professionals and coffee enthusiasts who value quality and convenience. We\'d like a website that showcases our artisanal brand, displays our menu with pricing, includes our location and hours, and allows customers to place orders for pickup. We prefer a clean, modern aesthetic that reflects our premium coffee experience. Our budget is flexible for the right solution, and we\'re hoping to launch within 6-8 weeks.',
+      generateProposal: '✨ Generate AI Proposal',
+      generating: 'Generating your proposal...',
+      signInToSee: 'Sign In to See Your Proposal',
+      signInMessage: 'Create a free account to generate and save your personalized proposal.',
+      signInButton: 'Sign In / Sign Up Free',
+      generationError: 'An error occurred while generating the proposal',
+      required: '*'
+    },
     // Features
     features: {
       proposalAIEngine: 'ProposalAI™ Engine',
@@ -933,6 +976,49 @@ export const translations = {
       currentPlan: 'Plan Actual',
       switchToFree: 'Cambiar a Gratis',
       upgradeNow: 'Actualizar Ahora'
+    },
+    // Demo Proposal Form
+    demoForm: {
+      title: 'Crea Tu Propuesta Ganadora',
+      subtitle: 'Completa los detalles a continuación y deja que nuestra IA cree una propuesta convincente para ti.',
+      clientName: 'Nombre del Cliente',
+      clientNamePlaceholder: 'ej., Sarah Johnson',
+      clientEmail: 'Email del Cliente',
+      clientEmailPlaceholder: 'ej., sarah@empresa.com',
+      projectTitle: 'Título del Proyecto',
+      projectTitlePlaceholder: 'ej., Rediseño y Desarrollo de Sitio Web',
+      projectDescription: 'Descripción del Proyecto',
+      projectDescriptionPlaceholder: 'Describe los requisitos, objetivos y entregables clave del proyecto...',
+      projectBudget: 'Presupuesto del Proyecto',
+      budgetAmount: 'Cantidad',
+      budgetAmountPlaceholder: '5000',
+      budgetUnit: 'Estructura de Facturación',
+      projectTimeline: 'Cronograma del Proyecto',
+      timelineDuration: 'Duración Esperada',
+      budgetUnits: {
+        lumpSum: 'Suma Global (Proyecto Total)',
+        perHour: 'Por Hora',
+        perDay: 'Por Día',
+        perWeek: 'Por Semana',
+        perMonth: 'Por Mes'
+      },
+      durations: {
+        oneWeek: '1 Semana',
+        twoWeeks: '2 Semanas',
+        oneMonth: '1 Mes',
+        twoMonths: '2 Meses',
+        threeMonths: '3 Meses',
+        sixMonths: '6 Meses'
+      },
+      selectDuration: 'Selecciona la duración esperada...',
+      projectBriefExample: 'Somos una cafetería boutique que busca establecer una presencia en línea más sólida. Nuestros clientes objetivo son jóvenes profesionales y entusiastas del café que valoran la calidad y la conveniencia. Nos gustaría un sitio web que muestre nuestra marca artesanal, exhiba nuestro menú con precios, incluya nuestra ubicación y horarios, y permita a los clientes hacer pedidos para recoger. Preferimos una estética limpia y moderna que refleje nuestra experiencia de café premium. Nuestro presupuesto es flexible para la solución correcta, y esperamos lanzar en 6-8 semanas.',
+      generateProposal: '✨ Generar Propuesta con IA',
+      generating: 'Generando tu propuesta...',
+      signInToSee: 'Inicia Sesión para Ver Tu Propuesta',
+      signInMessage: 'Crea una cuenta gratuita para generar y guardar tu propuesta personalizada.',
+      signInButton: 'Iniciar Sesión / Registrarse Gratis',
+      generationError: 'Ocurrió un error al generar la propuesta',
+      required: '*'
     },
     // Features  
     features: {
@@ -1881,6 +1967,49 @@ export const translations = {
       currentPlan: 'Plano Atual',
       switchToFree: 'Mudar para Gratuito',
       upgradeNow: 'Atualizar Agora'
+    },
+    // Demo Proposal Form
+    demoForm: {
+      title: 'Crie Sua Proposta Vencedora',
+      subtitle: 'Preencha os detalhes abaixo e deixe nossa IA criar uma proposta convincente para você.',
+      clientName: 'Nome do Cliente',
+      clientNamePlaceholder: 'ex., Sarah Johnson',
+      clientEmail: 'Email do Cliente',
+      clientEmailPlaceholder: 'ex., sarah@empresa.com',
+      projectTitle: 'Título do Projeto',
+      projectTitlePlaceholder: 'ex., Redesign e Desenvolvimento de Site',
+      projectDescription: 'Descrição do Projeto',
+      projectDescriptionPlaceholder: 'Descreva os requisitos, objetivos e entregáveis principais do projeto...',
+      projectBudget: 'Orçamento do Projeto',
+      budgetAmount: 'Quantia',
+      budgetAmountPlaceholder: '5000',
+      budgetUnit: 'Estrutura de Cobrança',
+      projectTimeline: 'Cronograma do Projeto',
+      timelineDuration: 'Duração Esperada',
+      budgetUnits: {
+        lumpSum: 'Valor Fixo (Projeto Total)',
+        perHour: 'Por Hora',
+        perDay: 'Por Dia',
+        perWeek: 'Por Semana',
+        perMonth: 'Por Mês'
+      },
+      durations: {
+        oneWeek: '1 Semana',
+        twoWeeks: '2 Semanas',
+        oneMonth: '1 Mês',
+        twoMonths: '2 Meses',
+        threeMonths: '3 Meses',
+        sixMonths: '6 Meses'
+      },
+      selectDuration: 'Selecione a duração esperada...',
+      projectBriefExample: 'Somos uma cafeteria boutique procurando estabelecer uma presença online mais forte. Nossos clientes-alvo são jovens profissionais e entusiastas do café que valorizam qualidade e conveniência. Gostaríamos de um site que mostre nossa marca artesanal, exiba nosso cardápio com preços, inclua nossa localização e horários, e permita que os clientes façam pedidos para retirada. Preferimos uma estética limpa e moderna que reflita nossa experiência premium de café. Nosso orçamento é flexível para a solução certa, e esperamos lançar em 6-8 semanas.',
+      generateProposal: '✨ Gerar Proposta com IA',
+      generating: 'Gerando sua proposta...',
+      signInToSee: 'Entre para Ver Sua Proposta',
+      signInMessage: 'Crie uma conta gratuita para gerar e salvar sua proposta personalizada.',
+      signInButton: 'Entrar / Cadastrar Grátis',
+      generationError: 'Ocorreu um erro ao gerar a proposta',
+      required: '*'
     },
     // Features  
     features: {
