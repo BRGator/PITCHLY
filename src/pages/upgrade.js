@@ -68,16 +68,9 @@ export default function UpgradePage() {
   };
 
   // Check if a plan is the user's current plan
-  const isCurrentPlan = (planName) => {
+  const isCurrentPlan = (planId) => {
     if (!subscription) return false;
-    
-    const tierMapping = {
-      'Free': 'free',
-      'Professional': 'professional', 
-      'Agency': 'agency'
-    };
-    
-    return subscription.tier === tierMapping[planName];
+    return subscription.tier === planId;
   };
 
   const pricingTiers = [
@@ -216,14 +209,14 @@ export default function UpgradePage() {
               <div
                 key={tier.name}
                 className={`relative p-8 rounded-2xl border-2 ${
-                  tier.popular && !isCurrentPlan(tier.name)
+                  tier.popular && !isCurrentPlan(tier.id)
                     ? 'border-primary-500 bg-white dark:bg-gray-800 shadow-2xl scale-105'
-                    : isCurrentPlan(tier.name)
+                    : isCurrentPlan(tier.id)
                     ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
                     : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-primary-300 dark:hover:border-primary-600'
                 } transition-all duration-300`}
               >
-                {isCurrentPlan(tier.name) && (
+                {isCurrentPlan(tier.id) && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-green-600 text-white px-6 py-2 rounded-full text-sm font-medium">
                       {t('upgrade.currentPlan')}
@@ -231,7 +224,7 @@ export default function UpgradePage() {
                   </div>
                 )}
 
-                {tier.popular && !isCurrentPlan(tier.name) && (
+                {tier.popular && !isCurrentPlan(tier.id) && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
                       {t('upgrade.mostPopular')}
@@ -282,18 +275,18 @@ export default function UpgradePage() {
 
                 <button
                   onClick={() => handleUpgrade(tier.id)}
-                  disabled={loading || isCurrentPlan(tier.name)}
+                  disabled={loading || isCurrentPlan(tier.id)}
                   className={`w-full py-4 px-6 rounded-lg font-semibold transition-colors ${
-                    isCurrentPlan(tier.name)
+                    isCurrentPlan(tier.id)
                       ? 'bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                      : tier.popular && !isCurrentPlan(tier.name)
+                      : tier.popular && !isCurrentPlan(tier.id)
                       ? 'bg-primary-600 hover:bg-primary-700 text-white'
                       : 'bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-900'
                   } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {loading ? t('upgrade.processing') : 
-                   isCurrentPlan(tier.name) ? t('upgrade.currentPlan') : 
-                   tier.name === t('upgrade.plans.free.name') ? t('upgrade.getStartedFree') :
+                   isCurrentPlan(tier.id) ? t('upgrade.currentPlan') : 
+                   tier.id === 'free' ? t('upgrade.getStartedFree') :
                    t('upgrade.upgradeToTier', { tier: tier.name })}
                 </button>
               </div>
