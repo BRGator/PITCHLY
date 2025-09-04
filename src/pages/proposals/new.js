@@ -4,10 +4,12 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 import ProposalTemplates from '../../components/ProposalTemplates';
+import { useI18n } from '../../lib/i18n';
 
 export default function NewProposal() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { t } = useI18n();
 
   // Handle authentication client-side and fetch subscription
   useEffect(() => {
@@ -148,10 +150,10 @@ export default function NewProposal() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  Create New Proposal
+                  {t('proposalForm.createNewProposal')}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Fill in the details and let AI generate a winning proposal for you
+                  {t('proposalForm.createSubtitle')}
                 </p>
               </div>
               <button
@@ -161,7 +163,7 @@ export default function NewProposal() {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <span>{showTemplates ? 'Hide Templates' : 'Use Template'}</span>
+                <span>{showTemplates ? t('proposalForm.hideTemplates') : t('proposalForm.useTemplate')}</span>
               </button>
             </div>
           </div>
@@ -182,7 +184,7 @@ export default function NewProposal() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Client Name *
+                    {t('proposalForm.clientName')} *
                   </label>
                   <input
                     type="text"
@@ -190,27 +192,27 @@ export default function NewProposal() {
                     value={formData.clientName}
                     onChange={(e) => handleInputChange('clientName', e.target.value)}
                     className="input-field"
-                    placeholder="Enter client name"
+                    placeholder={t('proposalForm.clientNamePlaceholder')}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Client Email
+                    {t('proposalForm.clientEmail')}
                   </label>
                   <input
                     type="email"
                     value={formData.clientEmail}
                     onChange={(e) => handleInputChange('clientEmail', e.target.value)}
                     className="input-field"
-                    placeholder="client@example.com"
+                    placeholder={t('proposalForm.clientEmailPlaceholder')}
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Project Title *
+                  {t('proposalForm.projectTitle')} *
                 </label>
                 <input
                   type="text"
@@ -218,13 +220,13 @@ export default function NewProposal() {
                   value={formData.projectTitle}
                   onChange={(e) => handleInputChange('projectTitle', e.target.value)}
                   className="input-field"
-                  placeholder="Website redesign, Mobile app, etc."
+                  placeholder={t('proposalForm.projectTitlePlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Project Description *
+                  {t('proposalForm.projectDescription')} *
                 </label>
                 <textarea
                   required
@@ -232,19 +234,19 @@ export default function NewProposal() {
                   value={formData.projectDescription}
                   onChange={(e) => handleInputChange('projectDescription', e.target.value)}
                   className="input-field"
-                  placeholder="Describe the project requirements, goals, and key deliverables..."
+                  placeholder={t('proposalForm.projectDescPlaceholder')}
                 />
               </div>
 
               {/* Budget Section */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Project Budget *
+                  {t('proposalForm.projectBudget')} *
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
-                      Amount
+                      {t('proposalForm.amount')}
                     </label>
                     <input
                       type="number"
@@ -254,12 +256,12 @@ export default function NewProposal() {
                       value={formData.budgetAmount}
                       onChange={(e) => handleInputChange('budgetAmount', e.target.value)}
                       className="input-field"
-                      placeholder="5000"
+                      placeholder={t('proposalForm.budgetPlaceholder')}
                     />
                   </div>
                   <div>
                     <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
-                      Pricing Structure
+                      {t('proposalForm.pricingStructure')}
                     </label>
                     <select
                       value={formData.budgetUnit}
@@ -267,14 +269,14 @@ export default function NewProposal() {
                       className="input-field"
                       required
                     >
-                      <option value="lump-sum">Lump Sum (Total Project)</option>
-                      <option value="per-hour">Per Hour</option>
-                      <option value="per-day">Per Day</option>
-                      <option value="per-week">Per Week</option>
-                      <option value="per-month">Per Month</option>
-                      <option value="per-deliverable">Per Deliverable</option>
-                      <option value="per-milestone">Per Milestone</option>
-                      <option value="retainer">Monthly Retainer</option>
+                      <option value="lump-sum">{t('proposalForm.lumpSum')}</option>
+                      <option value="per-hour">{t('proposalForm.perHour')}</option>
+                      <option value="per-day">{t('proposalForm.perDay')}</option>
+                      <option value="per-week">{t('proposalForm.perWeek')}</option>
+                      <option value="per-month">{t('proposalForm.perMonth')}</option>
+                      <option value="per-deliverable">{t('proposalForm.perDeliverable')}</option>
+                      <option value="per-milestone">{t('proposalForm.perMilestone')}</option>
+                      <option value="retainer">{t('proposalForm.retainer')}</option>
                     </select>
                   </div>
                 </div>
@@ -283,7 +285,7 @@ export default function NewProposal() {
               {/* Timeline Section */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Project Timeline *
+                  {t('proposalForm.projectTimeline')} *
                 </label>
                 
                 {/* Timeline Type Toggle */}
@@ -296,7 +298,7 @@ export default function NewProposal() {
                       onChange={(e) => handleInputChange('timelineType', e.target.value)}
                       className="mr-2 text-primary-600"
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">Duration Based</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{t('proposalForm.durationBased')}</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -306,7 +308,7 @@ export default function NewProposal() {
                       onChange={(e) => handleInputChange('timelineType', e.target.value)}
                       className="mr-2 text-primary-600"
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">Specific Deadline</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{t('proposalForm.specificDeadline')}</span>
                   </label>
                 </div>
 
@@ -318,18 +320,18 @@ export default function NewProposal() {
                     className="input-field"
                     required
                   >
-                    <option value="">Select project duration</option>
-                    <option value="1-week">1 week</option>
-                    <option value="2-weeks">2 weeks</option>
-                    <option value="3-weeks">3 weeks</option>
-                    <option value="1-month">1 month</option>
-                    <option value="6-weeks">6 weeks</option>
-                    <option value="2-months">2 months</option>
-                    <option value="3-months">3 months</option>
-                    <option value="4-months">4 months</option>
-                    <option value="6-months">6 months</option>
-                    <option value="12-months">12 months</option>
-                    <option value="ongoing">Ongoing</option>
+                    <option value="">{t('proposalForm.selectDuration')}</option>
+                    <option value="1-week">{t('proposalForm.oneWeek')}</option>
+                    <option value="2-weeks">{t('proposalForm.twoWeeks')}</option>
+                    <option value="3-weeks">{t('proposalForm.threeWeeks')}</option>
+                    <option value="1-month">{t('proposalForm.oneMonth')}</option>
+                    <option value="6-weeks">{t('proposalForm.sixWeeks')}</option>
+                    <option value="2-months">{t('proposalForm.twoMonths')}</option>
+                    <option value="3-months">{t('proposalForm.threeMonths')}</option>
+                    <option value="4-months">{t('proposalForm.fourMonths')}</option>
+                    <option value="6-months">{t('proposalForm.sixMonths')}</option>
+                    <option value="12-months">{t('proposalForm.twelveMonths')}</option>
+                    <option value="ongoing">{t('proposalForm.ongoing')}</option>
                   </select>
                 )}
 
@@ -337,7 +339,7 @@ export default function NewProposal() {
                 {formData.timelineType === 'deadline' && (
                   <div>
                     <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
-                      Project Completion Deadline
+                      {t('proposalForm.completionDeadline')}
                     </label>
                     <input
                       type="date"
@@ -358,7 +360,7 @@ export default function NewProposal() {
                   onClick={() => router.push('/dashboard')}
                   className="btn-ghost"
                 >
-                  Cancel
+                  {t('proposalForm.cancel')}
                 </button>
                 
                 <button
@@ -366,7 +368,7 @@ export default function NewProposal() {
                   disabled={loading}
                   className="btn-primary"
                 >
-                  {loading ? 'Generating...' : 'Generate Proposal with AI'}
+                  {loading ? t('proposalForm.generating') : t('proposalForm.generateProposal')}
                 </button>
               </div>
             </form>
@@ -382,10 +384,10 @@ export default function NewProposal() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-primary-800 dark:text-primary-200 mb-2">
-                  AI-Powered Proposal Generation
+                  {t('proposalForm.aiPoweredGeneration')}
                 </h3>
                 <p className="text-primary-700 dark:text-primary-300">
-                  Our AI will analyze your project details and generate a professional, persuasive proposal tailored to your client's needs. Include as much detail as possible for the best results.
+                  {t('proposalForm.aiGenerationDesc')}
                 </p>
               </div>
             </div>
