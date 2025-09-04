@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
+import { useI18n } from '../lib/i18n';
 
 export default function About() {
+  const { t } = useI18n();
+  
   return (
     <>
       <Head>

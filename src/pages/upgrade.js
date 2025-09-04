@@ -6,8 +6,10 @@ import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import UsageDashboard from '../components/UsageDashboard';
 import EmbeddedCheckout from '../components/EmbeddedCheckout';
+import { useI18n } from '../lib/i18n';
 
 export default function UpgradePage() {
+  const { t } = useI18n();
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -80,52 +82,52 @@ export default function UpgradePage() {
 
   const pricingTiers = [
     {
-      name: 'Free',
+      name: t('upgrade.plans.free.name'),
       price: '$0',
-      period: 'forever',
-      description: 'Perfect for getting started',
+      period: t('upgrade.plans.free.period'),
+      description: t('upgrade.plans.free.description'),
       features: [
-        '3 proposals per month',
-        'Basic AI generation',
-        'Standard templates',
-        'Email support'
+        t('upgrade.plans.free.features.proposalsPerMonth'),
+        t('upgrade.plans.free.features.basicAI'),
+        t('upgrade.plans.free.features.standardTemplates'),
+        t('upgrade.plans.free.features.emailSupport')
       ],
       limitations: [
-        'Limited proposals',
-        'No custom templates',
-        'No analytics',
-        'No team features'
+        t('upgrade.plans.free.limitations.limitedProposals'),
+        t('upgrade.plans.free.limitations.noCustomTemplates'),
+        t('upgrade.plans.free.limitations.noAnalytics'),
+        t('upgrade.plans.free.limitations.noTeamFeatures')
       ]
     },
     {
-      name: 'Professional',
+      name: t('upgrade.plans.professional.name'),
       price: '$29',
-      period: 'month',
-      description: 'For serious freelancers and consultants',
+      period: t('upgrade.plans.professional.period'),
+      description: t('upgrade.plans.professional.description'),
       popular: true,
       features: [
-        '100 proposals per month',
-        'Custom template creation',
-        'Advanced analytics & insights',
-        'Priority AI processing',
-        'Export to PDF/Word',
-        'Priority support',
-        'Team collaboration tools'
+        t('upgrade.plans.professional.features.proposalsPerMonth'),
+        t('upgrade.plans.professional.features.customTemplates'),
+        t('upgrade.plans.professional.features.analytics'),
+        t('upgrade.plans.professional.features.priorityAI'),
+        t('upgrade.plans.professional.features.exportPDF'),
+        t('upgrade.plans.professional.features.prioritySupport'),
+        t('upgrade.plans.professional.features.teamTools')
       ]
     },
     {
-      name: 'Agency',
+      name: t('upgrade.plans.agency.name'),
       price: '$99',
-      period: 'month',
-      description: 'For agencies and larger teams',
+      period: t('upgrade.plans.agency.period'),
+      description: t('upgrade.plans.agency.description'),
       features: [
-        'Unlimited proposals',
-        'White-label branding',
-        'API access',
-        'Custom integrations',
-        'Dedicated account manager',
-        'Advanced team management',
-        'All Professional features'
+        t('upgrade.plans.agency.features.unlimitedProposals'),
+        t('upgrade.plans.agency.features.whiteLabel'),
+        t('upgrade.plans.agency.features.apiAccess'),
+        t('upgrade.plans.agency.features.customIntegrations'),
+        t('upgrade.plans.agency.features.accountManager'),
+        t('upgrade.plans.agency.features.teamManagement'),
+        t('upgrade.plans.agency.features.allProfessional')
       ]
     }
   ];
@@ -135,7 +137,7 @@ export default function UpgradePage() {
     return (
       <>
         <Head>
-          <title>Checkout - PITCHLY</title>
+          <title>{t('upgrade.checkoutTitle')} - PITCHLY</title>
         </Head>
 
         <Navbar />
@@ -147,13 +149,13 @@ export default function UpgradePage() {
                 onClick={handleCheckoutCancel}
                 className="btn-ghost mb-4"
               >
-                ← Back to Plans
+                {t('upgrade.backToPlans')}
               </button>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Upgrade to {selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}
+                {t('upgrade.upgradeToTier', { tier: selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1) })}
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Complete your subscription upgrade to unlock all premium features
+                {t('upgrade.checkoutDescription')}
               </p>
             </div>
 
@@ -171,8 +173,8 @@ export default function UpgradePage() {
   return (
     <>
       <Head>
-        <title>Upgrade Your Plan - PITCHLY</title>
-        <meta name="description" content="Upgrade to unlock powerful features and grow your business with PITCHLY" />
+        <title>{t('upgrade.pageTitle')} - PITCHLY</title>
+        <meta name="description" content={t('upgrade.pageDescription')} />
       </Head>
 
       <Navbar />
@@ -183,15 +185,15 @@ export default function UpgradePage() {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-6">
               <Link href="/dashboard" className="btn-ghost mr-4">
-                ← Back to Dashboard
+                {t('upgrade.backToDashboard')}
               </Link>
             </div>
             
             <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Choose Your Plan
+              {t('upgrade.title')}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Unlock powerful features to create better proposals and win more clients
+              {t('upgrade.subtitle')}
             </p>
           </div>
 
@@ -199,7 +201,7 @@ export default function UpgradePage() {
           {session && (
             <div className="mb-12 max-w-2xl mx-auto">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 text-center">
-                Your Current Usage
+                {t('upgrade.currentUsage')}
               </h2>
               <UsageDashboard />
             </div>
@@ -221,7 +223,7 @@ export default function UpgradePage() {
                 {isCurrentPlan(tier.name) && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-green-600 text-white px-6 py-2 rounded-full text-sm font-medium">
-                      Current Plan
+                      {t('upgrade.currentPlan')}
                     </span>
                   </div>
                 )}
@@ -229,7 +231,7 @@ export default function UpgradePage() {
                 {tier.popular && !isCurrentPlan(tier.name) && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
-                      Most Popular
+                      {t('upgrade.mostPopular')}
                     </span>
                   </div>
                 )}
@@ -286,10 +288,10 @@ export default function UpgradePage() {
                       : 'bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-900'
                   } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {loading ? 'Processing...' : 
-                   isCurrentPlan(tier.name) ? 'Current Plan' : 
-                   tier.name === 'Free' ? 'Get Started Free' :
-                   `Upgrade to ${tier.name}`}
+                  {loading ? t('upgrade.processing') : 
+                   isCurrentPlan(tier.name) ? t('upgrade.currentPlan') : 
+                   tier.name === t('upgrade.plans.free.name') ? t('upgrade.getStartedFree') :
+                   t('upgrade.upgradeToTier', { tier: tier.name })}
                 </button>
               </div>
             ))}
@@ -298,26 +300,26 @@ export default function UpgradePage() {
           {/* FAQ Section */}
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">
-              Frequently Asked Questions
+              {t('upgrade.faq.title')}
             </h2>
             
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    Can I change plans anytime?
+                    {t('upgrade.faq.changePlans.question')}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
+                    {t('upgrade.faq.changePlans.answer')}
                   </p>
                 </div>
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    What happens to my proposals if I downgrade?
+                    {t('upgrade.faq.downgrade.question')}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    All your existing proposals remain accessible. You'll just be limited by your new plan's monthly limits.
+                    {t('upgrade.faq.downgrade.answer')}
                   </p>
                 </div>
               </div>
@@ -325,19 +327,19 @@ export default function UpgradePage() {
               <div className="space-y-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    Do you offer refunds?
+                    {t('upgrade.faq.refunds.question')}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Yes, we offer a 30-day money-back guarantee for all paid plans.
+                    {t('upgrade.faq.refunds.answer')}
                   </p>
                 </div>
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    Need a custom plan?
+                    {t('upgrade.faq.customPlan.question')}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Contact our sales team for enterprise solutions and custom pricing.
+                    {t('upgrade.faq.customPlan.answer')}
                   </p>
                 </div>
               </div>

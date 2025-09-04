@@ -401,6 +401,93 @@ export const translations = {
       view: 'View →',
       noInvoices: 'No invoices found.'
     },
+    // Upgrade Page
+    upgrade: {
+      pageTitle: 'Upgrade Your Plan',
+      pageDescription: 'Upgrade to unlock powerful features and grow your business with PITCHLY',
+      checkoutTitle: 'Checkout',
+      backToPlans: '← Back to Plans',
+      backToDashboard: '← Back to Dashboard',
+      upgradeToTier: 'Upgrade to {{tier}}',
+      checkoutDescription: 'Complete your subscription upgrade to unlock all premium features',
+      title: 'Choose Your Plan',
+      subtitle: 'Unlock powerful features to create better proposals and win more clients',
+      currentUsage: 'Your Current Usage',
+      currentPlan: 'Current Plan',
+      mostPopular: 'Most Popular',
+      processing: 'Processing...',
+      getStartedFree: 'Get Started Free',
+      
+      // Plan details
+      plans: {
+        free: {
+          name: 'Free',
+          period: 'forever',
+          description: 'Perfect for getting started',
+          features: {
+            proposalsPerMonth: '3 proposals per month',
+            basicAI: 'Basic AI generation',
+            standardTemplates: 'Standard templates',
+            emailSupport: 'Email support'
+          },
+          limitations: {
+            limitedProposals: 'Limited proposals',
+            noCustomTemplates: 'No custom templates',
+            noAnalytics: 'No analytics',
+            noTeamFeatures: 'No team features'
+          }
+        },
+        professional: {
+          name: 'Professional',
+          period: 'month',
+          description: 'For serious freelancers and consultants',
+          features: {
+            proposalsPerMonth: '100 proposals per month',
+            customTemplates: 'Custom template creation',
+            analytics: 'Advanced analytics & insights',
+            priorityAI: 'Priority AI processing',
+            exportPDF: 'Export to PDF/Word',
+            prioritySupport: 'Priority support',
+            teamTools: 'Team collaboration tools'
+          }
+        },
+        agency: {
+          name: 'Agency',
+          period: 'month',
+          description: 'For agencies and larger teams',
+          features: {
+            unlimitedProposals: 'Unlimited proposals',
+            whiteLabel: 'White-label branding',
+            apiAccess: 'API access',
+            customIntegrations: 'Custom integrations',
+            accountManager: 'Dedicated account manager',
+            teamManagement: 'Advanced team management',
+            allProfessional: 'All Professional features'
+          }
+        }
+      },
+      
+      // FAQ
+      faq: {
+        title: 'Frequently Asked Questions',
+        changePlans: {
+          question: 'Can I change plans anytime?',
+          answer: 'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.'
+        },
+        downgrade: {
+          question: 'What happens to my proposals if I downgrade?',
+          answer: "All your existing proposals remain accessible. You'll just be limited by your new plan's monthly limits."
+        },
+        refunds: {
+          question: 'Do you offer refunds?',
+          answer: 'Yes, we offer a 30-day money-back guarantee for all paid plans.'
+        },
+        customPlan: {
+          question: 'Need a custom plan?',
+          answer: 'Contact our sales team for enterprise solutions and custom pricing.'
+        }
+      }
+    },
     // Footer
     footer: {
       description: 'The AI-powered proposal platform trusted by thousands of freelancers and agencies worldwide. Win more clients with professional proposals that convert.',
@@ -1018,6 +1105,93 @@ export const translations = {
       invoice: 'Factura',
       view: 'Ver →',
       noInvoices: 'No se encontraron facturas.'
+    },
+    // Upgrade Page
+    upgrade: {
+      pageTitle: 'Actualiza Tu Plan',
+      pageDescription: 'Actualiza para desbloquear características poderosas y hacer crecer tu negocio con PITCHLY',
+      checkoutTitle: 'Pago',
+      backToPlans: '← Volver a Planes',
+      backToDashboard: '← Volver al Panel',
+      upgradeToTier: 'Actualizar a {{tier}}',
+      checkoutDescription: 'Completa tu actualización de suscripción para desbloquear todas las características premium',
+      title: 'Elige Tu Plan',
+      subtitle: 'Desbloquea características poderosas para crear mejores propuestas y ganar más clientes',
+      currentUsage: 'Tu Uso Actual',
+      currentPlan: 'Plan Actual',
+      mostPopular: 'Más Popular',
+      processing: 'Procesando...',
+      getStartedFree: 'Empezar Gratis',
+      
+      // Plan details
+      plans: {
+        free: {
+          name: 'Gratis',
+          period: 'para siempre',
+          description: 'Perfecto para empezar',
+          features: {
+            proposalsPerMonth: '3 propuestas por mes',
+            basicAI: 'Generación básica de IA',
+            standardTemplates: 'Plantillas estándar',
+            emailSupport: 'Soporte por email'
+          },
+          limitations: {
+            limitedProposals: 'Propuestas limitadas',
+            noCustomTemplates: 'Sin plantillas personalizadas',
+            noAnalytics: 'Sin análisis',
+            noTeamFeatures: 'Sin funciones de equipo'
+          }
+        },
+        professional: {
+          name: 'Profesional',
+          period: 'mes',
+          description: 'Para freelancers serios y consultores',
+          features: {
+            proposalsPerMonth: '100 propuestas por mes',
+            customTemplates: 'Creación de plantillas personalizadas',
+            analytics: 'Análisis e insights avanzados',
+            priorityAI: 'Procesamiento prioritario de IA',
+            exportPDF: 'Exportar a PDF/Word',
+            prioritySupport: 'Soporte prioritario',
+            teamTools: 'Herramientas de colaboración en equipo'
+          }
+        },
+        agency: {
+          name: 'Agencia',
+          period: 'mes',
+          description: 'Para agencias y equipos grandes',
+          features: {
+            unlimitedProposals: 'Propuestas ilimitadas',
+            whiteLabel: 'Marca blanca',
+            apiAccess: 'Acceso a API',
+            customIntegrations: 'Integraciones personalizadas',
+            accountManager: 'Gerente de cuenta dedicado',
+            teamManagement: 'Gestión avanzada de equipos',
+            allProfessional: 'Todas las características Profesionales'
+          }
+        }
+      },
+      
+      // FAQ
+      faq: {
+        title: 'Preguntas Frecuentes',
+        changePlans: {
+          question: '¿Puedo cambiar planes en cualquier momento?',
+          answer: 'Sí, puedes actualizar o bajar de categoría tu plan en cualquier momento. Los cambios toman efecto inmediatamente.'
+        },
+        downgrade: {
+          question: '¿Qué pasa con mis propuestas si bajo de categoría?',
+          answer: 'Todas tus propuestas existentes permanecen accesibles. Solo estarás limitado por los límites mensuales de tu nuevo plan.'
+        },
+        refunds: {
+          question: '¿Ofrecen reembolsos?',
+          answer: 'Sí, ofrecemos una garantía de devolución de dinero de 30 días para todos los planes pagos.'
+        },
+        customPlan: {
+          question: '¿Necesitas un plan personalizado?',
+          answer: 'Contacta nuestro equipo de ventas para soluciones empresariales y precios personalizados.'
+        }
+      }
     },
     // Footer
     footer: {
@@ -1703,6 +1877,93 @@ export const translations = {
       invoice: 'Fatura',
       view: 'Ver →',
       noInvoices: 'Nenhuma fatura encontrada.'
+    },
+    // Upgrade Page
+    upgrade: {
+      pageTitle: 'Atualize Seu Plano',
+      pageDescription: 'Atualize para desbloquear recursos poderosos e expandir seu negócio com PITCHLY',
+      checkoutTitle: 'Checkout',
+      backToPlans: '← Voltar aos Planos',
+      backToDashboard: '← Voltar ao Painel',
+      upgradeToTier: 'Atualizar para {{tier}}',
+      checkoutDescription: 'Complete a atualização da sua assinatura para desbloquear todos os recursos premium',
+      title: 'Escolha Seu Plano',
+      subtitle: 'Desbloqueie recursos poderosos para criar propostas melhores e conquistar mais clientes',
+      currentUsage: 'Seu Uso Atual',
+      currentPlan: 'Plano Atual',
+      mostPopular: 'Mais Popular',
+      processing: 'Processando...',
+      getStartedFree: 'Começar Grátis',
+      
+      // Plan details
+      plans: {
+        free: {
+          name: 'Grátis',
+          period: 'para sempre',
+          description: 'Perfeito para começar',
+          features: {
+            proposalsPerMonth: '3 propostas por mês',
+            basicAI: 'Geração básica de IA',
+            standardTemplates: 'Modelos padrão',
+            emailSupport: 'Suporte por email'
+          },
+          limitations: {
+            limitedProposals: 'Propostas limitadas',
+            noCustomTemplates: 'Sem modelos personalizados',
+            noAnalytics: 'Sem análises',
+            noTeamFeatures: 'Sem recursos de equipe'
+          }
+        },
+        professional: {
+          name: 'Profissional',
+          period: 'mês',
+          description: 'Para freelancers sérios e consultores',
+          features: {
+            proposalsPerMonth: '100 propostas por mês',
+            customTemplates: 'Criação de modelos personalizados',
+            analytics: 'Análises e insights avançados',
+            priorityAI: 'Processamento prioritário de IA',
+            exportPDF: 'Exportar para PDF/Word',
+            prioritySupport: 'Suporte prioritário',
+            teamTools: 'Ferramentas de colaboração em equipe'
+          }
+        },
+        agency: {
+          name: 'Agência',
+          period: 'mês',
+          description: 'Para agências e equipes maiores',
+          features: {
+            unlimitedProposals: 'Propostas ilimitadas',
+            whiteLabel: 'Marca branca',
+            apiAccess: 'Acesso à API',
+            customIntegrations: 'Integrações personalizadas',
+            accountManager: 'Gerente de conta dedicado',
+            teamManagement: 'Gestão avançada de equipes',
+            allProfessional: 'Todos os recursos Profissionais'
+          }
+        }
+      },
+      
+      // FAQ
+      faq: {
+        title: 'Perguntas Frequentes',
+        changePlans: {
+          question: 'Posso mudar planos a qualquer momento?',
+          answer: 'Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças têm efeito imediato.'
+        },
+        downgrade: {
+          question: 'O que acontece com minhas propostas se eu fizer downgrade?',
+          answer: 'Todas as suas propostas existentes permanecem acessíveis. Você apenas ficará limitado pelos limites mensais do seu novo plano.'
+        },
+        refunds: {
+          question: 'Vocês oferecem reembolsos?',
+          answer: 'Sim, oferecemos garantia de devolução do dinheiro em 30 dias para todos os planos pagos.'
+        },
+        customPlan: {
+          question: 'Precisa de um plano personalizado?',
+          answer: 'Entre em contato com nossa equipe de vendas para soluções empresariais e preços personalizados.'
+        }
+      }
     },
     // Footer
     footer: {
