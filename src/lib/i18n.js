@@ -488,6 +488,184 @@ export const translations = {
         }
       }
     },
+    // Proposals List Page
+    proposalsList: {
+      pageTitle: 'Your Proposals',
+      pageDescription: 'Manage and view all your proposals',
+      loadingProposals: 'Loading proposals...',
+      backToDashboard: 'Back to Dashboard',
+      yourProposals: 'Your Proposals',
+      manageProposals: 'Manage and view all your proposals',
+      noProposalsFound: 'No proposals yet',
+      noProposalsDesc: 'Create your first proposal to get started with winning more clients',
+      createFirst: 'Create Your First Proposal',
+      allProposals: 'All Proposals',
+      createNew: 'Create New Proposal',
+      untitledProposal: 'Untitled Proposal',
+      toClient: 'To',
+      fromSender: 'From',
+      view: 'View',
+      edit: 'Edit',
+      delete: 'Delete',
+      confirmDelete: 'Are you sure you want to delete this proposal?',
+      deleteFailed: 'Failed to delete proposal'
+    },
+    // Avatar Upload Component
+    avatarUpload: {
+      pleaseSelectImage: 'Please select an image file',
+      fileSizeLimit: 'File size must be less than 5MB',
+      updateSuccess: 'Avatar updated successfully!',
+      uploadFailed: 'Failed to upload avatar',
+      uploading: 'Uploading...',
+      changeAvatar: 'Change Avatar',
+      uploadAvatar: 'Upload Avatar',
+      fileTypes: 'JPG, PNG, GIF or WebP. Max 5MB.',
+      uploadHint: 'Click to upload or drag and drop'
+    },
+    // Region Selector Component
+    regionSelector: {
+      title: 'Regional Preferences',
+      subtitle: 'Customize your experience with localized formats and language',
+      regionCurrency: 'Region & Currency',
+      language: 'Language',
+      currency: 'Currency',
+      date: 'Date',
+      numbers: 'Numbers'
+    },
+    // Feature Gate Component
+    featureGate: {
+      professionalFeature: 'Professional Feature',
+      upgradeToUnlock: 'Upgrade to unlock this feature and boost your productivity',
+      upgradeNow: 'Upgrade Now'
+    },
+    // Upgrade Modal
+    upgradeModal: {
+      whatYouGet: 'What you\'ll get',
+      chooseYourPlan: 'Choose Your Plan',
+      unlockPowerfulFeatures: 'Unlock powerful features to grow your business',
+      mostPopular: 'Most Popular',
+      processing: 'Processing...',
+      upgradeToTier: 'Upgrade to {{tier}}',
+      moneyBackGuarantee: '30-day money-back guarantee',
+      needCustomSolution: 'Need a custom solution?',
+      contactSalesTeam: 'Contact our sales team',
+      features: {
+        templates: {
+          title: 'Custom Proposal Templates',
+          description: 'Save and reuse your best proposals as templates',
+          benefits: {
+            unlimited: 'Save unlimited custom templates',
+            organize: 'Organize templates by project type',
+            share: 'Share templates with team members',
+            analytics: 'Template usage analytics'
+          }
+        },
+        analytics: {
+          title: 'Advanced Analytics',
+          description: 'Track your proposal performance and win rates',
+          benefits: {
+            detailed: 'Detailed proposal analytics',
+            conversion: 'Conversion rate tracking',
+            revenue: 'Revenue projections',
+            insights: 'Performance insights'
+          }
+        },
+        unlimited: {
+          title: 'Unlimited Proposals',
+          description: 'Create as many proposals as you need',
+          benefits: {
+            generation: 'Unlimited proposal generation',
+            noLimits: 'No monthly limits',
+            priority: 'Priority AI processing',
+            customization: 'Advanced customization options'
+          }
+        },
+        export: {
+          title: 'Advanced Export Options',
+          description: 'Export proposals in multiple formats',
+          benefits: {
+            formats: 'Export to PDF, Word, and more',
+            branding: 'Custom branding and layouts',
+            bulk: 'Bulk export capabilities',
+            integration: 'Integration with other tools'
+          }
+        }
+      },
+      plans: {
+        professional: {
+          name: 'Professional',
+          period: 'month',
+          features: {
+            proposals: '100 proposals per month',
+            templates: 'Custom templates',
+            analytics: 'Advanced analytics',
+            support: 'Priority support',
+            export: 'Export to PDF/Word',
+            collaboration: 'Team collaboration'
+          }
+        },
+        agency: {
+          name: 'Agency',
+          period: 'month',
+          features: {
+            unlimited: 'Unlimited proposals',
+            whiteLabel: 'White-label branding',
+            api: 'API access',
+            integrations: 'Custom integrations',
+            manager: 'Dedicated account manager',
+            allProfessional: 'All Professional features'
+          }
+        }
+      }
+    },
+    // Contact Page
+    contact: {
+      pageTitle: 'Contact Us',
+      pageDescription: 'Get in touch with the PITCHLY team - we\'re here to help with questions, feedback, and support',
+      getInTouch: 'Get in Touch',
+      subtitle: 'Have questions about PITCHLY? Need help with your proposals? We\'re here to help!',
+      contactInformation: 'Contact Information',
+      email: 'Email',
+      responseWithin24Hours: 'We typically respond within 24 hours',
+      responseTime: 'Response Time',
+      responseTime24Hours: '24 hours or less',
+      businessHours: 'Monday - Friday, 9 AM - 6 PM EST',
+      supportTopics: 'Support Topics',
+      topics: {
+        technicalSupport: 'Technical support',
+        featureRequests: 'Feature requests',
+        accountQuestions: 'Account questions',
+        partnershipInquiries: 'Partnership inquiries'
+      },
+      sendUsAMessage: 'Send us a Message',
+      messageSentSuccessfully: 'Message sent successfully! We\'ll get back to you soon.',
+      failedToSendMessage: 'Failed to send message. Please try again or email us directly.',
+      form: {
+        name: 'Name',
+        namePlaceholder: 'Your full name',
+        email: 'Email',
+        emailPlaceholder: 'your.email@example.com',
+        subject: 'Subject',
+        selectSubject: 'Select a subject',
+        subjects: {
+          technicalSupport: 'Technical Support',
+          featureRequest: 'Feature Request',
+          accountQuestion: 'Account Question',
+          bugReport: 'Bug Report',
+          partnershipInquiry: 'Partnership Inquiry',
+          generalQuestion: 'General Question'
+        },
+        message: 'Message',
+        messagePlaceholder: 'Tell us how we can help you...',
+        requiredFields: '* Required fields',
+        sending: 'Sending...',
+        sendMessage: 'Send Message'
+      },
+      needImmediateHelp: 'Need Immediate Help?',
+      checkOutResources: 'Check out these resources for quick answers',
+      learnMoreAboutUs: 'Learn More About Us',
+      emailUsDirectly: 'Email Us Directly'
+    },
     // Footer
     footer: {
       description: 'The AI-powered proposal platform trusted by thousands of freelancers and agencies worldwide. Win more clients with professional proposals that convert.',
@@ -1193,6 +1371,184 @@ export const translations = {
         }
       }
     },
+    // Proposals List Page
+    proposalsList: {
+      pageTitle: 'Tus Propuestas',
+      pageDescription: 'Gestiona y ve todas tus propuestas',
+      loadingProposals: 'Cargando propuestas...',
+      backToDashboard: 'Volver al Panel',
+      yourProposals: 'Tus Propuestas',
+      manageProposals: 'Gestiona y ve todas tus propuestas',
+      noProposalsFound: 'Aún no hay propuestas',
+      noProposalsDesc: 'Crea tu primera propuesta para empezar a ganar más clientes',
+      createFirst: 'Crear Tu Primera Propuesta',
+      allProposals: 'Todas las Propuestas',
+      createNew: 'Crear Nueva Propuesta',
+      untitledProposal: 'Propuesta Sin Título',
+      toClient: 'Para',
+      fromSender: 'De',
+      view: 'Ver',
+      edit: 'Editar',
+      delete: 'Eliminar',
+      confirmDelete: '¿Estás seguro de que quieres eliminar esta propuesta?',
+      deleteFailed: 'Error al eliminar la propuesta'
+    },
+    // Avatar Upload Component
+    avatarUpload: {
+      pleaseSelectImage: 'Por favor selecciona un archivo de imagen',
+      fileSizeLimit: 'El tamaño del archivo debe ser menor a 5MB',
+      updateSuccess: '¡Avatar actualizado exitosamente!',
+      uploadFailed: 'Error al subir avatar',
+      uploading: 'Subiendo...',
+      changeAvatar: 'Cambiar Avatar',
+      uploadAvatar: 'Subir Avatar',
+      fileTypes: 'JPG, PNG, GIF o WebP. Máximo 5MB.',
+      uploadHint: 'Haz clic para subir o arrastra y suelta'
+    },
+    // Region Selector Component
+    regionSelector: {
+      title: 'Preferencias Regionales',
+      subtitle: 'Personaliza tu experiencia con formatos localizados e idioma',
+      regionCurrency: 'Región y Moneda',
+      language: 'Idioma',
+      currency: 'Moneda',
+      date: 'Fecha',
+      numbers: 'Números'
+    },
+    // Feature Gate Component
+    featureGate: {
+      professionalFeature: 'Característica Profesional',
+      upgradeToUnlock: 'Actualiza para desbloquear esta característica y aumentar tu productividad',
+      upgradeNow: 'Actualizar Ahora'
+    },
+    // Upgrade Modal
+    upgradeModal: {
+      whatYouGet: 'Lo que obtendrás',
+      chooseYourPlan: 'Elige Tu Plan',
+      unlockPowerfulFeatures: 'Desbloquea características poderosas para hacer crecer tu negocio',
+      mostPopular: 'Más Popular',
+      processing: 'Procesando...',
+      upgradeToTier: 'Actualizar a {{tier}}',
+      moneyBackGuarantee: 'Garantía de devolución de dinero de 30 días',
+      needCustomSolution: '¿Necesitas una solución personalizada?',
+      contactSalesTeam: 'Contacta nuestro equipo de ventas',
+      features: {
+        templates: {
+          title: 'Plantillas de Propuesta Personalizadas',
+          description: 'Guarda y reutiliza tus mejores propuestas como plantillas',
+          benefits: {
+            unlimited: 'Guarda plantillas personalizadas ilimitadas',
+            organize: 'Organiza plantillas por tipo de proyecto',
+            share: 'Comparte plantillas con miembros del equipo',
+            analytics: 'Análisis de uso de plantillas'
+          }
+        },
+        analytics: {
+          title: 'Análisis Avanzados',
+          description: 'Rastrea el rendimiento de tus propuestas y tasas de éxito',
+          benefits: {
+            detailed: 'Análisis detallados de propuestas',
+            conversion: 'Seguimiento de tasa de conversión',
+            revenue: 'Proyecciones de ingresos',
+            insights: 'Insights de rendimiento'
+          }
+        },
+        unlimited: {
+          title: 'Propuestas Ilimitadas',
+          description: 'Crea tantas propuestas como necesites',
+          benefits: {
+            generation: 'Generación ilimitada de propuestas',
+            noLimits: 'Sin límites mensuales',
+            priority: 'Procesamiento de IA prioritario',
+            customization: 'Opciones de personalización avanzadas'
+          }
+        },
+        export: {
+          title: 'Opciones de Exportación Avanzadas',
+          description: 'Exporta propuestas en múltiples formatos',
+          benefits: {
+            formats: 'Exportar a PDF, Word y más',
+            branding: 'Branding y diseños personalizados',
+            bulk: 'Capacidades de exportación masiva',
+            integration: 'Integración con otras herramientas'
+          }
+        }
+      },
+      plans: {
+        professional: {
+          name: 'Profesional',
+          period: 'mes',
+          features: {
+            proposals: '100 propuestas por mes',
+            templates: 'Plantillas personalizadas',
+            analytics: 'Análisis avanzados',
+            support: 'Soporte prioritario',
+            export: 'Exportar a PDF/Word',
+            collaboration: 'Colaboración en equipo'
+          }
+        },
+        agency: {
+          name: 'Agencia',
+          period: 'mes',
+          features: {
+            unlimited: 'Propuestas ilimitadas',
+            whiteLabel: 'Marca blanca',
+            api: 'Acceso API',
+            integrations: 'Integraciones personalizadas',
+            manager: 'Gerente de cuenta dedicado',
+            allProfessional: 'Todas las características Profesionales'
+          }
+        }
+      }
+    },
+    // Contact Page
+    contact: {
+      pageTitle: 'Contáctanos',
+      pageDescription: 'Ponte en contacto con el equipo de PITCHLY - estamos aquí para ayudarte con preguntas, comentarios y soporte',
+      getInTouch: 'Ponte en Contacto',
+      subtitle: '¿Tienes preguntas sobre PITCHLY? ¿Necesitas ayuda con tus propuestas? ¡Estamos aquí para ayudarte!',
+      contactInformation: 'Información de Contacto',
+      email: 'Email',
+      responseWithin24Hours: 'Normalmente respondemos dentro de 24 horas',
+      responseTime: 'Tiempo de Respuesta',
+      responseTime24Hours: '24 horas o menos',
+      businessHours: 'Lunes - Viernes, 9 AM - 6 PM EST',
+      supportTopics: 'Temas de Soporte',
+      topics: {
+        technicalSupport: 'Soporte técnico',
+        featureRequests: 'Solicitudes de características',
+        accountQuestions: 'Preguntas de cuenta',
+        partnershipInquiries: 'Consultas de asociación'
+      },
+      sendUsAMessage: 'Envíanos un Mensaje',
+      messageSentSuccessfully: '¡Mensaje enviado exitosamente! Te responderemos pronto.',
+      failedToSendMessage: 'Error al enviar mensaje. Por favor intenta de nuevo o envíanos un email directamente.',
+      form: {
+        name: 'Nombre',
+        namePlaceholder: 'Tu nombre completo',
+        email: 'Email',
+        emailPlaceholder: 'tu.email@ejemplo.com',
+        subject: 'Asunto',
+        selectSubject: 'Selecciona un asunto',
+        subjects: {
+          technicalSupport: 'Soporte Técnico',
+          featureRequest: 'Solicitud de Característica',
+          accountQuestion: 'Pregunta de Cuenta',
+          bugReport: 'Reporte de Error',
+          partnershipInquiry: 'Consulta de Asociación',
+          generalQuestion: 'Pregunta General'
+        },
+        message: 'Mensaje',
+        messagePlaceholder: 'Cuéntanos cómo podemos ayudarte...',
+        requiredFields: '* Campos requeridos',
+        sending: 'Enviando...',
+        sendMessage: 'Enviar Mensaje'
+      },
+      needImmediateHelp: '¿Necesitas Ayuda Inmediata?',
+      checkOutResources: 'Consulta estos recursos para respuestas rápidas',
+      learnMoreAboutUs: 'Aprende Más Sobre Nosotros',
+      emailUsDirectly: 'Envíanos un Email Directamente'
+    },
     // Footer
     footer: {
       description: 'La plataforma de propuestas potenciada por IA en la que confían miles de freelancers y agencias en todo el mundo. Gana más clientes con propuestas profesionales que convierten.',
@@ -1852,6 +2208,162 @@ export const translations = {
         }
       }
     },
+    // Avatar Upload Component
+    avatarUpload: {
+      pleaseSelectImage: 'Por favor, selecione um arquivo de imagem',
+      fileSizeLimit: 'O tamanho do arquivo deve ser menor que 5MB',
+      updateSuccess: 'Avatar atualizado com sucesso!',
+      uploadFailed: 'Falha ao fazer upload do avatar',
+      uploading: 'Fazendo upload...',
+      changeAvatar: 'Alterar Avatar',
+      uploadAvatar: 'Fazer Upload do Avatar',
+      fileTypes: 'JPG, PNG, GIF ou WebP. Máx 5MB.',
+      uploadHint: 'Clique para fazer upload ou arraste e solte'
+    },
+    // Region Selector Component
+    regionSelector: {
+      title: 'Preferências Regionais',
+      subtitle: 'Personalize sua experiência com formatos localizados e idioma',
+      regionCurrency: 'Região e Moeda',
+      language: 'Idioma',
+      currency: 'Moeda',
+      date: 'Data',
+      numbers: 'Números'
+    },
+    // Feature Gate Component
+    featureGate: {
+      professionalFeature: 'Recurso Profissional',
+      upgradeToUnlock: 'Faça upgrade para desbloquear este recurso e aumentar sua produtividade',
+      upgradeNow: 'Fazer Upgrade Agora'
+    },
+    // Upgrade Modal
+    upgradeModal: {
+      whatYouGet: 'O que você obterá',
+      chooseYourPlan: 'Escolha Seu Plano',
+      unlockPowerfulFeatures: 'Desbloqueie recursos poderosos para expandir seu negócio',
+      mostPopular: 'Mais Popular',
+      processing: 'Processando...',
+      upgradeToTier: 'Fazer upgrade para {{tier}}',
+      moneyBackGuarantee: 'Garantia de devolução do dinheiro de 30 dias',
+      needCustomSolution: 'Precisa de uma solução personalizada?',
+      contactSalesTeam: 'Entre em contato com nossa equipe de vendas',
+      features: {
+        templates: {
+          title: 'Modelos de Proposta Personalizados',
+          description: 'Salve e reutilize suas melhores propostas como modelos',
+          benefits: {
+            unlimited: 'Salve modelos personalizados ilimitados',
+            organize: 'Organize modelos por tipo de projeto',
+            share: 'Compartilhe modelos com membros da equipe',
+            analytics: 'Análises de uso de modelos'
+          }
+        },
+        analytics: {
+          title: 'Análises Avançadas',
+          description: 'Acompanhe o desempenho de suas propostas e taxas de sucesso',
+          benefits: {
+            detailed: 'Análises detalhadas de propostas',
+            conversion: 'Rastreamento de taxa de conversão',
+            revenue: 'Projeções de receita',
+            insights: 'Insights de desempenho'
+          }
+        },
+        unlimited: {
+          title: 'Propostas Ilimitadas',
+          description: 'Crie quantas propostas precisar',
+          benefits: {
+            generation: 'Geração ilimitada de propostas',
+            noLimits: 'Sem limites mensais',
+            priority: 'Processamento prioritário de IA',
+            customization: 'Opções de personalização avançadas'
+          }
+        },
+        export: {
+          title: 'Opções de Exportação Avançadas',
+          description: 'Exporte propostas em múltiplos formatos',
+          benefits: {
+            formats: 'Exportar para PDF, Word e mais',
+            branding: 'Branding e layouts personalizados',
+            bulk: 'Capacidades de exportação em massa',
+            integration: 'Integração com outras ferramentas'
+          }
+        }
+      },
+      plans: {
+        professional: {
+          name: 'Profissional',
+          period: 'mês',
+          features: {
+            proposals: '100 propostas por mês',
+            templates: 'Modelos personalizados',
+            analytics: 'Análises avançadas',
+            support: 'Suporte prioritário',
+            export: 'Exportar para PDF/Word',
+            collaboration: 'Colaboração em equipe'
+          }
+        },
+        agency: {
+          name: 'Agência',
+          period: 'mês',
+          features: {
+            unlimited: 'Propostas ilimitadas',
+            whiteLabel: 'Marca branca',
+            api: 'Acesso à API',
+            integrations: 'Integrações personalizadas',
+            manager: 'Gerente de conta dedicado',
+            allProfessional: 'Todos os recursos Profissionais'
+          }
+        }
+      }
+    },
+    // Contact Page
+    contact: {
+      pageTitle: 'Entre em Contato',
+      pageDescription: 'Entre em contato com a equipe PITCHLY - estamos aqui para ajudar com perguntas, feedback e suporte',
+      getInTouch: 'Entre em Contato',
+      subtitle: 'Tem dúvidas sobre o PITCHLY? Precisa de ajuda com suas propostas? Estamos aqui para ajudar!',
+      contactInformation: 'Informações de Contato',
+      email: 'Email',
+      responseWithin24Hours: 'Normalmente respondemos dentro de 24 horas',
+      responseTime: 'Tempo de Resposta',
+      responseTime24Hours: '24 horas ou menos',
+      businessHours: 'Segunda - Sexta, 9h - 18h EST',
+      supportTopics: 'Tópicos de Suporte',
+      topics: {
+        technicalSupport: 'Suporte técnico',
+        featureRequests: 'Solicitações de recursos',
+        accountQuestions: 'Perguntas da conta',
+        partnershipInquiries: 'Consultas de parceria'
+      },
+      sendUsAMessage: 'Envie-nos uma Mensagem',
+      messageSentSuccessfully: 'Mensagem enviada com sucesso! Retornaremos em breve.',
+      failedToSendMessage: 'Falha ao enviar mensagem. Por favor tente novamente ou nos envie um email diretamente.',
+      form: {
+        name: 'Nome',
+        namePlaceholder: 'Seu nome completo',
+        email: 'Email',
+        emailPlaceholder: 'seu.email@exemplo.com',
+        subject: 'Assunto',
+        selectSubject: 'Selecione um assunto',
+        subjects: {
+          technicalSupport: 'Suporte Técnico',
+          featureRequest: 'Solicitação de Recurso',
+          accountQuestion: 'Pergunta da Conta',
+          bugReport: 'Relatório de Bug',
+          partnershipInquiry: 'Consulta de Parceria',
+          generalQuestion: 'Pergunta Geral'
+        },
+        message: 'Mensagem',
+        messagePlaceholder: 'Nos diga como podemos ajudá-lo...',
+        requiredFields: '* Campos obrigatórios',
+        sending: 'Enviando...',
+        sendMessage: 'Enviar Mensagem'
+      },
+      needImmediateHelp: 'Precisa de Ajuda Imediata?',
+      checkOutResources: 'Confira estes recursos para respostas rápidas',
+      learnMoreAboutUs: 'Saiba Mais Sobre Nós',
+      emailUsDirectly: 'Nos Envie um Email Diretamente'
+    },
     // Billing Portal
     billing: {
       cancelConfirm: 'Tem certeza de que deseja cancelar sua assinatura?',
@@ -1964,6 +2476,28 @@ export const translations = {
           answer: 'Entre em contato com nossa equipe de vendas para soluções empresariais e preços personalizados.'
         }
       }
+    },
+    // Proposals List Page
+    proposalsList: {
+      pageTitle: 'Suas Propostas',
+      pageDescription: 'Gerencie e visualize todas as suas propostas',
+      loadingProposals: 'Carregando propostas...',
+      backToDashboard: 'Voltar ao Painel',
+      yourProposals: 'Suas Propostas',
+      manageProposals: 'Gerencie e visualize todas as suas propostas',
+      noProposalsFound: 'Ainda não há propostas',
+      noProposalsDesc: 'Crie sua primeira proposta para começar a conquistar mais clientes',
+      createFirst: 'Criar Sua Primeira Proposta',
+      allProposals: 'Todas as Propostas',
+      createNew: 'Criar Nova Proposta',
+      untitledProposal: 'Proposta Sem Título',
+      toClient: 'Para',
+      fromSender: 'De',
+      view: 'Ver',
+      edit: 'Editar',
+      delete: 'Excluir',
+      confirmDelete: 'Tem certeza de que deseja excluir esta proposta?',
+      deleteFailed: 'Falha ao excluir proposta'
     },
     // Footer
     footer: {

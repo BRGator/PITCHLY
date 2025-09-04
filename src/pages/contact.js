@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
+import { useI18n } from '../lib/i18n';
 
 export default function Contact() {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -46,8 +48,8 @@ export default function Contact() {
   return (
     <>
       <Head>
-        <title>Contact Us - PITCHLY</title>
-        <meta name="description" content="Get in touch with the PITCHLY team - we're here to help with questions, feedback, and support" />
+        <title>{t('contact.pageTitle')} - PITCHLY</title>
+        <meta name="description" content={t('contact.pageDescription')} />
       </Head>
 
       <Navbar />
@@ -57,10 +59,10 @@ export default function Contact() {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Get in Touch
+              {t('contact.getInTouch')}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Have questions about PITCHLY? Need help with your proposals? We're here to help!
+              {t('contact.subtitle')}
             </p>
           </div>
 
@@ -69,7 +71,7 @@ export default function Contact() {
             <div className="lg:col-span-1">
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                  Contact Information
+                  {t('contact.contactInformation')}
                 </h2>
                 
                 <div className="space-y-6">
@@ -80,7 +82,7 @@ export default function Contact() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Email</h3>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">{t('contact.email')}</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 ml-13">
                       <a href="mailto:hello@usepitchly.com" className="text-primary-600 dark:text-primary-400 hover:underline">
@@ -88,7 +90,7 @@ export default function Contact() {
                       </a>
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-500 ml-13">
-                      We typically respond within 24 hours
+                      {t('contact.responseWithin24Hours')}
                     </p>
                   </div>
 
@@ -99,13 +101,13 @@ export default function Contact() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Response Time</h3>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">{t('contact.responseTime')}</h3>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 ml-13">
-                      24 hours or less
+                      {t('contact.responseTime24Hours')}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-500 ml-13">
-                      Monday - Friday, 9 AM - 6 PM EST
+                      {t('contact.businessHours')}
                     </p>
                   </div>
 
@@ -116,13 +118,13 @@ export default function Contact() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Support Topics</h3>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">{t('contact.supportTopics')}</h3>
                     </div>
                     <ul className="text-sm text-gray-600 dark:text-gray-400 ml-13 space-y-1">
-                      <li>• Technical support</li>
-                      <li>• Feature requests</li>
-                      <li>• Account questions</li>
-                      <li>• Partnership inquiries</li>
+                      <li>• {t('contact.topics.technicalSupport')}</li>
+                      <li>• {t('contact.topics.featureRequests')}</li>
+                      <li>• {t('contact.topics.accountQuestions')}</li>
+                      <li>• {t('contact.topics.partnershipInquiries')}</li>
                     </ul>
                   </div>
                 </div>
@@ -133,7 +135,7 @@ export default function Contact() {
             <div className="lg:col-span-2">
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                  Send us a Message
+                  {t('contact.sendUsAMessage')}
                 </h2>
 
                 {submitStatus === 'success' && (
@@ -143,7 +145,7 @@ export default function Contact() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <p className="text-green-800 dark:text-green-200 font-medium">
-                        Message sent successfully! We'll get back to you soon.
+                        {t('contact.messageSentSuccessfully')}
                       </p>
                     </div>
                   </div>
@@ -156,7 +158,7 @@ export default function Contact() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <p className="text-red-800 dark:text-red-200 font-medium">
-                        Failed to send message. Please try again or email us directly.
+                        {t('contact.failedToSendMessage')}
                       </p>
                     </div>
                   </div>
@@ -166,7 +168,7 @@ export default function Contact() {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Name *
+                        {t('contact.form.name')} *
                       </label>
                       <input
                         type="text"
@@ -174,13 +176,13 @@ export default function Contact() {
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         className="input-field"
-                        placeholder="Your full name"
+                        placeholder={t('contact.form.namePlaceholder')}
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Email *
+                        {t('contact.form.email')} *
                       </label>
                       <input
                         type="email"
@@ -188,14 +190,14 @@ export default function Contact() {
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         className="input-field"
-                        placeholder="your.email@example.com"
+                        placeholder={t('contact.form.emailPlaceholder')}
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Subject *
+                      {t('contact.form.subject')} *
                     </label>
                     <select
                       required
@@ -203,19 +205,19 @@ export default function Contact() {
                       onChange={(e) => handleInputChange('subject', e.target.value)}
                       className="input-field"
                     >
-                      <option value="">Select a subject</option>
-                      <option value="Technical Support">Technical Support</option>
-                      <option value="Feature Request">Feature Request</option>
-                      <option value="Account Question">Account Question</option>
-                      <option value="Bug Report">Bug Report</option>
-                      <option value="Partnership Inquiry">Partnership Inquiry</option>
-                      <option value="General Question">General Question</option>
+                      <option value="">{t('contact.form.selectSubject')}</option>
+                      <option value="Technical Support">{t('contact.form.subjects.technicalSupport')}</option>
+                      <option value="Feature Request">{t('contact.form.subjects.featureRequest')}</option>
+                      <option value="Account Question">{t('contact.form.subjects.accountQuestion')}</option>
+                      <option value="Bug Report">{t('contact.form.subjects.bugReport')}</option>
+                      <option value="Partnership Inquiry">{t('contact.form.subjects.partnershipInquiry')}</option>
+                      <option value="General Question">{t('contact.form.subjects.generalQuestion')}</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Message *
+                      {t('contact.form.message')} *
                     </label>
                     <textarea
                       required
@@ -223,13 +225,13 @@ export default function Contact() {
                       value={formData.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
                       className="input-field"
-                      placeholder="Tell us how we can help you..."
+                      placeholder={t('contact.form.messagePlaceholder')}
                     />
                   </div>
 
                   <div className="flex justify-between items-center">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      * Required fields
+                      {t('contact.form.requiredFields')}
                     </p>
                     
                     <button
@@ -237,7 +239,7 @@ export default function Contact() {
                       disabled={isSubmitting}
                       className="btn-primary"
                     >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? t('contact.form.sending') : t('contact.form.sendMessage')}
                     </button>
                   </div>
                 </form>
@@ -248,17 +250,17 @@ export default function Contact() {
           {/* Additional Help */}
           <div className="mt-12 text-center">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Need Immediate Help?
+              {t('contact.needImmediateHelp')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Check out these resources for quick answers
+              {t('contact.checkOutResources')}
             </p>
             <div className="flex justify-center space-x-4">
               <Link href="/about" className="btn-secondary">
-                Learn More About Us
+                {t('contact.learnMoreAboutUs')}
               </Link>
               <a href="mailto:hello@usepitchly.com" className="btn-primary">
-                Email Us Directly
+                {t('contact.emailUsDirectly')}
               </a>
             </div>
           </div>

@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import { useSession } from 'next-auth/react';
+import { useI18n } from '../lib/i18n';
 
 export default function AvatarUpload({ currentImage, onUploadSuccess }) {
+  const { t } = useI18n();
   const { data: session, update: updateSession } = useSession();
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -22,12 +24,12 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
 
     // Validate file
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+      alert(t('avatarUpload.pleaseSelectImage'));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      alert('File size must be less than 5MB');
+      alert(t('avatarUpload.fileSizeLimit'));
       return;
     }
 
@@ -71,11 +73,11 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
         await updateSession();
       }, 1000);
 
-      alert('Avatar updated successfully!');
+      alert(t('avatarUpload.updateSuccess'));
 
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Failed to upload avatar: ' + error.message);
+      alert(t('avatarUpload.uploadFailed') + ': ' + error.message);
     } finally {
       setUploading(false);
     }
@@ -155,16 +157,16 @@ export default function AvatarUpload({ currentImage, onUploadSuccess }) {
           disabled={uploading}
           className="text-sm text-primary-600 dark:text-primary-400 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {uploading ? 'Uploading...' : currentImage ? 'Change Avatar' : 'Upload Avatar'}
+          {uploading ? t('avatarUpload.uploading') : currentImage ? t('avatarUpload.changeAvatar') : t('avatarUpload.uploadAvatar')}
         </button>
         
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-          JPG, PNG, GIF or WebP. Max 5MB.
+          {t('avatarUpload.fileTypes')}
         </p>
         
         {/* Drag and drop hint */}
         <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-          Click to upload or drag and drop
+          {t('avatarUpload.uploadHint')}
         </p>
       </div>
 

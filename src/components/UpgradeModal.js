@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { useI18n } from '../lib/i18n';
 
 export default function UpgradeModal({ isOpen, onClose, feature, subscription }) {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -9,46 +11,46 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
   const featureDetails = {
     templates: {
       icon: '📋',
-      title: 'Custom Proposal Templates',
-      description: 'Save and reuse your best proposals as templates',
+      title: t('upgradeModal.features.templates.title'),
+      description: t('upgradeModal.features.templates.description'),
       benefits: [
-        'Save unlimited custom templates',
-        'Organize templates by project type',
-        'Share templates with team members',
-        'Template usage analytics'
+        t('upgradeModal.features.templates.benefits.unlimited'),
+        t('upgradeModal.features.templates.benefits.organize'),
+        t('upgradeModal.features.templates.benefits.share'),
+        t('upgradeModal.features.templates.benefits.analytics')
       ]
     },
     analytics: {
       icon: '📊',
-      title: 'Advanced Analytics',
-      description: 'Track your proposal performance and win rates',
+      title: t('upgradeModal.features.analytics.title'),
+      description: t('upgradeModal.features.analytics.description'),
       benefits: [
-        'Detailed proposal analytics',
-        'Conversion rate tracking',
-        'Revenue projections',
-        'Performance insights'
+        t('upgradeModal.features.analytics.benefits.detailed'),
+        t('upgradeModal.features.analytics.benefits.conversion'),
+        t('upgradeModal.features.analytics.benefits.revenue'),
+        t('upgradeModal.features.analytics.benefits.insights')
       ]
     },
     unlimited: {
       icon: '∞',
-      title: 'Unlimited Proposals',
-      description: 'Create as many proposals as you need',
+      title: t('upgradeModal.features.unlimited.title'),
+      description: t('upgradeModal.features.unlimited.description'),
       benefits: [
-        'Unlimited proposal generation',
-        'No monthly limits',
-        'Priority AI processing',
-        'Advanced customization options'
+        t('upgradeModal.features.unlimited.benefits.generation'),
+        t('upgradeModal.features.unlimited.benefits.noLimits'),
+        t('upgradeModal.features.unlimited.benefits.priority'),
+        t('upgradeModal.features.unlimited.benefits.customization')
       ]
     },
     export: {
       icon: '📄',
-      title: 'Advanced Export Options',
-      description: 'Export proposals in multiple formats',
+      title: t('upgradeModal.features.export.title'),
+      description: t('upgradeModal.features.export.description'),
       benefits: [
-        'Export to PDF, Word, and more',
-        'Custom branding and layouts',
-        'Bulk export capabilities',
-        'Integration with other tools'
+        t('upgradeModal.features.export.benefits.formats'),
+        t('upgradeModal.features.export.benefits.branding'),
+        t('upgradeModal.features.export.benefits.bulk'),
+        t('upgradeModal.features.export.benefits.integration')
       ]
     }
   };
@@ -58,31 +60,31 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
 
   const pricingTiers = [
     {
-      name: 'Professional',
+      name: t('upgradeModal.plans.professional.name'),
       price: '$29',
-      period: 'month',
+      period: t('upgradeModal.plans.professional.period'),
       popular: true,
       features: [
-        '100 proposals per month',
-        'Custom templates',
-        'Advanced analytics',
-        'Priority support',
-        'Export to PDF/Word',
-        'Team collaboration'
+        t('upgradeModal.plans.professional.features.proposals'),
+        t('upgradeModal.plans.professional.features.templates'),
+        t('upgradeModal.plans.professional.features.analytics'),
+        t('upgradeModal.plans.professional.features.support'),
+        t('upgradeModal.plans.professional.features.export'),
+        t('upgradeModal.plans.professional.features.collaboration')
       ]
     },
     {
-      name: 'Agency',
+      name: t('upgradeModal.plans.agency.name'),
       price: '$99',
-      period: 'month',
+      period: t('upgradeModal.plans.agency.period'),
       popular: false,
       features: [
-        'Unlimited proposals',
-        'White-label branding',
-        'API access',
-        'Custom integrations',
-        'Dedicated account manager',
-        'All Professional features'
+        t('upgradeModal.plans.agency.features.unlimited'),
+        t('upgradeModal.plans.agency.features.whiteLabel'),
+        t('upgradeModal.plans.agency.features.api'),
+        t('upgradeModal.plans.agency.features.integrations'),
+        t('upgradeModal.plans.agency.features.manager'),
+        t('upgradeModal.plans.agency.features.allProfessional')
       ]
     }
   ];
@@ -126,7 +128,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
         {/* Feature Preview */}
         <div className="p-6 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            What you'll get:
+            {t('upgradeModal.whatYouGet')}:
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {currentFeature.benefits.map((benefit, index) => (
@@ -144,10 +146,10 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
         <div className="p-6">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Choose Your Plan
+              {t('upgradeModal.chooseYourPlan')}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Unlock powerful features to grow your business
+              {t('upgradeModal.unlockPowerfulFeatures')}
             </p>
           </div>
 
@@ -164,7 +166,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                     <span className="bg-primary-500 text-white px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                      Most Popular
+                      {t('upgradeModal.mostPopular')}
                     </span>
                   </div>
                 )}
@@ -205,7 +207,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
                       : 'bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-900'
                   } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {loading ? 'Processing...' : `Upgrade to ${tier.name}`}
+                  {loading ? t('upgradeModal.processing') : t('upgradeModal.upgradeToTier', { tier: tier.name })}
                 </button>
               </div>
             ))}
@@ -218,7 +220,7 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               <span className="text-green-700 dark:text-green-300 font-medium">
-                30-day money-back guarantee
+                {t('upgradeModal.moneyBackGuarantee')}
               </span>
             </div>
           </div>
@@ -226,9 +228,9 @@ export default function UpgradeModal({ isOpen, onClose, feature, subscription })
           {/* Contact Sales */}
           <div className="mt-6 text-center">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Need a custom solution? {' '}
+              {t('upgradeModal.needCustomSolution')} {' '}
               <Link href="/contact" className="text-primary-600 dark:text-primary-400 hover:underline">
-                Contact our sales team
+                {t('upgradeModal.contactSalesTeam')}
               </Link>
             </p>
           </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import UpgradeModal from './UpgradeModal';
+import { useI18n } from '../lib/i18n';
 
 export default function FeatureGate({ 
   feature, 
@@ -9,6 +10,7 @@ export default function FeatureGate({
   requiresPro = true,
   className = ""
 }) {
+  const { t } = useI18n();
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   
   const currentTier = subscription?.tier || 'free';
@@ -46,16 +48,16 @@ export default function FeatureGate({
               </svg>
             </div>
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-              Professional Feature
+              {t('featureGate.professionalFeature')}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Upgrade to unlock this feature and boost your productivity
+              {t('featureGate.upgradeToUnlock')}
             </p>
             <button
               onClick={handleUpgradeClick}
               className="btn-primary text-sm"
             >
-              ⭐ Upgrade Now
+              ⭐ {t('featureGate.upgradeNow')}
             </button>
           </div>
         </div>

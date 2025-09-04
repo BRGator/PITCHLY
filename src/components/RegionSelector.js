@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import { useRegional } from './RegionalProvider';
 import { REGIONS, LANGUAGES } from '../lib/regionalization';
+import { useI18n } from '../lib/i18n';
 
 export default function RegionSelector({ variant = 'full' }) {
+  const { t } = useI18n();
   const { region, language, regionConfig, setRegion, setLanguage } = useRegional();
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeTab, setActiveTab] = useState('region');
@@ -45,10 +47,10 @@ export default function RegionSelector({ variant = 'full' }) {
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-          Regional Preferences
+          {t('regionSelector.title')}
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Customize your experience with localized formats and language
+          {t('regionSelector.subtitle')}
         </p>
       </div>
 
@@ -62,7 +64,7 @@ export default function RegionSelector({ variant = 'full' }) {
               : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          🌍 Region & Currency
+          🌍 {t('regionSelector.regionCurrency')}
         </button>
         <button
           onClick={() => setActiveTab('language')}
@@ -72,7 +74,7 @@ export default function RegionSelector({ variant = 'full' }) {
               : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
           }`}
         >
-          🗣️ Language
+          🗣️ {t('regionSelector.language')}
         </button>
       </div>
 
@@ -121,9 +123,9 @@ function RegionTab({ currentRegion, onRegionChange }) {
               )}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              <div>Currency: {config.currencySymbol} ({config.currency})</div>
-              <div>Date: {config.dateFormat}</div>
-              <div>Numbers: {config.numberFormat}</div>
+              <div>{t('regionSelector.currency')}: {config.currencySymbol} ({config.currency})</div>
+              <div>{t('regionSelector.date')}: {config.dateFormat}</div>
+              <div>{t('regionSelector.numbers')}: {config.numberFormat}</div>
             </div>
           </button>
         ))}
@@ -169,13 +171,14 @@ function LanguageTab({ currentLanguage, onLanguageChange }) {
 }
 
 function CompactSelector({ region, language, setRegion, setLanguage, onClose }) {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState('region');
   
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <h4 className="font-medium text-gray-900 dark:text-gray-100">
-          Regional Settings
+          {t('regionSelector.title')}
         </h4>
         <button
           onClick={onClose}
@@ -196,7 +199,7 @@ function CompactSelector({ region, language, setRegion, setLanguage, onClose }) 
               : 'text-gray-500 dark:text-gray-400'
           }`}
         >
-          Region
+          {t('regionSelector.regionCurrency')}
         </button>
         <button
           onClick={() => setActiveTab('language')}
@@ -206,7 +209,7 @@ function CompactSelector({ region, language, setRegion, setLanguage, onClose }) 
               : 'text-gray-500 dark:text-gray-400'
           }`}
         >
-          Language
+          {t('regionSelector.language')}
         </button>
       </div>
 
