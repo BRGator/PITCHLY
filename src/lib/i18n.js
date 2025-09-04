@@ -380,6 +380,56 @@ export const translations = {
       delete: 'Delete',
       confirmDelete: 'Are you sure you want to delete this proposal?',
       deleteFailed: 'Failed to delete'
+    },
+    // Error Pages
+    errors: {
+      authError: 'Authentication Error',
+      authErrorDesc: 'There was a problem signing you in',
+      signInFailed: 'Sign-in Failed',
+      errorCode: 'Error Code',
+      tryAgain: 'Try Again',
+      backToHome: '← Back to home',
+      configurationError: 'There is a problem with the server configuration.',
+      accessDenied: 'Access was denied.',
+      verificationError: 'The verification link was invalid or has expired.',
+      defaultError: 'An error occurred during authentication.'
+    },
+    // Proposal Viewing Page
+    proposalView: {
+      loadingProposal: 'Loading proposal...',
+      proposalNotFound: 'Proposal not found',
+      backToDashboard: 'Back to Dashboard',
+      client: 'Client',
+      created: 'Created',
+      project: 'Project',
+      budget: 'Budget',
+      timeline: 'Timeline',
+      createAnotherProposal: '✨ Create Another Proposal',
+      requestModifications: '✏️ Request Modifications',
+      exportAndShare: 'Export & Share Options',
+      copyText: '📋 Copy Text',
+      saveAsPDF: '📄 Save as PDF',
+      printProposal: '🖨️ Print Proposal',
+      proposalCopied: 'Proposal copied to clipboard!',
+      pdfGenerationFailed: 'PDF generation failed. Using print dialog instead.'
+    },
+    // Proposal Revision Page
+    proposalRevise: {
+      reviseTitle: 'Revise',
+      requestModifications: 'Request Modifications',
+      requestModificationsDesc: 'Describe what changes you\'d like to make to',
+      originalProposal: 'Original Proposal',
+      whatWouldYouChange: 'What would you like to change?',
+      revisionPlaceholder: 'Example: Make it more formal, add a section about our company\'s experience with similar projects, emphasize cost-effectiveness, etc.',
+      revisionTip: '💡 Tip: Be specific about what you want changed. The AI will use your original proposal as a base and make the modifications you request.',
+      backToProposal: '← Back to Proposal',
+      generatingRevision: 'Generating Revision...',
+      generateRevision: 'Generate Revision',
+      loadingProposal: 'Loading proposal...',
+      proposalNotFound: 'Proposal not found',
+      failedToLoad: 'Failed to load proposal',
+      backToDashboard: 'Back to Dashboard',
+      revisionError: '❌ Error generating revision: '
     }
   },
 
@@ -752,6 +802,56 @@ export const translations = {
       delete: 'Eliminar',
       confirmDelete: '¿Estás seguro de que quieres eliminar esta propuesta?',
       deleteFailed: 'Error al eliminar'
+    },
+    // Error Pages
+    errors: {
+      authError: 'Error de Autenticación',
+      authErrorDesc: 'Hubo un problema al iniciar sesión',
+      signInFailed: 'Error al Iniciar Sesión',
+      errorCode: 'Código de Error',
+      tryAgain: 'Intentar de Nuevo',
+      backToHome: '← Volver al inicio',
+      configurationError: 'Hay un problema con la configuración del servidor.',
+      accessDenied: 'Acceso denegado.',
+      verificationError: 'El enlace de verificación era inválido o ha expirado.',
+      defaultError: 'Ocurrió un error durante la autenticación.'
+    },
+    // Proposal Viewing Page
+    proposalView: {
+      loadingProposal: 'Cargando propuesta...',
+      proposalNotFound: 'Propuesta no encontrada',
+      backToDashboard: 'Volver al Panel',
+      client: 'Cliente',
+      created: 'Creado',
+      project: 'Proyecto',
+      budget: 'Presupuesto',
+      timeline: 'Cronograma',
+      createAnotherProposal: '✨ Crear Otra Propuesta',
+      requestModifications: '✏️ Solicitar Modificaciones',
+      exportAndShare: 'Opciones de Exportar y Compartir',
+      copyText: '📋 Copiar Texto',
+      saveAsPDF: '📄 Guardar como PDF',
+      printProposal: '🖨️ Imprimir Propuesta',
+      proposalCopied: '¡Propuesta copiada al portapapeles!',
+      pdfGenerationFailed: 'Error al generar PDF. Usando diálogo de impresión en su lugar.'
+    },
+    // Proposal Revision Page
+    proposalRevise: {
+      reviseTitle: 'Revisar',
+      requestModifications: 'Solicitar Modificaciones',
+      requestModificationsDesc: 'Describe qué cambios te gustaría hacer a',
+      originalProposal: 'Propuesta Original',
+      whatWouldYouChange: '¿Qué te gustaría cambiar?',
+      revisionPlaceholder: 'Ejemplo: Hacerlo más formal, agregar una sección sobre la experiencia de nuestra empresa con proyectos similares, enfatizar la rentabilidad, etc.',
+      revisionTip: '💡 Consejo: Sé específico sobre lo que quieres cambiar. La IA usará tu propuesta original como base y hará las modificaciones que solicites.',
+      backToProposal: '← Volver a la Propuesta',
+      generatingRevision: 'Generando Revisión...',
+      generateRevision: 'Generar Revisión',
+      loadingProposal: 'Cargando propuesta...',
+      proposalNotFound: 'Propuesta no encontrada',
+      failedToLoad: 'Error al cargar propuesta',
+      backToDashboard: 'Volver al Panel',
+      revisionError: '❌ Error al generar revisión: '
     }
   },
 
@@ -1191,6 +1291,56 @@ export const translations = {
       delete: 'Excluir',
       confirmDelete: 'Tem certeza de que deseja excluir esta proposta?',
       deleteFailed: 'Falha ao excluir'
+    },
+    // Error Pages
+    errors: {
+      authError: 'Erro de Autenticação',
+      authErrorDesc: 'Houve um problema ao fazer login',
+      signInFailed: 'Falha no Login',
+      errorCode: 'Código de Erro',
+      tryAgain: 'Tentar Novamente',
+      backToHome: '← Voltar ao início',
+      configurationError: 'Há um problema com a configuração do servidor.',
+      accessDenied: 'Acesso negado.',
+      verificationError: 'O link de verificação era inválido ou expirou.',
+      defaultError: 'Ocorreu um erro durante a autenticação.'
+    },
+    // Proposal Viewing Page
+    proposalView: {
+      loadingProposal: 'Carregando proposta...',
+      proposalNotFound: 'Proposta não encontrada',
+      backToDashboard: 'Voltar ao Painel',
+      client: 'Cliente',
+      created: 'Criado',
+      project: 'Projeto',
+      budget: 'Orçamento',
+      timeline: 'Cronograma',
+      createAnotherProposal: '✨ Criar Outra Proposta',
+      requestModifications: '✏️ Solicitar Modificações',
+      exportAndShare: 'Opções de Exportar e Compartilhar',
+      copyText: '📋 Copiar Texto',
+      saveAsPDF: '📄 Salvar como PDF',
+      printProposal: '🖨️ Imprimir Proposta',
+      proposalCopied: 'Proposta copiada para a área de transferência!',
+      pdfGenerationFailed: 'Falha na geração do PDF. Usando diálogo de impressão.'
+    },
+    // Proposal Revision Page
+    proposalRevise: {
+      reviseTitle: 'Revisar',
+      requestModifications: 'Solicitar Modificações',
+      requestModificationsDesc: 'Descreva quais mudanças você gostaria de fazer em',
+      originalProposal: 'Proposta Original',
+      whatWouldYouChange: 'O que você gostaria de mudar?',
+      revisionPlaceholder: 'Exemplo: Tornar mais formal, adicionar uma seção sobre a experiência da nossa empresa com projetos similares, enfatizar custo-benefício, etc.',
+      revisionTip: '💡 Dica: Seja específico sobre o que você quer mudar. A IA usará sua proposta original como base e fará as modificações que você solicitar.',
+      backToProposal: '← Voltar à Proposta',
+      generatingRevision: 'Gerando Revisão...',
+      generateRevision: 'Gerar Revisão',
+      loadingProposal: 'Carregando proposta...',
+      proposalNotFound: 'Proposta não encontrada',
+      failedToLoad: 'Falha ao carregar proposta',
+      backToDashboard: 'Voltar ao Painel',
+      revisionError: '❌ Erro ao gerar revisão: '
     }
   }
 };

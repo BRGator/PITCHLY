@@ -7,9 +7,11 @@ import Navbar from '../../components/Navbar';
 import ProposalStatusManager from '../../components/ProposalStatusManager';
 import { useNotification } from '../../components/Notification';
 import { supabase } from '../../lib/supabase';
+import { useI18n } from '../../lib/i18n';
 import jsPDF from 'jspdf';
 
 export default function ProposalView() {
+  const { t } = useI18n();
   const { data: session, status } = useSession();
   const router = useRouter();
   const { id } = router.query;
@@ -42,7 +44,7 @@ export default function ProposalView() {
 
         if (error) {
           if (error.code === 'PGRST116') {
-            setError('Proposal not found');
+            setError(t('proposalView.proposalNotFound'));
           } else {
             throw error;
           }
@@ -93,7 +95,7 @@ export default function ProposalView() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(proposal.content);
-    showNotification('Proposal copied to clipboard!', 'success');
+    showNotification(t('proposalView.proposalCopied'), 'success');
   };
 
   const handleStatusUpdate = (updatedProposal) => {
@@ -155,7 +157,7 @@ export default function ProposalView() {
       
     } catch (error) {
       console.error('PDF generation failed:', error);
-      alert('PDF generation failed. Using print dialog instead.');
+      alert(t('proposalView.pdfGenerationFailed'));
       window.print();
     }
   };
@@ -168,7 +170,7 @@ export default function ProposalView() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-              <p className="text-gray-600 dark:text-gray-400 mt-4">Loading proposal...</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-4">{t('proposalView.loadingProposal')}</p>
             </div>
           </div>
         </div>
@@ -187,7 +189,7 @@ export default function ProposalView() {
                 {error}
               </h1>
               <Link href="/dashboard" className="btn-primary">
-                Back to Dashboard
+                {t('proposalView.backToDashboard')}
               </Link>
             </div>
           </div>
@@ -285,7 +287,7 @@ export default function ProposalView() {
                 {proposal?.title}
               </h1>
               <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
-                <span>Client: {proposal?.client_name}</span>
+                <span>{t('proposalView.client')}: {proposal?.client_name}</span>
                 {proposal?.client_email && (
                   <>
                     <span>•</span>
@@ -293,7 +295,7 @@ export default function ProposalView() {
                   </>
                 )}
                 <span>•</span>
-                <span>Created: {formatDate(proposal?.created_at)}</span>
+                <span>{t('proposalView.created')}: {formatDate(proposal?.created_at)}</span>
               </div>
               
               {/* Status Manager */}
@@ -313,15 +315,15 @@ export default function ProposalView() {
                 <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
                   {proposal?.project_description && (
                     <div className="mb-2">
-                      <span className="font-medium">Project:</span> {proposal.project_description}
+                      <span className="font-medium">{t('proposalView.project')}:</span> {proposal.project_description}
                     </div>
                   )}
                   <div className="flex space-x-6">
                     {proposal?.budget_range && (
-                      <span><span className="font-medium">Budget:</span> {proposal.budget_range}</span>
+                      <span><span className="font-medium">{t('proposalView.budget')}:</span> {proposal.budget_range}</span>
                     )}
                     {proposal?.timeline && (
-                      <span><span className="font-medium">Timeline:</span> {proposal.timeline}</span>
+                      <span><span className="font-medium">{t('proposalView.timeline')}:</span> {proposal.timeline}</span>
                     )}
                   </div>
                 </div>
@@ -330,7 +332,7 @@ export default function ProposalView() {
             
             <div className="flex space-x-3">
               <Link href="/dashboard" className="btn-ghost text-sm">
-                ← Back to Dashboard
+                ← {t('proposalView.backToDashboard')}
               </Link>
             </div>
           </div>
@@ -349,39 +351,39 @@ export default function ProposalView() {
             {/* Main Actions */}
             <div className="text-center mb-6">
               <Link href="/proposals/new" className="btn-primary mr-4">
-                ✨ Create Another Proposal
+                {t('proposalView.createAnotherProposal')}
               </Link>
               <Link 
                 href={`/proposals/${proposal?.id}/revise`}
                 className="btn-secondary"
               >
-                ✏️ Request Modifications
+                {t('proposalView.requestModifications')}
               </Link>
             </div>
             
             {/* Export Options */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 text-center">
-                Export & Share Options
+                {t('proposalView.exportAndShare')}
               </h3>
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={copyToClipboard}
                   className="btn-ghost"
                 >
-                  📋 Copy Text
+                  {t('proposalView.copyText')}
                 </button>
                 <button
                   onClick={() => downloadPDF()}
                   className="btn-ghost"
                 >
-                  📄 Save as PDF
+                  {t('proposalView.saveAsPDF')}
                 </button>
                 <button
                   onClick={() => window.print()}
                   className="btn-ghost"
                 >
-                  🖨️ Print Proposal
+                  {t('proposalView.printProposal')}
                 </button>
               </div>
             </div>

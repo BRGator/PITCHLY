@@ -2,16 +2,18 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import DarkModeToggle from '../../components/DarkModeToggle';
+import { useI18n } from '../../lib/i18n';
 
 export default function AuthError() {
+  const { t } = useI18n();
   const router = useRouter();
   const { error } = router.query;
 
   const errorMessages = {
-    Configuration: 'There is a problem with the server configuration.',
-    AccessDenied: 'Access was denied.',
-    Verification: 'The verification link was invalid or has expired.',
-    Default: 'An error occurred during authentication.'
+    Configuration: t('errors.configurationError'),
+    AccessDenied: t('errors.accessDenied'),
+    Verification: t('errors.verificationError'),
+    Default: t('errors.defaultError')
   };
 
   const errorMessage = errorMessages[error] || errorMessages.Default;
@@ -19,8 +21,8 @@ export default function AuthError() {
   return (
     <>
       <Head>
-        <title>Authentication Error - PITCHLY</title>
-        <meta name="description" content="Authentication error occurred" />
+        <title>{t('errors.authError')} - PITCHLY</title>
+        <meta name="description" content={t('errors.authErrorDesc')} />
       </Head>
 
       <div className="min-h-screen gradient-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -44,10 +46,10 @@ export default function AuthError() {
             </Link>
             
             <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Authentication Error
+              {t('errors.authError')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              There was a problem signing you in
+              {t('errors.authErrorDesc')}
             </p>
           </div>
 
@@ -60,7 +62,7 @@ export default function AuthError() {
             </div>
 
             <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              Sign-in Failed
+              {t('errors.signInFailed')}
             </h3>
             
             <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -70,7 +72,7 @@ export default function AuthError() {
             {error && (
               <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-6">
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Error Code: {error}
+                  {t('errors.errorCode')}: {error}
                 </p>
               </div>
             )}
@@ -80,7 +82,7 @@ export default function AuthError() {
                 href="/auth/signin" 
                 className="btn-primary inline-block"
               >
-                Try Again
+                {t('errors.tryAgain')}
               </Link>
             </div>
           </div>
@@ -88,7 +90,7 @@ export default function AuthError() {
           {/* Back to Home */}
           <div className="mt-6 text-center">
             <Link href="/" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              ← Back to home
+              {t('errors.backToHome')}
             </Link>
           </div>
         </div>

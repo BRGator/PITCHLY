@@ -5,8 +5,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../../../components/Navbar';
 import { supabase } from '../../../lib/supabase';
+import { useI18n } from '../../../lib/i18n';
 
 export default function ReviseProposal() {
+  const { t } = useI18n();
   const { data: session, status } = useSession();
   const router = useRouter();
   const { id } = router.query;
@@ -39,7 +41,7 @@ export default function ReviseProposal() {
 
         if (error) {
           if (error.code === 'PGRST116') {
-            setError('Proposal not found');
+            setError(t('proposalRevise.proposalNotFound'));
           } else {
             throw error;
           }
@@ -48,7 +50,7 @@ export default function ReviseProposal() {
         }
       } catch (err) {
         console.error('Error fetching proposal:', err);
-        setError('Failed to load proposal');
+        setError(t('proposalRevise.failedToLoad'));
       } finally {
         setLoading(false);
       }
@@ -81,7 +83,7 @@ export default function ReviseProposal() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to generate revision');
+        throw new Error(data.message || t('proposalRevise.failedToLoad'));
       }
 
       // Redirect to the new revision
@@ -89,7 +91,7 @@ export default function ReviseProposal() {
       
     } catch (error) {
       console.error('Error generating revision:', error);
-      alert('❌ Error generating revision: ' + error.message);
+      alert(t('proposalRevise.revisionError') + error.message);
     } finally {
       setIsGenerating(false);
     }
@@ -103,7 +105,7 @@ export default function ReviseProposal() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-              <p className="text-gray-600 dark:text-gray-400 mt-4">Loading proposal...</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-4">{t('proposalRevise.loadingProposal')}</p>
             </div>
           </div>
         </div>
@@ -122,7 +124,7 @@ export default function ReviseProposal() {
                 {error}
               </h1>
               <Link href="/dashboard" className="btn-primary">
-                Back to Dashboard
+                {t('proposalRevise.backToDashboard')}
               </Link>
             </div>
           </div>
@@ -134,8 +136,8 @@ export default function ReviseProposal() {
   return (
     <>
       <Head>
-        <title>Revise {proposal?.title} - PITCHLY</title>
-        <meta name="description" content="Request AI modifications to your proposal" />
+        <title>{t('proposalRevise.reviseTitle')} {proposal?.title} - PITCHLY</title>
+        <meta name="description" content={t('proposalRevise.requestModifications')} />
       </Head>
 
       <Navbar />
@@ -145,10 +147,10 @@ export default function ReviseProposal() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              Request Modifications
+              {t('proposalRevise.requestModifications')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Describe what changes you'd like to make to "{proposal?.title}"
+              {t('proposalRevise.requestModificationsDesc')} "{proposal?.title}"
             </p>
           </div>
 
@@ -156,7 +158,7 @@ export default function ReviseProposal() {
             {/* Original Proposal Preview */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                Original Proposal
+                {t('proposalRevise.originalProposal')}
               </h2>
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 max-h-96 overflow-y-auto">
                 <div className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
@@ -169,7 +171,7 @@ export default function ReviseProposal() {
             <div>
               <form onSubmit={handleRevisionSubmit}>
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  What would you like to change?
+                  {t('proposalRevise.whatWouldYouChange')}
                 </h2>
                 
                 <textarea
@@ -177,13 +179,13 @@ export default function ReviseProposal() {
                   onChange={(e) => setRevisionRequest(e.target.value)}
                   rows={12}
                   className="input-field mb-6"
-                  placeholder="Example: Make it more formal, add a section about our company's experience with similar projects, emphasize cost-effectiveness, etc."
+                  placeholder={t('proposalRevise.revisionPlaceholder')}
                   required
                 />
 
                 <div className="bg-primary-50 dark:bg-primary-900 rounded-lg p-4 mb-6">
                   <p className="text-sm text-primary-700 dark:text-primary-300">
-                    💡 <strong>Tip:</strong> Be specific about what you want changed. The AI will use your original proposal as a base and make the modifications you request.
+                    {t('proposalRevise.revisionTip')}
                   </p>
                 </div>
 
@@ -192,7 +194,7 @@ export default function ReviseProposal() {
                     href={`/proposals/${id}`}
                     className="btn-ghost"
                   >
-                    ← Back to Proposal
+                    {t('proposalRevise.backToProposal')}
                   </Link>
                   
                   <button
@@ -200,7 +202,7 @@ export default function ReviseProposal() {
                     disabled={isGenerating || !revisionRequest.trim()}
                     className="btn-primary"
                   >
-                    {isGenerating ? 'Generating Revision...' : 'Generate Revision'}
+                    {isGenerating ? t('proposalRevise.generatingRevision') : t('proposalRevise.generateRevision')}
                   </button>
                 </div>
               </form>
